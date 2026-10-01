@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE TEI.2 SYSTEM "/dtds/tei/p4x/teicelt.dtd" [
+<!ENTITY % TEIbase "TEI.prose">
+]>
+<TEI.2 id="T301042">
+<teiHeader creator="Beatrix F&auml;rber" status="update" date.created="2009-05-25" date.updated="2010-03-22">
+<fileDesc>
+<titleStmt>
+<title type="uniform">Sc&eacute;l Baili Binnb&eacute;rlaig</title>
+<title type="gmd">An electronic edition</title>
+<author>unknown</author>
+<editor id="KM" sortas="meyer, kuno">Kuno Meyer</editor>
+<respStmt>
+<resp>Translated by</resp>
+<name>Kuno Meyer</name>
+<resp>Electronic edition compiled by</resp>
+<name id="BF">Beatrix F&auml;rber</name>
+<resp>Proof corrections by</resp>
+<name>Beatrix F&auml;rber</name>
+</respStmt>
+<funder>The HEA via PRTLI 4</funder>
+</titleStmt>
+<editionStmt>
+<edition n="2">Second draft, revised and corrected.</edition>
+</editionStmt>
+<extent><measure type="words">1670</measure></extent>
+<publicationStmt>
+<publisher>CELT: Corpus of Electronic Texts: a project of University College, Cork</publisher>
+<address>
+<addrLine>College Road, Cork, Ireland&mdash;http://www.ucc.ie/celt</addrLine>
+</address>
+<date>2009</date>
+<date>2010</date>
+<distributor>CELT online at University College, Cork, Ireland.</distributor>
+<idno type="celt">T301042</idno>
+<availability status="restricted">
+<p>Available with prior consent of the CELT project for purposes of academic research and teaching only.</p>
+</availability>
+</publicationStmt>
+<sourceDesc>
+<listBibl>
+<head>Manuscript source for the Irish text</head>
+<bibl n="1">London, British Library, MS Harl. 5280, fo. 48a&ndash;b.</bibl>
+</listBibl>
+<listBibl>
+<head>Literature</head>
+<bibl n="1" id="MSMat">Eugen O'Curry, Lectures on the Manuscript Materials of Ancient Irish History, Dublin 1861, 465&ndash;468.</bibl>
+<bibl n="2">Vernam Hull, The Text of Baile Binnb&eacute;rlach mac Buain from MS 23. N. 10 of the Royal Irish Academy, The Journal of Celtic Studies 1 (1950) 94&ndash;97.</bibl>
+</listBibl>
+<listBibl>
+<head>The edition used in the digital edition</head>
+<biblStruct>
+<analytic>
+<editor>Kuno Meyer</editor>
+<title level="a">Sc&eacute;l Baili Binnb&eacute;rlaig</title>
+</analytic>
+<monogr>
+<title level="j">Revue Celtique</title>
+<imprint>
+<biblScope type="Volume">13</biblScope>
+<pubPlace>Paris</pubPlace>
+<publisher>&Eacute;mile Bouillon</publisher>
+<date>1892</date>
+<biblScope type="page">220&ndash;225</biblScope>
+</imprint>
+</monogr>
+</biblStruct>
+</listBibl>
+</sourceDesc>
+</fileDesc>
+<encodingDesc>
+<projectDesc>
+<p>CELT: Corpus of Electronic Texts</p>
+</projectDesc>
+<samplingDecl>
+<p>The electronic text covers pages 220&ndash;221 and 224&ndash;225. O'Curry's translation of the poem is integrated with minor editorial changes.</p>
+</samplingDecl>
+<editorialDecl>
+<correction status="medium">
+<p>Text has been proof-read twice.</p>
+</correction>
+<normalization>
+<p>The electronic text represents the edited text including footnotes.</p>
+</normalization>
+<quotation>
+<p>Quotations are rendered <emph>q</emph>.</p>
+</quotation>
+<hyphenation>
+<p>When a hyphenated word (hard or soft) crosses a page-break, the page-break is marked after the completion of the hyphenated word (and punctuation).</p>
+</hyphenation>
+<segmentation>
+<p><emph>div0</emph>=the tale.</p>
+</segmentation>
+<interpretation>
+<p>Names of persons (given names) and places are not tagged.</p>
+</interpretation>
+</editorialDecl>
+</encodingDesc>
+<profileDesc>
+<creation>Translation by Kuno Meyer
+<date>1892</date></creation>
+<langUsage>
+<language id="en">Introduction and translation are in English.</language>
+<language id="ga">Some words are in Middle Irish.</language>
+<language id="la">Some words are in Latin.</language>
+</langUsage>
+<textClass>
+<keywords>
+<term>saga</term>
+<term>prose</term>
+<term>medieval</term>
+<term>Kings Cycle</term>
+<term>translation</term>
+</keywords>
+</textClass>
+</profileDesc>
+<revisionDesc>
+<change>
+<date>2010-03-22</date>
+<respStmt>
+<name>Beatrix F&auml;rber</name>
+<resp>ed.</resp>
+</respStmt>
+<item>File proofed (2); place-names encoded; new wordcount made.</item>
+</change>
+<change>
+<date>2009-05-25</date>
+<respStmt>
+<name>Beatrix F&auml;rber</name>
+<resp>ed.</resp>
+</respStmt>
+<item>File proofed (1); introduction and content of footnotes added; text encoded for structure and content. Header created; file parsed; SGML and HTML files created.</item>
+</change>
+<change>
+<date>2009-05-25</date>
+<respStmt>
+<name>Beatrix F&auml;rber</name>
+<resp>text capture</resp>
+</respStmt>
+<item>Text keyed in.</item>
+</change>
+</revisionDesc>
+</teiHeader>
+<text n="T301042">
+<front><div type="intro" lang="en">
+<pb n="220"/>
+<p>In his Appendix to his <title type="book">Lectures on the MS. Materials of Ancient Irish History</title>, pp. 472&ndash;475, <ps reg="Eugene O'Curry"><sn>O'Curry</sn></ps> has published and translated the story of Baile Binnb&eacute;rlach from H. 3. 18, p. 47. The same text is found in the British Museum MS Harl. 5280, fo. 48a; with this difference that for many ordinary Irish words <frn lang="ga">(gn&aacute;thfhocla)</frn> of H. 3. 18, Latin, Hebrew, and archaic Irish words have been substituted. We have here, in fact, an instructive example of that delight in obscure modes of diction, which Irish poetry so often shows in its use of kennings, extinct forms of language, antiquated native, and
+ 
+<pb n="221"/>
+lastly even foreign words. We know that a regular training in the use of such expressions formed part of the curriculum of the aspiring <term lang="ga">fili</term>, and I think that it was these various modes of expression that were comprehended under the name of <term lang="ga">b&eacute;rla na filed</term> <q>the language or dialect of the poets</q>, which the young <term lang="ga">fili</term>, then called <term lang="ga">anroth</term>, was required to master in the sixth year of his apprenticeship. See <ps reg="Rudolf Thurneysen"><sn>Thurneysen</sn></ps>, <title type="book">Irische Texte</title>, vol. III, I, p. 38. An amusing example of the use of such language occurs in <title type="book">Cormac's Glossary</title>, s.v. <frn lang="ga">lethech</frn>.</p>
+<p>While in a literary point of view the use of the incongruous elements, misplaced fragments of learning, only serves to mar a pretty tale, it supplies the modern student with some valuable linguistic material. For this reason I have thought it worth while to publish the following text. I add a translation and a glossary of the old and rare words.</p></div></front>
+<body>
+<div0 type="saga" lang="en">
+<head><sup resp="BF">The story of Baile the Sweet-spoken</sup></head>
+
+<pb n="224"/>
+
+<p>Baile the sweet-spoken, son of Buan. Three grandsons had Caba, son of Cing, son of Ross, son of Rugraide: Monach and Buan and Fercorb, <frn lang="la">de quibus</frn> D&aacute;l m-Buain, and D&aacute;l Cuirb and Monaig Arad. Buan's only son was Baile. He was the special love of Ailinn, daughter of Lugaid, son of Fergus of the Sea; or of the daughter of Eogan, son of Dathi; and he was the special <emph rend="ital">amour</emph> of every one who saw him or heard of him, both men and women, on account of the tales about him. And they (he and Ailinn) agreed to meet in a love-tryste, at <pn>Ross na R&iacute;g</pn>, at the house of Maelduib, on the brink of the <pn type="river">Boyne</pn> in <pn>Breg</pn>.</p>
+
+<p><mls unit="Irish text line" n="10"/>The man (Baile) came from the north to meet her, from <pn>Emain Macha</pn>, across <pn>Sliabh Fuaid</pn>, over <pn>Murthemne</pn> to <pn>Tr&aacute;ig Baili</pn>. They unyoked their chariots and put their horses on the turf to graze. And there was glee and merry-making.</p>
+
+<p><mls unit="Irish text line" n="14"/> As they were there, they saw a horrible apparition(?) of a man coming towards them from the south. Fitful was his course and his approach. He sped over the earth like the darting of a hawk from a cliff, or the wind from the green sea. His left was towards the land.</p>
+
+<p><mls unit="Irish text line" n="17"/><q>To him!</q> said Baile, <q>and ask him whither he goes or whence he comes, or what is the cause of his haste.</q></p>
+
+<p><mls unit="Irish text line" n="19"/><q>To <pn>Tuaig-Inber</pn> I am going and back northward now from <pn>Mount Leinster</pn>, and I have<note type="auth" n="1">lit. <q>we have</q> (<frn lang="ga">ni-n-tha</frn>).</note> no news but that the daughter of Lugaid, son of Fergus, has given love to Baile, son of Buan, and was coming to meet him, when the warriors of <pn>Leinster</pn> overtook her and killed her, as druids and good seers foretold of them, that they would not meet in life, and that they would meet after their deaths, never  to part. This is my news.</q> And he went from them after that, and they were not able to detain him.</p>
+
+<p><mls unit="Irish text line" n="26"/>When Baile heard that, he falls dead without life; and 
+
+<pb n="225"/>
+his tomb is raised and his <term lang="ga">rath</term>, his stone is put up and his funeral games are held by the men of <pn>Ulster</pn>. And a yew grew up through his grave, and on its top the form and shape of Baile's head was visible. Hence it is called <pn>Tr&aacute;ig Baili</pn>.</p>
+
+<p><mls unit="Irish text line" n="31"/>The the same man went southward to the place where was the maiden Aillinn, and went into the bower. <q>Whence cometh he whom we know not?</q> said the maiden. <q>From the north of Erin, from <pn>Tuaig-Inber</pn>, and past this place to <pn>Mount Leinster</pn>.</q> <q>Hast thou news?</q> said the maiden. <q>I have no news worth lamenting here, but by the side of <pn>Tr&aacute;ig Baili</pn> I saw the men of <pn>Ulster</pn> at funeral games, digging a <term lang="ga">rath</term> and placing a stone and writing the name of Baile, son of Buan, the royal heir of <pn>Ulster</pn>, who was coming to meet a sweetheart and lady-love to whom he had given love; for it is not their fate to meet in life, not that one of them should see the other alive.</q> He darted out when he had completed his evil tale. Aillinn fell dead without life, and her grave is dug, etc.</p>
+
+<p><mls unit="Irish text line" n="42"/>And an apple-tree grew through her grave and was a large tree at the end of the seventh year, and the shape of Aillinn's head on its top. At the end of seven years princes and seers and prophets cut down the yew which was over Baile and make a poet's tablet of it; and the  are written in it. In the same manner the wooings of <pn>Leinster</pn> are written in the tablet <sup resp="KM">(made of the tree that grew on Aillinn's grave)</sup>.</p>
+
+<p><mls unit="Irish text line" n="49"/>The came Halloween, and its feast was made by Cormac, son of Art. Poets and men of every art came to that feast, as was the custom, and they brought their tablets with them. And Art saw them and when he saw them he asked for them. And the two tablets were brought to him, and they were in his hands face to face. The one tablet of them sprang upon the other, and they twined together as the woodbine round a branch, nor was it possible to sever them. And they were <sup resp="KM">(kept)</sup> like any other jewel in the treasury at <pn>Tara</pn>, until Dunlang, son of Enna, burnt it when he slew the maidens. Hence said the poet etc.<note type="auth" n="2">For a translation of these verses see O'Curry, <title type="book">MS Mat</title>, p. 466.</note></p>
+
+<p><mls unit="MSMat page" n="466"/>
+
+<text type="poem">
+<body>
+<lg type="verse"><l>The apple tree of noble Aillinn</l>
+<l>the yew of Baile,&mdash;small inheritance&mdash;</l>
+<l>Although they are introduced into poems,</l>
+<l>They are not understood by unlearned people.</l></lg></body></text></p>
+
+<p><q>And the daughter of Cormac, the grandson of Conn, said:&mdash;</q><lb/>
+<text type="poem">
+<body>
+<lg><l>What I liken Aluime to,</l> 
+<l>Is to the yew of <pn>R&aacute;ith Baile</pn>,</l>
+<l>What I liken the other to,</l> 
+<l>Is to the apple tree of Aillinn.</l></lg></body></text></p>
+<mls unit="MS. Mat." n="467"/>
+<p><q>Fland mac Lonan <frn lang="la">dixit</frn>:&mdash;</q><lb/>
+
+<text type="poem">
+<body>
+<lg><l>Let Cormac decide with proper sense,</l>
+<l>So that he be envied by the hosts;</l>
+<l>Let him remember,&mdash;the illustrious saint,&mdash;</l>
+<l>The tree of the strand of Baile Mac Buain.</l></lg>
+
+<lg><l>There grew up a tree under which companies could sport,</l> 
+<l>With the form of his face set out on its clustering top;</l> 
+<l>When he was betrayed, truth was betrayed,&mdash;</l> 
+<l>It is in that same way they betray Cormac.</l></lg></body></text></p>
+
+<p><q>Cormac <frn lang="la">dixit</frn>:&mdash;</q><lb/>
+Here was entombed the son of White Buan.</p></div0></body></text></TEI.2>

@@ -1,0 +1,599 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE TEI.2 SYSTEM "/dtds/tei/p4x/teicelt.dtd" [
+<!ENTITY % TEIbase "TEI.prose">
+]>
+<TEI.2 id="T301020B">
+<teiHeader creator="Beatrix F&auml;rber" status="new" date.created="2013-07-02" >
+<fileDesc>
+<titleStmt>
+<title type="uniform">The Exile of the Sons of Uisliu</title>
+<title type="supplementary">English Translation</title>
+<title type="original" lang="ga">Longes mac n-Uislenn</title>
+<title type="gmd">An electronic edition</title>
+<respStmt>
+<resp>English translation by</resp>
+<name id="VH" sortas="hull, vernam">Vernam Hull</name>
+</respStmt>
+<respStmt>
+<resp>Electronic edition compiled and proofread by</resp>
+<name>Beatrix F&auml;rber</name>
+</respStmt>
+<funder>University College, Cork</funder>
+</titleStmt>
+<editionStmt>
+<edition n="1">First draft.</edition>
+</editionStmt>
+<extent><measure type="words">5410</measure></extent>
+<publicationStmt>
+<publisher>CELT: Corpus of Electronic Texts: a project of University College, Cork</publisher>
+<address>
+<addrLine>College Road, Cork, Ireland&mdash;http:www.ucc.ie/celt</addrLine>
+</address>
+<date>2013</date>
+<distributor>CELT online at University College, Cork, Ireland.</distributor>
+<idno type="celt">T301020B</idno>
+<availability status="restricted">
+<p>Available with prior consent of the CELT programme for purposes of academic research and teaching only.</p>
+</availability>
+</publicationStmt>
+<sourceDesc>
+<listBibl>
+<head>Manuscript sources</head>
+<bibl n="1">Dublin, Trinity College Library, 1339 olim H. 2. 18 al. Book of Leinster, p 259b&ndash;261b; 12th century (oldest version).</bibl>
+<bibl n="2">Dublin, Trinity College Library, 1318 olim H. 2. 16 al. Yellow Book of Lecan, col. 749&ndash;753; 14th century.</bibl>
+</listBibl>
+<listBibl>
+<head>Editions</head>
+<bibl n="1">Theophilus O'Flanagan, Deirdri, or, the Lamentable Fate of the Sons of Usnach, an ancient dramatic Irish tale, one of the three tragic stories of Erin; literally translated into English, from an original Gaelic manuscript, with notes and observations: to which is annexed the old historic facts on which the story is founded, Transactions of the Gaelic Society of Dublin I, Dublin 1808.</bibl>
+<bibl n="2">Eugene O'Curry, The 'Tri Thruaighe na Sc&eacute;alaigheachta' (i.e. the 'Three Most Sorrowful Tales') of Erinn. 'The Exile of the Children of Uisneach' [edited from the old MS. called the 'Yellow Book of Lecain' col. 749&ndash;53 in the Library of Trinity College, Dublin], Atlantis 3 (1862) 377&ndash;422.</bibl>
+<bibl n="3">Ernst Windisch, Longes mac nUisnig. 'Die Verbannung der S&ouml;hne Usnechs', Irische Texte mit &Uuml;bersetzungen und W&ouml;rterbuch 1, herausgegeben von W. Stokes und E. Windisch (Leipzig 1880) [Text from Book of Leinster, fo. 192, with variant readings of Yellow Book of Lecan and Egerton 1782. [Text reprinted in Gaelic Journal 1 (1883) 378&ndash;91].</bibl>
+<bibl n="4">Whitley Stokes, The Death of the Sons of Uisneach, Irische Texte 2 (Leipzig 1887) 109&ndash;84 [Text of Oided mac nUisnig from the Glen Mas&aacute;in MSS. 56, 53 Edinburgh, with introduction, English translation, and notes. Corrigenda in 3, 283].</bibl>
+<bibl n="5">Alexander Cameron, Deirdre and the Sons of Uisneach [ed. from Edinburgh MS. 56 with transl. and notes; also text of the Glenmasan MS.], Reliquiae Celticae 2 (1894) 421&ndash;74.</bibl>
+<bibl n="6">Vernam Hull, ed., Longes mac n-Uislenn. The Exile of the sons of Uisliu, (New York/London 1949) [Reconstituted text based on the Book of Leinster MS, with introduction, translation, and notes].</bibl>
+<bibl n="7">Breand&aacute;n &Oacute; Buachalla, ed., Imthiacht Dheirdre la Naoise agus oidhe chloinne Uisneach, Zeitschrift für celtische Philologie 29 (1962/64), (H. 1/2, 1962), 114&ndash;54.</bibl>
+<bibl n="7">Caoimh&iacute;n Mac Giolla L&eacute;ith (ed. and trans.), Oidheadh Chloinne hUisneach. The Violent Death of the Children of Uisneach. Irish Texts Society, vol. 56. London: Irish Texts Society, 1993.</bibl>
+</listBibl>
+<listBibl>
+<head>Translations and Adaptations</head>
+<bibl n="1">Samuel Ferguson, 'The Death of the Children of Usnach', Hibernian Nights' Entertainment. Dublin University Magazine (December 1834), 670&ndash;688.</bibl>
+<bibl n="2">R. D. Joyce, Deirdre, Boston 1876.</bibl>
+<bibl n="3">Ernst Windisch, Longes mac nUisnig. 'Die Verbannung der S&ouml;hne Usnechs', Irische Texte mit &Uuml;bersetzungen und W&ouml;rterbuch 1, herausg. von W. Stokes und E. Windisch (Leipzig 1880) [German].</bibl>
+<bibl n="4">Standish H. O'Grady, History of Ireland: the Heroic Period, London 1878.</bibl>
+<bibl n="5">P. W. Joyce, 'The Fate of the Sons of Usna', Old Celtic Romances, London 1879.</bibl>
+<bibl n="6">Georges Dottin, Exil des fils d'Usnech, autrement dit: Meurtre des fils d'Usnech et de Derdriu, in: H. d'Arbois de Jubainville (ed.), L'epop&eacute;e celtique en Irlande (=Cours de litt&eacute;rature celtique), Paris 1892.</bibl>
+<bibl n="7">D. MacKinnon, The Glenmasan Manuscript, The Celtic Review 1 (1905&ndash;08) 3&ndash;17; 104&ndash;131 [English].</bibl>
+<bibl n="8">Samuel Ferguson, 'Deirdre', Poems of Sir Samuel Ferguson, Dublin 1918.</bibl>
+<bibl n="9">Aubrey de Vere, 'The Sons of Usnach', The Poetical Works of Aubrey de Vere II, London 1882.</bibl>
+<bibl n="10">Standish Hayes O'Grady, The Coming of Cuculain, Dublin 1894.</bibl>
+<bibl n="11">Douglas Hyde, The Three Sorrows of Story-Telling and Ballads of St Columkille, London 1895.</bibl>
+<bibl n="12">John Todhunter, Three Irish Bardic Tales, London 1896.</bibl>
+<bibl n="13">George Sigerson, Bards of the Gael and the Gall, London 1897.</bibl>
+<bibl n="14">Eleanor Hull, The Cuchullin Saga in Irish Literature, London 1898.</bibl>
+<bibl n="15">Douglas Hyde, 'Deirdre', Zeitschrift f&uuml;r Celtische Philologie 2 (1899) 138&ndash;155.</bibl>
+<bibl n="16">Douglas Hyde, A Literary History of Ireland, London 1899.</bibl>
+<bibl n="17">William Sharp, The House of Uena, Portland/Maine 1900.</bibl>
+<bibl n="18">Herbert Trench, Deirdre Wedded, London 1901.</bibl>
+<bibl n="19">Lady Gregory, Cuchulain of Muirthemne, London 1902.</bibl>
+<bibl n="20">C. L. Thompson, The Celtic Wonder World n. p. 1902.</bibl>
+<bibl n="21">George William Russell (A.E.), 'Deirdre', Imaginations and Reveries, Dublin 1916.</bibl>
+<bibl n="22">M&aacute;ire N&iacute; Si&uacute;dlaig, 'Deirdre', The Gael (March 1904), 85&ndash;86.</bibl>
+<bibl n="23">A. H. Leahy, Ancient Heroic Romances of Ireland II, London 1905.</bibl>
+<bibl n="24">Charles Squire, The Mythology of the British Isles, London 1905.</bibl>
+<bibl n="25">Eleanor Hull, A Text-Book of Irish Literature, London 1906.</bibl>
+<bibl n="26">W. B. Yeats, Deirdre (London 1907) A. H. Bullen.</bibl>
+<bibl n="27">John M. Synge, Deirdre of the Sorrows (NY 1910) John Quin.</bibl>
+<bibl n="28">T. W. Rolleston, Myths and Legends of the Celtic Race, London 1911.</bibl>
+<bibl n="29">Eva Goore-Booth, The Buried Life of Deirdre [Accepted for performance by the National Theatre of Ireland in October, 1911, but never performed. Published in limited edition of 250 copies (NY 1930) Longman's].</bibl>
+<bibl n="30">Anonymous, Fate of the children of Uisneach, Dublin 1914.</bibl>
+<bibl n="31">James Stephens, Deirdre, New York 1923.</bibl>
+<bibl n="32">M&aacute;ir&iacute;n A. Cheavasa, The Unfaithfulness of Naoise, Cork 1930.</bibl>
+<bibl n="33">"J. J. Jones", Deirdre, Cork 1930.</bibl>
+<bibl n="34">Kim McCone and P&aacute;draig &Oacute; Fiannachta, Sc&eacute;la&iacute;ocht &aacute;r sinsear, Maynooth 1992, 109&ndash;116 [Modern Irish adaptation].</bibl>
+</listBibl>
+<listBibl>
+<head>Secondary literature</head>
+<bibl n="1">Rev. J. J. O'Carroll,  S. J., Appendix to the three texts of Longes mac nUisnig, as given by O'Curry, O'Flanagan and Windisch, Gaelic Journal 2 (1884) 17&ndash;30, 51&ndash;58.</bibl>
+<bibl n="2">H. d'Arbois de Jubainville, L'&eacute;pop&eacute;e celtique en Irlande (Paris 1892) Libraire du Coll&egrave;ge de France.</bibl>
+<bibl n="3">R. K. Smith, Loch Etive and the Sons of Usnach. [With illustr. by Miss J. Knox-Smith] (Edinburgh, 1885).</bibl>
+<bibl n="4">Oidhe Chloinne Uisnigh, ed. R. J. O'Duffy [Critical notice] Gaelic Journal 9 (1898) 275&ndash;6, 295&ndash;298.</bibl>
+<bibl n="5">Eleanor Hull, The story of Deirdre in its bearing on the social development of the folk-tale, Folk-Lore 15 (1904) 24&ndash;39.</bibl>
+<bibl n="6">Josef Weisweiler, Deirdriu und Gr&aacute;inne, Paideuma 2 (1941/43) (H. 4/5, 1942) 197&ndash;223.</bibl>
+<bibl n="7">Myles Dillon, Early Irish Literature (Chicago 1948) Chicago U.P.</bibl>
+<bibl n="8">M&aacute;ir&iacute;n O'Daly, [review of Hull (1949)] B&eacute;aloideas 19, 1949 (1950) 196&ndash;207.</bibl>
+<bibl n="9">D. A. Binchy, [review of Hull (1949)] &Eacute;igse 6, 1948/1952 (pt. 2, 1950) 179&ndash;183.</bibl>
+<bibl n="10">Gerard Murphy, [review of Hull (1949)] Studies 39 (1950) 108&ndash;9.</bibl>
+<bibl n="11">Howard Meroney, [review of Hull (1949)] Modern Language Notes 67 (1952) 61&ndash;63.</bibl>
+<bibl n="12">Hugh P. Bevan, The topography of the Deirdre story, Bulletin of the Ulster Place-names Society 5 (1957) pt. 1, 1&ndash;5.</bibl>
+<bibl n="13">E.G. Quin, Longas mac nUisnig, in: Myles Dillon (ed.), Irish sagas (Dublin 1959; Cork 1968) 51&ndash;65.</bibl>
+<bibl n="14">Herbert V. Fackler, Nineteenth-century sources for the Deirdre legend, &Eacute;ire-Ireland 4 (1969) uimh. 4, 56&ndash;63.</bibl>
+<bibl n="16">Sister Margaret P. Slattery, Deirdre: the 'Mingling of Controversies' in Plot and Symbolism, Modern Drama 9 (Spring 1969) 400&ndash;403.</bibl>
+<bibl n="17">Maria Tymoczko, Animal Imagery in Loinges Mac nUislenn, Stud. Celtica 20/21 (1985/86) 145&ndash;166.</bibl>
+<bibl n="18">Patrick Sims-Williams, Fionn and Deirdre in Late Medieval Wales, &Eacute;igse  23 (1989) 1&ndash;15.</bibl>
+<bibl n="19">M&aacute;ire Herbert, The Universe of Male and Female: A Reading of the Deirdre Story, in: Cyril J. Byrne, Margaret Harry, and P&aacute;draig &Oacute; Siadhail (eds.), Celtic Languages and Celtic Peoples: Proceedings of the Second North American Congress of Celtic Studies held in Halifax August 16&ndash;19, 1989. Halifax 1992, 53&ndash;64.</bibl>
+<bibl n="20">M&aacute;ire Herbert, Celtic heroine? The archaeology of the Deirdre story, in: T. O'Brien Johnson and D. Cairns (eds.), Gender in Irish Writing, Milton Keynes/Philadelphia 1991, 13&ndash;22.</bibl>
+<bibl n="21">Cornelius G. Buttimer, Longes Mac nUislenn Reconsidered, &Eacute;igse 28 (1994/95) 1&ndash;41.</bibl>
+<bibl n="22">Caoimh&iacute;n Breatnach, Oidheadh Chloinne Uisnigh, &Eacute;riu 45 (1994) 99&ndash;112.</bibl>
+<bibl n="23">Caoimh&iacute;n Mac Giolla L&eacute;ith (ed. and trans.), Oidheadh Chloinne hUisneach. The Violent Death of the Children of Uisneach. Irish Texts Society, vol. 56. London: Irish Texts Society, 1993. [A substantially different version of the Deirdre story, transmitted fully in 90 extant MSS, the earliest written in 1671].</bibl>
+<bibl n="24">Caoimh&iacute;n Breatnach [Rev. of Mac Giolla L&eacute;ith 1993], &Eacute;igse 28 (1994&ndash;5), 200&ndash;218.</bibl>
+<bibl n="25">M&iacute;che&aacute;l &Oacute; Flaithearta [Rev. of Mac Giolla L&eacute;ith 1993], Cambrian Medieval Celtic Studies 29 (1995) 75&ndash;77.</bibl>
+<bibl n="26">Doris Edel [Rev. of Mac Giolla L&eacute;ith 1993], Zeitschrift f&uuml;r celtische Philologie 48 (1996), 331&ndash;333.</bibl>
+</listBibl>
+<listBibl>
+<head>The edition used in the digital edition</head>
+<biblFull>
+<titleStmt>
+<title level="m">Longes Mac n-Uislenn: The Exile of the Sons of Uisliu </title>
+<editor>Vernam Hull</editor>
+</titleStmt>
+<editionStmt>
+<edition>Reprint</edition>
+</editionStmt>
+<extent>42 + 187 pp. 1&ndash;42 Introduction; 43&ndash;51 Text; 51&ndash;59 Variant Readings; 60Ndash;69 English Translation; 70&ndash;161 Notes; 162&ndash;184 Glossary; 185&ndash;187 Indices (185&ndash;186 I. Index of Personal Names; 186&ndash;187 III. Index of Place-Names)</extent>
+<publicationStmt>
+<publisher>Kraus Reprint Co.</publisher>
+<pubPlace>New York</pubPlace>
+<date>1971</date>
+</publicationStmt>
+</biblFull>
+</listBibl>
+</sourceDesc>
+</fileDesc>
+<encodingDesc>
+<projectDesc>
+<p>CELT: Corpus of Electronic Texts</p>
+</projectDesc>
+<samplingDecl>
+<p>The present text represents pages 60&ndash;69. All editorial introduction, notes and indexes have been omitted. Editorial corrigenda are integrated into the electronic edition. Missing text supplied by the editor is tagged <emph>sup resp="VH"</emph>. The Irish version is available in a separate file, G301020B.</p>
+</samplingDecl>
+<editorialDecl>
+<correction status="medium">
+<p>Text has been checked and proofread twice.</p>
+</correction>
+<normalization>
+<p>The electronic text represents the edited text on pp. 60&ndash;69.</p>
+</normalization>
+<quotation>
+<p>Direct speech is marked <emph>q</emph>.</p>
+</quotation>
+<hyphenation>
+<p>When a hyphenated word (hard or soft) crosses a page break, the break is marked after the completion of the hyphenated word.</p>
+</hyphenation>
+<segmentation>
+<p><emph>div0</emph>=the saga; <emph>div1</emph>=the section.</p>
+</segmentation>
+<interpretation>
+<p>Personal names (given names), place-names and group names are not tagged. Verses within poems, where  marked with alphabetic letters by Hull, have been numbered at CELT. Words in brackets supplied by the editor are marked <emph>sup resp="VH"</emph>. The notes mentioned by Hull in the introductory paragraph have been omitted.</p>
+</interpretation>
+</editorialDecl>
+<refsDecl>
+<state gi="div1" freq="1" label="section" unit="number"/>
+</refsDecl>
+</encodingDesc>
+<profileDesc>
+<creation>Translation by Vernam Hull. The oldest extant Irish manuscript containing the text dates back to the twelfth century.
+<date>1949</date></creation>
+<langUsage>
+<language id="en">The translation is in English.</language>
+<language id="ga"></language>
+</langUsage>
+<textClass>
+<keywords>
+<term>saga</term>
+<term>prose</term>
+<term>medieval</term>
+<term>Sons of Uisneach</term>
+<term>Longes mac n-Uislenn</term>
+<term>Deirdre</term>
+<term>translation</term>
+</keywords>
+</textClass>
+</profileDesc>
+<revisionDesc>
+<change>
+<date>2013-09-05</date>
+<respStmt>
+<name>Beatrix F&auml;rber</name>
+<resp>ed.</resp>
+</respStmt>
+<item>Header modified.</item>
+</change>
+<change>
+<date>2013-07-02</date>
+<respStmt>
+<name>Beatrix F&auml;rber</name>
+<resp>ed.</resp>
+</respStmt>
+<item>File proofed (1), structural and some content mark-up inserted; TEI header compiled (based on material from D301020). File parsed.</item>
+</change>
+<change>
+<date>2013-05-27</date>
+<respStmt>
+<name>Beatrix F&auml;rber</name>
+<resp>text capture</resp>
+</respStmt>
+<item>Text scanned in.</item>
+</change>
+</revisionDesc>
+</teiHeader>
+<text n="T301020B">
+<front>
+<div type="intro" lang="en">
+<head>Translation</head>
+<p>As an aid in the elucidation of the text, every effort has been made to furnish an accurate modern English prose translation; but complete accuracy, especially in the verse portions and in the rhetorics, has not been always feasible. Words of doubtful or uncertain meaning, therefore, are provided with question marks and are discussed in the notes. 
+Often these notes, too, supply a more literal rendering than is consonant with good idiomatic English. In order to enhance the readability of the translation, the constant shifting to and fro in the tenses, which is a characteristic trait of Irish narrative style, has been obviated in that on such occasions the past tense has been substituted for the historic present tense. Finally, so as to eliminate every possibility of confusion the orthography of some of the proper names, such as Derdriu and Noisiu, has been normalized, even if the spelling is not recorded in the MSS.</p>
+</div>
+</front>
+<body>
+<div0 type="saga" lang="en">
+<head>This is the Exile of the Sons of Uisliu</head>
+<div1 type="section" n="1">
+<p>Why was the exile of the Sons of Uisliu? It is not hard <sup resp="VH">[to relate]</sup><note type="auth" n="1">Brackets denote the addition of material not contained in the source.</note>&mdash;The Ulstermen were drinking in the house of Feidlimid mac Daill, the story-teller of Conchobor. Now the wife of Feidlimid was attending upon the host, standing up and she being pregnant. Drinking horns and portions <sup resp="VH">[of food]</sup> circled around, and they uttered a drunken shout.</p>
+<p>When they were about to go to bed, the woman came to her bed. While she was going across the middle of the house, the infant in her womb screamed so that it was heard throughout the whole enclosure. At that scream each man within arose from the other so that they were shoulder to shoulder (?) in the house. Then Sencha mac Ailella issued a prohibition (?): <q>Do not stir,</q> he said. <q>Let the woman be brought to us in order that may be known for what reason is this noise.</q> Thereupon the woman was brought to them.</p></div1>
+
+<div1 type="section" n="2">
+<p>Her consort, namely Feidlimid, then said:
+<text type="poem">
+<body>
+<sp>
+<speaker>Feidlimid</speaker>
+<lg type="roscad">
+<l>What <sup resp="VH">[is]</sup> the violent noise that resounds, (<q>o woman,</q> he said)</l>
+<l>That rages throughout your bellowing womb?</l>
+<l>The clamor between your sides&mdash;strongly it sounds&mdash; </l>
+<l>It crushes him who hears with ears.</l>
+<l>My heart fears</l>
+<l>Much terror that wounds severely.</l>
+</lg>
+</sp>
+</body>
+</text>
+</p></div1>
+
+<div1 type="section" n="3">
+<p>Thereupon she rushed to Cathbad, for he was a seer: 
+<text type="poem">
+<body>
+<sp>
+<speaker>Feidlimid's Wife</speaker>
+<lg type="roscad">
+<l>Hear handsome Cathbad of the comely face,</l>
+<l>A prince, a diadem great <sup resp="VH">[and]</sup> mighty,</l>
+<l>Who is magnified through the wizardries of druids,</l>
+<l>Since I myself have not wise words</l>
+<l>With reference to which Feidlimid might obtain</l>
+<l>The illumination of knowledge,</l>
+<l>Because a woman does not know</l>
+<l>Whatever is wont to be in <sup resp="VH">[her]</sup> womb,</l>
+<l>Though it cried out in my womb's receptacle.</l>
+</lg>
+</sp>
+</body>
+</text>
+</p></div1>
+
+<div1 type="section" n="4">
+<p>Then Cathbad said: 
+<text type="poem">
+<body>
+<sp>
+<speaker>Cathbad</speaker>
+
+<lg type="roscad">
+<l>In the receptacle of your womb there cried out</l>
+<l>A woman of yellow hair with yellow curls,</l>
+<l>With comely, grey-blue irised (?) eyes.</l>
+<l>Her purplish-pink cheeks <sup resp="VH">[are like]</sup> foxglove;</l>
+<l>To the color of snow I compare</l>
+<l>The spotless treasure of her set of teeth.</l>
+<l>Lustrous <sup resp="VH">[are]</sup> her scarlet-red (?) lips&mdash;</l>
+<l>A woman for whom there will be many slaughters</l>
+<l>Among the chariot-fighters of Ulster.</l>
+<l>There screams in your womb which bellows</l>
+<l>A woman, fair, tall <sup resp="VH">[and]</sup> long-haired,</l>
+<l>Concerning whom champions will contend,</l>
+<l>Concerning whom high kings will ask.</l>
+<l>They will be in the west with oppressive bodies of troops (?),</l>
+<l>Supported (?) by the province of Conchobor.</l>
+<l>Her scarlet-red lips will be</l>
+<l>About her pearly teeth&mdash;</l>
+<l>Against whom high queens will be jealous,</l>
+<l>Against her matchless, faultless form.</l>
+</lg>
+</sp>
+</body>
+</text>
+</p></div1>
+
+<div1 type="section" n="5">
+<p>Cathbad thereafter put his hand on the stomach of the woman so that the infant resounded under his hand.</p>
+<p><q>True <sup resp="VH">[it is]</sup>,</q> he said, <q>that a girl is there, and her name will be Derdriu, and concerning her there will be evil.</q></p>
+<p>Afterwards the girl was born, and Cathbad said: 
+<text type="poem">
+<body>
+<sp>
+<speaker>Cathbad</speaker>
+
+<lg type="quatrain" n="1">
+<l>O Derdriu, you will destroy much</l>
+<l>If you are comely-faced <sup resp="VH">[and]</sup> fair of fame.</l>
+<l>The Ulstermen will suffer during your lifetime,</l>
+<l>O demure daughter of Feidlimid.</l></lg>
+
+<pb n="62"/>
+<lg type="quatrain" n="2">
+<l>Even afterwards jealousy will be</l>
+<l>Ablaze on your account, O woman.</l>
+<l>In your time it is&mdash;hear this&mdash;</l>
+<l><sup resp="VH">[That will be]</sup> the exile of the three sons of Uisliu.</l></lg>
+
+<lg type="quatrain" n="3">
+<l>In your time it is that a violent deed</l>
+<l>Will be performed then in Emain.</l>
+<l>Even afterwards will be repented the destruction</l>
+<l><sup resp="VH">[Done]</sup> under the protection of the very mighty Mac Roig.</l></lg>
+
+<lg type="quatrain" n="4">
+<l>O woman with destiny, it is on account of you</l>
+<l><sup resp="VH">[That will be]</sup> the exile of Fergus from the Ulstermen</l>
+<l>And a deed for which weepings should lament,</l>
+<l>The slaughter of Fiachna mac Conchobuir.</l></lg>
+
+<lg type="quatrain" n="5">
+<l>O woman with destiny, it is for your crime</l>
+<l><sup resp="VH">[That will be]</sup> the slaying of Gerrce mac Illadain</l>
+<l>And a deed, the penalty of which is not less,</l>
+<l>The killing of Eogan mac Durthacht.</l></lg>
+
+<lg type="quatrain" n="6">
+<l>You will perform a horrible, fierce deed</l>
+<l>For anger against the king of the noble Ulstermen.</l>
+<l>Your little grave will be everywhere.</l>
+<l>It will be a famous tale, O Derdriu.</l></lg>
+</sp>
+</body>
+</text>
+</p></div1>
+
+<div1 type="section" n="6">
+<p><q>Let the girl be slain,</q> said the warriors. <q>By no means,</q> said Conchobor. <q>I shall carry off the girl tomorrow,</q> Conchobor added, <q>and she will be reared according to my own will, and she will be the woman who will be in my company.</q></p>
+<p>And the Ulstermen did not dare to set him right with respect to it. That, moreover, was done. She was reared by Conchobor until she was by far the most beautiful girl who <sup resp="VH">[ever]</sup> had been in Ireland. In a court apart it is that she was brought up in order that no man of the Ulstermen might see her up to the time that she should spend the night with Conchobor, and no person ever was allowed into that court except 
+her foster father and her foster mother and Leborcham; for the last-mentioned one could not be prevented, for she was a female satirist.</p></div1>
+
+<div1 type="section" n="7">
+<p>Once upon a time, accordingly, the foster father of the maiden was skinning a weaned (?) calf on snow outside in the winter to cook it for her. She saw a raven drinking the blood on the snow. Then she said to Leborcham: <q>Beloved would be the one man on whom might be yonder three colors 
+
+<pb n="63"/> 
+&mdash;that is, hair like the raven, and a cheek like blood, and a body like snow.</q></p>
+<p><q>Dignity and fortune to you!</q> said Leborcham. <q>He is not far from you. He is inside near to you, even Noisiu son of Uisliu.</q> <q>I shall, indeed, not be well,</q> she said, <q>until I see him.</q></p></div1>
+
+<div1 type="section" n="8">
+<p>On one occasion, then, the aforementioned Noisiu was alone on the rampart of the earthwork (that is, of Emain) singing in a tenor (?) voice. Melodious, however, was the tenor (?) singing of the Sons of Uisliu. Each cow and each animal that heard <sup resp="VH">[it]</sup>, two thirds of surplus milk always was milked from them. Each person who heard it always had a sufficient peaceful disposition (?) and musical entertainment. Good also were their arms. Although the <sup resp="VH">[whole]</sup> province of the Ulstermen were in one place about them, they might not gain the victory over them on account of the excellence of the parrying and the self-defence, provided that every one of the three of them put his back against the other. As swift as hounds, moreover, they were at hunting. By virtue of <sup resp="VH">[their]</sup> swiftness they used to kill the wild animals.</p></div1>
+
+<div1 type="section" n="9">
+<p>While, therefore, the aforesaid Noisiu was alone outside, she quickly stole out to him as if to go past him, and he did not recognize her. <q>Fair,</q> he said, <q>is the heifer that goes past me.</q> <q>Heifers,</q> she said, <q>are bound to be big where bulls are not wont to be.</q> <q>You have the bull of the province,</q> he said, <q>namely, the king of the Ulstermen.</q> <q>I would choose between the two of you,</q> she said, <q>and I would take a young bullock like you.</q> <q>By no means!</q> he said. <q>Even because of Cathbad's prophecy.</q> <q>Do you say that in order to reject me?</q> <q>It assuredly will be for that reason,</q> he said. Therewith she made a leap to him and grasped both ears on his head. <q>These <sup resp="VH">[are]</sup> two ears of shame and of derision,</q> she said, <q>unless you take me away with you.</q> <q>Go away from me, O woman,</q> he said. <q>You shall have that,</q> she said. Thereupon, his tenor (?) song arose from him. As the Ulstermen yonder heard his tenor (?) song, each man of them arose from the other.</p></div1>
+
+<div1 type="section" n="10">
+<p>The Sons of Uisliu went out to hinder their brother. <q>What ails you?</q> they said. <q>Let not the Ulstermen slay one another for your crime.</q></p>
+
+<pb n="64"/> 
+<p>Then he related to them what had been done to him.</p>
+<p><q>Evil will ensue,</q> the warriors said. <q>Although there may be <sup resp="VH">[evil resulting therefrom]</sup>, you shall not be under disgrace as long as we shall be alive. We shall go with her into another land. There is not in Ireland a king who will not give welcome to us.</q></p>
+<p>That was their decision. They set out that night with their hundred and fifty warriors, women, dogs and servants; and among them was Derdriu mingled in with everybody <sup resp="VH">[else]</sup>.</p></div1>
+
+<div1 type="section" n="11">
+<p>For a great while they were under protection all around Ireland, and often through the snares and guiles of Conchobor their destruction was attempted from Ess Ruaid southwestwards round about northeastwards again to Benn Etair. The Ulstermen, however, chased them, then, over <sup resp="VH">[the Irish sea]</sup> into the territory of Scotland. They settled down there in the desert. After the mountain game failed them, they turned aside upon the cattle of the men of Scotland in order to appropriate it to themselves. The latter went on a single day to destroy them, whereupon they proceeded to the king of Scotland, and he took them into his household following. They assumed mercenary service with him and placed their houses on the green. On account of the maiden the houses were made so that no-one with them might see her in order that they might not be killed with respect to her.</p></div1>
+
+<div1 type="section" n="12">
+<p>Once upon a time, therefore, early in the morning the steward went and made a circuit about their house. He saw the couple asleep. Afterwards, he went and awakened the king.</p>
+<p><q>I have not found,</q> he said, <q>a woman equal to you until today. Along with Noisiu son of Uisliu there is a woman worthy of the king of the Western World.</q> <q>Let Noisiu be killed immediately, and let the woman spend the night with you,</q> the steward added. <q>No,</q> the king said, <q>but you shall go every day to beseech her secretly for me.</q></p>
+<p>That is done. However, what the steward said to her at any time she used to relate, at once, that night to her consort. Since one never could attain anything with respect to her, the Sons of Uisliu often were enjoined to go into dangers, battles and hazards in order that they might be killed. Nevertheless, as regards each slaughter they were doughty so that one never could attain anything with respect to them from these attempts.</p></div1>
+
+<div1 type="section" n="13">
+<p>After consultation with her regarding it, the men of Scotland were assembled to kill them. She related that to Noisiu.</p>
+
+<pb n="65"/> 
+<p><q>Depart hence,</q> she said. <q>Unless you shall have gone away by tonight, you will be killed tomorrow.</q></p> 
+<p>That night they went away until they were on an island of the sea. That was related to the Ulstermen.</p>
+<p><q>Grievous it is, O Conchobor,</q> the Ulstermen said, <q>for the Sons of Uisliu to fall in hostile lands through the crime of a bad woman. It were better to be lenient with them and to feed them and not to slay them and for them to come to the land than for them to fall at the hands of their foes.</q> <q>Let them come, therefore,</q> Conchobor said, <q>and let sureties go for them.</q></p>
+<p>That <sup resp="VH">[message]</sup> was brought to them.</p>
+<p><q>We welcome it,</q> they said. <q>We shall go, and let Fergus come for us as surety and Dubthach and Cormac mac Conchobuir.</q></p>
+<p>They went and gave them accompaniment from the sea.</p></div1>
+
+<div1 type="section" n="14">
+<p>With respect to Fergus, however, by the counsel of Conchobor a contention took place to invite him to ale-banquets, for the Sons of Uisliu said that they would not eat <sup resp="VH">[any]</sup> food in Ireland except at first the food of Conchobor. Then Fiachu mac Fergusa went with them, and Fergus and Dubthach remained behind. The Sons of Uisliu came until they were on the green of Emain. Then, moreover, Eogan mac Durthacht, king of Fernmag, came for peace with Conchobor, for he had been at strife with him for a long period. He it is who had been entrusted to kill them, and the mercenaries of Conchobor were about him <sup resp="VH">[Conchobor]</sup> in order that they might not come to him.</p></div1>
+
+<div1 type="section" n="15">
+<p>The Sons of Uisliu were standing in the middle of the green, and the women were in their seats on the rampart of Emain. Eogan, accordingly, went up to them in his body of troops (?) along the green. The son of Fergus, however, came until he was on one side of Noisiu. Eogan welcomed them with a thrust of the great spear into Noisiu so that his back broke through it. Therewith, the son of Fergus threw himself and put both arms around Noisiu and brought him under him and cast himself down upon him, and thus it was that Noisiu was struck from above through the son of Fergus. Thereafter, they <sup resp="VH">[the Sons of Uisliu]</sup> were killed throughout the green so that none escaped thence, save those who went by point of spear and by edge of sword; and she was brought over to Conchobor so that she was beside him, and her hands were bound behind her back.</p></div1>
+
+<div1 type="section" n="16">
+<p>That, then, was related to Fergus and Dubthach and Cormac. They came and performed at once great deeds. Dubthach killed 
+
+<pb n="66"/> 
+Mane, Conchobor's son, and by a single thrust Fiachna, son of Feidelm, Conchobor's daughter, was dispatched. Fergus slew Traigthren, son of Traiglethan and his brother. With respect to them, Conchobor's honor was outraged, and afterwards battle was joined between them on a single day so that three hundred of the Ulstermen fell among them. 
+Before morning, the maidens of Ulster were put to death by Dubthach, and Emain was burned by Fergus. Thereupon they went to Ailill and to Medb, for they knew that that couple would be able to support them; and for the Ulstermen, moreover, it was not a refuge (?) of love. Three thousand was the number of those exiled. To the end of sixteen years 
+neither weeping nor trembling ceased in Ulster through them, but each single night <sup resp="VH">[there was]</sup> weeping and trembling through them.</p></div1>
+
+<div1 type="section" n="17">
+<p>A year, now, she was with Conchobor, and during that time she did not smile a laughing smile, and she did not partake of her sufficiency of food or of sleep, and she did not raise her head from her knee. Whenever, therefore, they brought the musicians to her, then she recited this following extempore (?) poem: 
+<text type="poem">
+<body>
+<sp>
+<speaker>Deirdriu</speaker>
+
+<lg type="quatrain" n="1">
+<l>Though fair you deem the eager warriors</l>
+<l>Who stride about in Emain after an expedition,</l>
+<l>More nobly used to march to their dwelling</l>
+<l>The three very heroic sons of Uisliu.</l></lg>
+
+<lg type="quatrain" n="2">
+<l>Noisiu with good hazel-mead&mdash;</l>
+<l>Him I washed at the fire&mdash;</l>
+<l>Arddan with a stag or a fine pig,</l>
+<l>A load <sup resp="VH">[was]</sup> over Aindle's tall back.</l></lg>
+
+<lg type="quatrain" n="3">
+<l>Though sweet you deem the goodly mead</l>
+<l>Which the battle-glorious Mac Nessa drinks,</l>
+<l>I had heretofore&mdash;ocean over <sup resp="VH">[its]</sup> brink&mdash;</l>
+<l>Frequent refection that was sweeter.</l></lg>
+
+<lg type="quatrain" n="4">
+<l>As often as modest Noisiu had spread out</l>
+<l>The cooking hearth on the martial plain of the forest,</l>
+<l>Sweeter was always than each honeyed food</l>
+<l>What the son of Uisliu had contrived.</l></lg>
+
+<lg type="quatrain" n="5">
+<l>Though melodious you deem at all times</l>
+<l>Pipers and hornblowers,</l>
+<l>This is my confession today:</l>
+<l>I have heard music that was more melodious.</l></lg>
+
+<pb n="67"/> 
+<lg type="quatrain" n="6">
+<l>Melodious used to deem Conchobor, your king,</l>
+<l>Pipers and hornblowers;</l>
+<l>More melodious I used to deem&mdash;fame of hosts (?)&mdash;</l>
+<l>The strain which the Sons of Uisliu used to sing.</l></lg>
+
+<lg type="quatrain" n="7">
+<l>Noisiu's voice <sup resp="VH">[was like]</sup> the sound of a wave;</l>
+<l>To hear him always was <sup resp="VH">[like]</sup> melodious music.</l>
+<l>The baritone of Arddan was good&mdash;</l>
+<l>The tenor (?) song of Aindle <sup resp="VH">[on his way]</sup> to his ///shieling.</l></lg>
+
+<lg type="quatrain" n="8">
+<l>Noisiu&mdash;his sepulchral mound has been made.</l>
+<l>Sad was the accompaniment.</l>
+<l>For him I have poured out&mdash;host over a height (?)&mdash;</l>
+<l>The deadly draught of which he has died.</l></lg>
+
+<lg type="quatrain" n="9">
+<l>Beloved <sup resp="VH">[is]</sup> the <sup resp="VH">[little]</sup> crop of hair (?) with yellow (?) beauty</l>
+<l>Comely <sup resp="VH">[is]</sup> the man, even <gap/></l>
+<l>Sorrowful it is <sup resp="VH">[indeed]</sup> that I do not expect today</l>
+<l>To await the son of Uisliu.</l></lg>
+
+<lg type="quatrain" n="10">
+<l>Beloved <sup resp="VH">[is]</sup> the desire, steadfast <sup resp="VH">[and]</sup> just;</l>
+<l>Beloved <sup resp="VH">[is]</sup> the warrior, noble <sup resp="VH">[and]</sup> very modest.</l>
+<l>After a journey beyond the forest's fence,</l>
+<l>Beloved <sup resp="VH">[is]</sup> the <gap/> in the early morning.</l></lg>
+
+<lg type="quatrain" n="11">
+<l>Beloved <sup resp="VH">[is]</sup> the gray eye that women used to love;</l>
+<l>Fierce it used to be against foes.</l>
+<l>After a circuit of the forest&mdash;a noble union&mdash;</l>
+<l>Beloved <sup resp="VH">[is]</sup> the tenor (?) song through a dark great wood.</l></lg>
+
+<lg type="quatrain" n="12">
+<l>I do not sleep now,</l>
+<l>And I do not redden my fingernails.</l>
+<l>Joy, it comes not into my observation</l>
+<l>Since it will not lead hither (?) the son of Tindell.</l></lg>
+
+<lg type="quatrain" n="13">
+<l>I do not sleep</l>
+<l>Half of the night as I lie.</l>
+<l>My reason is agitated about the hosts;</l>
+<l>Not only do I not eat, but I do not laugh.</l></lg>
+
+<lg type="quatrain" n="14">
+<l>Joy, today <sup resp="VH">[for it]</sup> I have no leisure</l>
+<l>In the gathering of Emain&mdash;<sup resp="VH">[there]</sup> nobles are thronged (?)&mdash;</l>
+
+<pb n="68"/> 
+<l>Nor peace, nor delight, nor ease,</l>
+<l>Nor a big house, nor fair adornment.</l></lg>
+</sp>
+</body>
+</text>
+</p></div1>
+
+<div1 type="section" n="18">
+<p>Whenever Conchobor, moreover, mollified her, then she recited this following extempore (?) poem: 
+
+<text type="poem">
+<body>
+<sp>
+<speaker>Deirdriu</speaker>
+
+<lg type="quatrain" n="1">
+<l>O Conchobor, what ails you?</l>
+<l>For me you have placed (?) sorrow under weeping.</l>
+<l>Yes, indeed, as long as I may abide</l>
+<l>My love for you will not be of very great account.</l></lg>
+
+<lg type="quatrain" n="2">
+<l>What I deemed most beautiful on earth,</l>
+<l>And what was most beloved,</l>
+<l>You have carried off from me&mdash;great <sup resp="VH">[is]</sup> the crime&mdash; </l>
+<l>So that I shall not see it until my death.</l></lg>
+
+<lg type="quatrain" n="3">
+<l>His absence, it grieves me</l>
+<l>How the son of Uisliu shows <sup resp="VH">[it]</sup> to me:</l>
+<l>A jet-black little cairn (?) over a white body;</l>
+<l>It was well-known beyond <sup resp="VH">[those of]</sup> a multitude of men.</l></lg>
+
+<lg type="quatrain" n="4">
+<l>Both purple cheeks <sup resp="VH">[were]</sup> fairer than a river meadow,</l>
+<l>Red the lips, eyebrows of beetle color;</l>
+<l>The pearly row of shining teeth</l>
+<l><sup resp="VH">[Was]</sup> like the noble hue of snow.</l></lg>
+
+<lg type="quatrain" n="5">
+<l>Well-known was his bright apparel</l>
+<l>Among the warrior bands of the men of Scotland.</l>
+<l>Fair <sup resp="VH">[and]</sup> purple <sup resp="VH">[was]</sup> the mantle&mdash;a fitting union&mdash;</l> 
+<l>With its border of pure gold.</l></lg>
+
+<lg type="quatrain" n="6">
+<l>Of satin (?) <sup resp="VH">[was]</sup> the tunic&mdash;a treasure with substance&mdash;</l>
+<l>On which there were a hundred gems&mdash;a gentle multitude.</l>
+<l>To adorn it, clear it is,</l>
+<l><sup resp="VH">[Were]</sup> fifty ounces of findruine.</l></lg>
+
+<lg type="quatrain" n="7">
+<l>A sword with a golden pommel <sup resp="VH">[was]</sup> in his hand,</l>
+<l>Two green spears with a javelin point,</l>
+<l>A shield with a rim of yellow gold,</l>
+<l>And a boss of silver upon it.</l></lg>
+
+<lg type="quatrain" n="8">
+<l>Fair Fergus has committed trespass against us</l>
+<l>By bringing us over the great sea.</l>
+
+<pb n="69"/> 
+<l>He has sold his honor for ale.</l>
+<l>His great deeds have declined.</l></lg>
+
+<lg type="quatrain" n="9">
+<l>Though on the plain might be</l>
+<l>The Ulstermen around Conchobor,</l>
+<l>I would give them all without concealment</l>
+<l>For the companionship of Noisiu son of Uisliu.</l></lg>
+
+<lg type="quatrain" n="10">
+<l>Do not break today my heart;</l>
+<l>Soon shall I reach my early grave.</l>
+<l>Sorrow is stronger than the sea,</l>
+<l>If you are wise, O Conchobor.</l></lg>
+</sp>
+</body>
+</text>
+</p></div1>
+
+<div1 type="section" n="19">
+<p><q>What do you see that you hate most?</q> said Conchobor. <q>You, to be sure,</q> she said, <q>and Eogan mac Durthacht!</q> <q>You shall be, indeed, a year with Eogan,</q> said Conchobor.</p>
+<p>Thereupon he brought her beside Eogan. On the following day, they went to the assembly of Macha. She was behind Eogan in the chariot. She had promised that she would not see her two companions on earth on the same occasion.</p>
+<p><q>Well, O Derdriu,</q> said Conchobor, <q>it is a sheep's eye between two rams that you make between me and Eogan.</q></p>
+<p>There was a great stone boulder in front of her. She dashed her head against the stone until she had made a mass of fragments of her head so that she died.</p>
+<p>That <sup resp="VH">[is]</sup> the exile of the Sons of Uisliu and the exile of Fergus and the violent 
+death of the Sons of Uisliu and of Derdriu.</p>
+<closer>The End </closer></div1>
+</div0>
+</body>
+</text>
+</TEI.2>

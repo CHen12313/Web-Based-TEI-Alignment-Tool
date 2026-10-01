@@ -1,0 +1,942 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE TEI.2 SYSTEM "/dtds/tei/p4x/teicelt.dtd" [
+    <!ENTITY % TEIbase "TEI.prose">
+]>
+<TEI.2 id="G301020B">
+    <teiHeader creator="Beatrix F&auml;rber" status="new" date.created="2013-09-04">
+        <fileDesc>
+            <titleStmt>
+                <title type="uniform">Longes mac n-Uislenn</title>
+                <title type="translation" lang="en">The Exile of the Sons of Uisliu</title>
+                <title type="gmd">An electronic edition</title>
+                <author>unknown</author>
+                <respStmt>
+                    <resp>Electronic edition compiled and proofread by</resp>
+                    <name>Beatrix F&auml;rber</name>
+                </respStmt>
+                <funder>University College, Cork</funder>
+            </titleStmt>
+            <editionStmt>
+                <edition n="1">First draft.</edition>
+            </editionStmt>
+            <extent>
+                <measure type="words">4350</measure>
+            </extent>
+            <publicationStmt>
+                <publisher>CELT: Corpus of Electronic Texts: a project of University College, Cork</publisher>
+                <address>
+                    <addrLine>College Road, Cork, Ireland&mdash;http:www.ucc.ie/celt</addrLine>
+                </address>
+                <date>2013</date>
+                <distributor>CELT online at University College, Cork, Ireland.</distributor>
+                <idno type="celt">G301020B</idno>
+                <availability status="restricted">
+                    <p>Available with prior consent of the CELT programme for purposes of academic
+                        research and teaching only.</p>
+                </availability>
+            </publicationStmt>
+            <sourceDesc>
+                <listBibl>
+                    <head>Manuscript sources</head>
+                    <bibl n="1">Dublin, Trinity College Library, 1339 olim H. 2. 18 al. Book of
+                        Leinster, p 259b&ndash;261b; 12th century (oldest version).</bibl>
+                    <bibl n="2">Dublin, Trinity College Library, 1318 olim H. 2. 16 al. Yellow Book
+                        of Lecan, col. 749&ndash;753; 14th century.</bibl>
+                </listBibl>
+                <listBibl>
+                    <head>Editions</head>
+                    <bibl n="1">Theophilus O'Flanagan, Deirdri, or, the Lamentable Fate of the Sons
+                        of Usnach, an ancient dramatic Irish tale, one of the three tragic stories
+                        of Erin; literally translated into English, from an original Gaelic
+                        manuscript, with notes and observations: to which is annexed the old
+                        historic facts on which the story is founded, Transactions of the Gaelic
+                        Society of Dublin I, Dublin 1808.</bibl>
+                    <bibl n="2">Eugene O'Curry, The 'Tri Thruaighe na Sc&eacute;alaigheachta' (i.e.
+                        the 'Three Most Sorrowful Tales') of Erinn. 'The Exile of the Children of
+                        Uisneach' [edited from the old MS. called the 'Yellow Book of Lecain' col.
+                        749&ndash;53 in the Library of Trinity College, Dublin], Atlantis 3 (1862)
+                        377&ndash;422.</bibl>
+                    <bibl n="3">Ernst Windisch, Longes mac nUisnig. 'Die Verbannung der S&ouml;hne
+                        Usnechs', Irische Texte mit &Uuml;bersetzungen und W&ouml;rterbuch 1,
+                        herausgegeben von W. Stokes und E. Windisch (Leipzig 1880) [Text from Book
+                        of Leinster, fo. 192, with variant readings of Yellow Book of Lecan and
+                        Egerton 1782. [Text reprinted in Gaelic Journal 1 (1883) 378&ndash;91].</bibl>
+                    <bibl n="4">Whitley Stokes, The Death of the Sons of Uisneach, Irische Texte 2
+                        (Leipzig 1887) 109&ndash;84 [Text of Oided mac nUisnig from the Glen
+                        Mas&aacute;in MSS. 56, 53 Edinburgh, with introduction, English translation,
+                        and notes. Corrigenda in 3, 283].</bibl>
+                    <bibl n="5">Alexander Cameron, Deirdre and the Sons of Uisneach [ed. from
+                        Edinburgh MS. 56 with transl. and notes; also text of the Glenmasan MS.],
+                        Reliquiae Celticae 2 (1894) 421&ndash;74.</bibl>
+                    <bibl n="6">Vernam Hull, ed., Longes mac n-Uislenn. The Exile of the sons of
+                        Uisliu, (New York/London 1949) [Reconstituted text based on the Book of
+                        Leinster MS, with introduction, translation, and notes].</bibl>
+                    <bibl n="7">Breand&aacute;n &Oacute; Buachalla, ed., Imthiacht Dheirdre la
+                        Naoise agus oidhe chloinne Uisneach, Zeitschrift f&uuml;r celtische
+                        Philologie 29 (1962/64), (H. 1/2, 1962), 114&ndash;54.</bibl>
+                    <bibl n="7">Caoimh&iacute;n Mac Giolla L&eacute;ith (ed. and trans.), Oidheadh
+                        Chloinne hUisneach. The Violent Death of the Children of Uisneach. Irish
+                        Texts Society, vol. 56. London: Irish Texts Society, 1993.</bibl>
+                </listBibl>
+                <listBibl>
+                    <head>Translations and Adaptations</head>
+                    <bibl n="1">Samuel Ferguson, 'The Death of the Children of Usnach', Hibernian
+                        Nights' Entertainment. Dublin University Magazine (December 1834),
+                        670&ndash;688.</bibl>
+                    <bibl n="2">R. D. Joyce, Deirdre, Boston 1876.</bibl>
+                    <bibl n="3">Ernst Windisch, Longes mac nUisnig. 'Die Verbannung der S&ouml;hne
+                        Usnechs', Irische Texte mit &Uuml;bersetzungen und W&ouml;rterbuch 1,
+                        herausg. von W. Stokes und E. Windisch (Leipzig 1880) [German].</bibl>
+                    <bibl n="4">Standish H. O'Grady, History of Ireland: the Heroic Period, London
+                        1878.</bibl>
+                    <bibl n="5">P. W. Joyce, 'The Fate of the Sons of Usna', Old Celtic Romances,
+                        London 1879.</bibl>
+                    <bibl n="6">Georges Dottin, Exil des fils d'Usnech, autrement dit: Meurtre des
+                        fils d'Usnech et de Derdriu, in: H. d'Arbois de Jubainville (ed.),
+                        L'epop&eacute;e celtique en Irlande (=Cours de litt&eacute;rature celtique),
+                        Paris 1892.</bibl>
+                    <bibl n="7">D. MacKinnon, The Glenmasan Manuscript, The Celtic Review 1
+                        (1905&ndash;08) 3&ndash;17; 104&ndash;131 [English].</bibl>
+                    <bibl n="8">Samuel Ferguson, 'Deirdre', Poems of Sir Samuel Ferguson, Dublin
+                        1918.</bibl>
+                    <bibl n="9">Aubrey de Vere, 'The Sons of Usnach', The Poetical Works of Aubrey
+                        de Vere II, London 1882.</bibl>
+                    <bibl n="10">Standish Hayes O'Grady, The Coming of Cuculain, Dublin 1894.</bibl>
+                    <bibl n="11">Douglas Hyde, The Three Sorrows of Story-Telling and Ballads of St
+                        Columkille, London 1895.</bibl>
+                    <bibl n="12">John Todhunter, Three Irish Bardic Tales, London 1896.</bibl>
+                    <bibl n="13">George Sigerson, Bards of the Gael and the Gall, London 1897.</bibl>
+                    <bibl n="14">Eleanor Hull, The Cuchullin Saga in Irish Literature, London 1898.</bibl>
+                    <bibl n="15">Douglas Hyde, 'Deirdre', Zeitschrift f&uuml;r Celtische Philologie
+                        2 (1899) 138&ndash;155.</bibl>
+                    <bibl n="16">Douglas Hyde, A Literary History of Ireland, London 1899.</bibl>
+                    <bibl n="17">William Sharp, The House of Uena, Portland/Maine 1900.</bibl>
+                    <bibl n="18">Herbert Trench, Deirdre Wedded, London 1901.</bibl>
+                    <bibl n="19">Lady Gregory, Cuchulain of Muirthemne, London 1902.</bibl>
+                    <bibl n="20">C. L. Thompson, The Celtic Wonder World n. p. 1902.</bibl>
+                    <bibl n="21">George William Russell (A.E.), 'Deirdre', Imaginations and
+                        Reveries, Dublin 1916.</bibl>
+                    <bibl n="22">M&aacute;ire N&iacute; Si&uacute;dlaig, 'Deirdre', The Gael (March
+                        1904), 85&ndash;86.</bibl>
+                    <bibl n="23">A. H. Leahy, Ancient Heroic Romances of Ireland II, London 1905.</bibl>
+                    <bibl n="24">Charles Squire, The Mythology of the British Isles, London 1905.</bibl>
+                    <bibl n="25">Eleanor Hull, A Text-Book of Irish Literature, London 1906.</bibl>
+                    <bibl n="26">W. B. Yeats, Deirdre (London 1907) A. H. Bullen.</bibl>
+                    <bibl n="27">John M. Synge, Deirdre of the Sorrows (NY 1910) John Quin.</bibl>
+                    <bibl n="28">T. W. Rolleston, Myths and Legends of the Celtic Race, London 1911.</bibl>
+                    <bibl n="29">Eva Goore-Booth, The Buried Life of Deirdre [Accepted for
+                        performance by the National Theatre of Ireland in October, 1911, but never
+                        performed. Published in limited edition of 250 copies (NY 1930) Longman's].</bibl>
+                    <bibl n="30">Anonymous, Fate of the children of Uisneach, Dublin 1914.</bibl>
+                    <bibl n="31">James Stephens, Deirdre, New York 1923.</bibl>
+                    <bibl n="32">M&aacute;ir&iacute;n A. Cheavasa, The Unfaithfulness of Naoise,
+                        Cork 1930.</bibl>
+                    <bibl n="33">"J. J. Jones", Deirdre, Cork 1930.</bibl>
+                    <bibl n="34">Kim McCone and P&aacute;draig &Oacute; Fiannachta,
+                        Sc&eacute;la&iacute;ocht &aacute;r sinsear, Maynooth 1992, 109&ndash;116
+                        [Modern Irish adaptation].</bibl>
+                </listBibl>
+                <listBibl>
+                    <head>Secondary literature</head>
+                    <bibl n="1">Rev. J. J. O'Carroll, S. J., Appendix to the three texts of Longes
+                        mac nUisnig, as given by O'Curry, O'Flanagan and Windisch, Gaelic Journal 2
+                        (1884) 17&ndash;30, 51&ndash;58.</bibl>
+                    <bibl n="2">H. d'Arbois de Jubainville, L'&eacute;pop&eacute;e celtique en
+                        Irlande (Paris 1892) Libraire du Coll&egrave;ge de France.</bibl>
+                    <bibl n="3">R. K. Smith, Loch Etive and the Sons of Usnach. [With illustr. by
+                        Miss J. Knox-Smith] (Edinburgh, 1885).</bibl>
+                    <bibl n="4">Oidhe Chloinne Uisnigh, ed. R. J. O'Duffy [Critical notice] Gaelic
+                        Journal 9 (1898) 275&ndash;6, 295&ndash;298.</bibl>
+                    <bibl n="5">Eleanor Hull, The story of Deirdre in its bearing on the social
+                        development of the folk-tale, Folk-Lore 15 (1904) 24&ndash;39.</bibl>
+                    <bibl n="6">Josef Weisweiler, Deirdriu und Gr&aacute;inne, Paideuma 2 (1941/43)
+                        (H. 4/5, 1942) 197&ndash;223.</bibl>
+                    <bibl n="7">Myles Dillon, Early Irish Literature (Chicago 1948) Chicago U.P.</bibl>
+                    <bibl n="8">M&aacute;ir&iacute;n O'Daly, [review of Hull (1949)]
+                        B&eacute;aloideas 19, 1949 (1950) 196&ndash;207.</bibl>
+                    <bibl n="9">D. A. Binchy, [review of Hull (1949)] &Eacute;igse 6, 1948/1952 (pt.
+                        2, 1950) 179&ndash;183.</bibl>
+                    <bibl n="10">Gerard Murphy, [review of Hull (1949)] Studies 39 (1950)
+                        108&ndash;9.</bibl>
+                    <bibl n="11">Howard Meroney, [review of Hull (1949)] Modern Language Notes 67
+                        (1952) 61&ndash;63.</bibl>
+                    <bibl n="12">Hugh P. Bevan, The topography of the Deirdre story, Bulletin of the
+                        Ulster Place-names Society 5 (1957) pt. 1, 1&ndash;5.</bibl>
+                    <bibl n="13">E.G. Quin, Longas mac nUisnig, in: Myles Dillon (ed.), Irish sagas
+                        (Dublin 1959; Cork 1968) 51&ndash;65.</bibl>
+                    <bibl n="14">Herbert V. Fackler, Nineteenth-century sources for the Deirdre
+                        legend, &Eacute;ire-Ireland 4 (1969) uimh. 4, 56&ndash;63.</bibl>
+                    <bibl n="16">Sister Margaret P. Slattery, Deirdre: the 'Mingling of
+                        Controversies' in Plot and Symbolism, Modern Drama 9 (Spring 1969)
+                        400&ndash;403.</bibl>
+                    <bibl n="17">Maria Tymoczko, Animal Imagery in Loinges Mac nUislenn, Stud.
+                        Celtica 20/21 (1985/86) 145&ndash;166.</bibl>
+                    <bibl n="18">Patrick Sims-Williams, Fionn and Deirdre in Late Medieval Wales,
+                        &Eacute;igse 23 (1989) 1&ndash;15.</bibl>
+                    <bibl n="19">M&aacute;ire Herbert, The Universe of Male and Female: A Reading of
+                        the Deirdre Story, in: Cyril J. Byrne, Margaret Harry, and P&aacute;draig
+                        &Oacute; Siadhail (eds.), Celtic Languages and Celtic Peoples: Proceedings
+                        of the Second North American Congress of Celtic Studies held in Halifax
+                        August 16&ndash;19, 1989. Halifax 1992, 53&ndash;64.</bibl>
+                    <bibl n="20">M&aacute;ire Herbert, Celtic heroine? The archaeology of the
+                        Deirdre story, in: T. O'Brien Johnson and D. Cairns (eds.), Gender in Irish
+                        Writing, Milton Keynes/Philadelphia 1991, 13&ndash;22.</bibl>
+                    <bibl n="21">Cornelius G. Buttimer, Longes Mac nUislenn Reconsidered,
+                        &Eacute;igse 28 (1994/95) 1&ndash;41.</bibl>
+                    <bibl n="22">Caoimh&iacute;n Breatnach, Oidheadh Chloinne Uisnigh, &Eacute;riu
+                        45 (1994) 99&ndash;112.</bibl>
+                    <bibl n="23">Caoimh&iacute;n Mac Giolla L&eacute;ith (ed. and trans.), Oidheadh
+                        Chloinne hUisneach. The Violent Death of the Children of Uisneach. Irish
+                        Texts Society, vol. 56. London: Irish Texts Society, 1993. [A substantially
+                        different version of the Deirdre story, transmitted fully in 90 extant MSS,
+                        the earliest written in 1671].</bibl>
+                    <bibl n="24">Caoimh&iacute;n Breatnach [Rev. of Mac Giolla L&eacute;ith 1993],
+                        &Eacute;igse 28 (1994&ndash;5), 200&ndash;218.</bibl>
+                    <bibl n="25">M&iacute;che&aacute;l &Oacute; Flaithearta [Rev. of Mac Giolla
+                        L&eacute;ith 1993], Cambrian Medieval Celtic Studies 29 (1995) 75&ndash;77.</bibl>
+                    <bibl n="26">Doris Edel [Rev. of Mac Giolla L&eacute;ith 1993], Zeitschrift
+                        f&uuml;r celtische Philologie 48 (1996), 331&ndash;333.</bibl>
+                </listBibl>
+                <listBibl>
+                    <head>The edition used in the digital edition</head>
+                    <biblFull>
+                        <titleStmt>
+                            <title level="m">Longes Mac n-Uislenn: The Exile of the Sons of Uisliu</title>
+                            <editor>Vernam Hull</editor>
+                        </titleStmt>
+                        <editionStmt>
+                            <edition>Reprint</edition>
+                        </editionStmt>
+                        <extent>42 + 187 pp. 1&ndash;42 Introduction; 43&ndash;51 Text; 51&ndash;59
+                            Variant Readings; 60Ndash;69 English Translation; 70&ndash;161 Notes;
+                            162&ndash;184 Glossary; 185&ndash;187 Indices (185&ndash;186 I. Index of
+                            Personal Names; 186&ndash;187 III. Index of Place-Names)</extent>
+                        <publicationStmt>
+                            <publisher>Kraus Reprint Co.</publisher>
+                            <pubPlace>New York</pubPlace>
+                            <date>1971</date>
+                        </publicationStmt>
+                    </biblFull>
+                </listBibl>
+            </sourceDesc>
+        </fileDesc>
+        <encodingDesc>
+            <projectDesc>
+                <p>CELT: Corpus of Electronic Texts</p>
+            </projectDesc>
+            <samplingDecl>
+                <p>The present text represents pages 43&ndash;51. All editorial introduction, notes
+                    and indexes have been omitted. Editorial corrigenda are integrated into the
+                    electronic edition. Missing text supplied by the editor is tagged <emph>sup
+                    resp="VH"</emph>. The English translation is available in a separate file,
+                    T301020B.</p>
+            </samplingDecl>
+            <editorialDecl>
+                <correction status="medium">
+                    <p>Text has been checked and proofread twice.</p>
+                </correction>
+                <normalization>
+                    <p>The electronic text represents the edited text on pp. 43&ndash;51. Raised
+                        dots have been replaced by hyphens. Not all special characters appearing in
+                        the print edition would display properly (M, m and n with overdot;
+                        ae-ligature with acute accent or macron; characters with an underdot, which
+                        latter indicate a vowel to be elided in verse [Introduction, p. 35]), these
+                        have been marked using comments in the XML version.</p>
+                </normalization>
+                <quotation>
+                    <p>Direct speech is marked <emph>q</emph>.</p>
+                </quotation>
+                <hyphenation>
+                    <p>When a hyphenated word (hard or soft) crosses a page break, the break is
+                        marked after the completion of the hyphenated word.</p>
+                </hyphenation>
+                <segmentation>
+                    <p><emph>div0</emph>=the saga; <emph>div1</emph>=the section; page-breaks are
+                        marked <emph>pb n=""/</emph>. Passages of verse are embedded in a separate <emph>
+                        text</emph>; linegroups (<emph>lg</emph>) and lines (<emph>l</emph>) are
+                        indicated. Line numbering follows the lineation of the printed text.</p>
+                </segmentation>
+                <interpretation>
+                    <p>Personal names (given names), place-names and group names are not tagged.
+                        Verses within poems, where marked with alphabetic letters by Hull, have been
+                        numbered at CELT. Words in brackets supplied by the editor are marked <emph>sup
+                        resp="VH"</emph>. Quotation marks were removed from roscad sections, and the
+                        raised dot was replaced by a hyphen.</p>
+                </interpretation>
+            </editorialDecl>
+            <refsDecl>
+                <state gi="div1" freq="1" label="section" unit="number" />
+            </refsDecl>
+        </encodingDesc>
+        <profileDesc>
+            <creation>The oldest extant Irish manuscript containing the text dates back to the
+                twelfth century. <dateRange exact="none">1100&ndash;1199</dateRange></creation>
+            <langUsage>
+                <language id="ga">The text is in Old and Middle Irish.</language>
+                <language id="la">One formulaic word is in Latin.</language>
+                <language id="en"></language>
+            </langUsage>
+            <textClass>
+                <keywords>
+                    <term>saga</term>
+                    <term>prose</term>
+                    <term>medieval</term>
+                    <term>Sons of Uisneach</term>
+                    <term>Longes mac n-Uislenn</term>
+                    <term>Deirdre</term>
+                </keywords>
+            </textClass>
+        </profileDesc>
+        <revisionDesc>
+            <change>
+                <date>2013-09-26</date>
+                <respStmt>
+                    <name>Beatrix F&auml;rber</name>
+                    <resp>ed.</resp>
+                </respStmt>
+                <item>Proofing (2) finished; file re-parsed, SGML and HTML files created.</item>
+            </change>
+            <change>
+                <date>2013-09-08</date>
+                <respStmt>
+                    <name>Beatrix F&auml;rber</name>
+                    <resp>ed.</resp>
+                </respStmt>
+                <item>Proofing (1) finished; file parsed.</item>
+            </change>
+            <change>
+                <date>2013-09-07</date>
+                <respStmt>
+                    <name>Beatrix F&auml;rber</name>
+                    <resp>ed.</resp>
+                </respStmt>
+                <item>File proofed (1), more markup added in line with companion file.</item>
+            </change>
+            <change>
+                <date>2013-09-04</date>
+                <respStmt>
+                    <name>Beatrix F&auml;rber</name>
+                    <resp>ed.</resp>
+                </respStmt>
+                <item>Proofing (1) started, structural and some content mark-up inserted; TEI header
+                    compiled, based on material from T301020B.</item>
+            </change>
+            <change>
+                <date>2013-05-27</date>
+                <respStmt>
+                    <name>Beatrix F&auml;rber</name>
+                    <resp>text capture</resp>
+                </respStmt>
+                <item>Text scanned in.</item>
+            </change>
+        </revisionDesc>
+    </teiHeader>
+    <text n="G301020B">
+        <body>
+            <div0 type="saga" lang="ga">
+                <pb n="43" />
+                <head>Loinges Mac n-Uislenn and-so</head>
+                <div1 type="section" n="1">
+                    <p>Cid dia-mbo&iacute; lon&ndot;ges mac n-Usnig? Ni <ex>ansa</ex>. B&aacute;tar
+                        Ulaid oc &oacute;l i taig &Fdot;eidlimthe maic Daill, sc&emacr;laigi
+                        Conchobuir. Ba&imacr; da<ex>no</ex> ben ind &Fdot;eidlimthe oc airiuc don
+                        t-&sdot;l&uacute;ag &omacr;sa cinn is s&iacute; thorrach. <lb n="5" />
+                        Tairmchell corn ocus chuibrenn ocus ro-l&amacr;sat g&aacute;ir mesca. A
+                        mb&aacute;tar do lepthugud, do-lluid in ben dia lepaid. Oc dul d&imacr; dar
+                        l&aacute;r in taige, ro-gr&eacute;ch in lenab inna broinn co-closs fon less
+                        uile. At-raig cach fer di alailiu is'tig lasin scr&eacute;ich &iacute;-sin
+                        co-mb&aacute;tar cinn ar chinn isin tig. Is and ad-ragart Sencha mac
+                        Ailella: <lb n="10" /> <q>Na cuirid cor d&iacute;b!</q> or-se. <q>Tucthar
+                        cucunn in ben co-festar cid dia-t&aacute; a ndeilm se.</q></p>
+                    <p>Tucad &imacr;arum in ben chucu.</p>
+                </div1>
+
+                <div1 type="section" n="2">
+                    <p>Is and as-bert a c&emacr;ile .i. Feidlimid:<lb /> R.<text type="poem">
+                            <body>
+                                <sp>
+                                    <speaker>Feidlimid</speaker>
+                                    <lg type="roscad">
+                                        <l>C&imacr;a deilm dremun derdrethar, (<q>a ben,</q> or-se)</l>
+                                        <lb n="15" />
+                                        <l>Dremnas fot broinn b&uacute;redaig?</l>
+                                        <l>Bru&iuml;t<sup resp="VH">[h]</sup> cl&umacr;asaib
+                        cluinethar</l>
+                                        <l>Gloim et<ex>er</ex> do d&amacr;
+                        tho&imacr;b,&mdash;tr&emacr;n-tormaid.</l>
+                                        <l>M&oacute;r n-&umacr;ath ad-n-&amacr;igethar</l>
+                                        <l>Mo chride cr&emacr;chtnaigedar cr&umacr;aid.</l>
+                                    </lg>
+                                </sp>
+                            </body>
+                        </text>
+                    </p>
+                </div1>
+
+                <div1 type="section" n="3">
+                    <p><lb n="20" />Is and ro-l&amacr;-si co Cathbath, ar ba fissid side: R. <text
+                            type="poem">
+                            <body>
+                                <sp>
+                                    <speaker>ben Feidlimthe</speaker>
+                                    <lg type="roscad">
+                                        <l>Cluinid Cathbad c&oacute;em-ainech</l>
+                                        <l>C&aacute;in, m&aacute;l, mind m&oacute;r mochtaide</l>
+                                        <l>M(dot)brogthar tre druidechta dr&uacute;ad,</l>
+                                        <l>&Omacr;r nad-fil lem f&eacute;in find-&fdot;ocla</l>
+                                        <lb n="25" />
+                                        <l>Fris-&mdot;berad Feidlimid</l>
+                                        <l>Fursundud fiss,</l>
+                                        <l>Ar n&aacute;d-fitir ban-sc&aacute;l</l>
+                                        <l>C&imacr;a fo br&uacute;-b&imacr;,</l>
+                                        <l>Cid fom chri&ouml;l bronn b&emacr;cestar.</l>
+                                    </lg>
+                                </sp>
+                            </body>
+                        </text>
+                    </p>
+                </div1>
+
+                <div1 type="section" n="4">
+                    <p><lb n="30" /> Is and as-bert Cathbad: .R.<text type="poem">
+                            <body>
+                                <sp>
+                                    <speaker>Cathbad</speaker>
+                                    <lg type="roscad">
+                                        <l>Fot chri&ouml;l bronn b&emacr;cestair</l>
+                                        <l>B&emacr; &fdot;uilt buidi buide-chass</l>
+                                        <l>S&eacute;gdaib s&umacr;ilib sell-glassaib.</l>
+                                        <l>S&imacr;an a gr&uacute;ade gorm-chorcrai;</l>
+
+                                        <pb n="44" />
+                                        <lb n="35" />
+                                        <l>Fri dath snechtai samlamar</l>
+                                        <l>S&eacute;t a d&eacute;tgne d&iacute;&auml;nim.</l>
+                                        <l>N&imacr;amdai a b&eacute;oil partuing-deirg&mdash;</l>
+                                        <l>B&eacute; dia-mbi&auml;t il-ardbe</l>
+                                        <l>Et<ex>er</ex> Ulad erredaib.</l>
+                                        <lb n="40" />
+                                        <l>G&emacr;ssid fot br&uacute; b&uacute;irethar</l>
+                                        <l>B&emacr; &fdot;ind &fdot;ota &fdot;olt-lebor,</l>
+                                        <l>Imma curaid-coss&emacr;nat,</l>
+                                        <l>Imma n-ard-r&iacute;g-&imacr;arfassat.</l>
+                                        <l>Bi&auml;t &imacr;arthur trom-thoraib</l>
+                                        <lb n="45" />
+                                        <l>Fo chl&iacute; ch&oacute;icid Chonchobuir.</l>
+                                        <l>Bi&auml;it a b&eacute;oil partuing-deirg</l>
+                                        <l>Imma d&emacr;ta n&emacr;manda,</l>
+                                        <l>Fris-mbat formdig ard-r&iacute;gna, </l>
+                                        <l>Fria cruth &ndot;d&imacr;graiss &ndot;d&imacr;&auml;nim.</l>
+                                    </lg>
+                                </sp>
+                            </body>
+                        </text>
+                    </p>
+                </div1>
+
+                <div1 type="section" n="5">
+                    <lb n="50" />
+                    <p>Do-rat &imacr;ar suidiu in Cathbath a l&aacute;im fora broinn inna mn&amacr;
+                        coro-derdrestar in lelap foa l&aacute;im.</p>
+                    <p><q>F&iacute;r,</q> ar-se, <q>ingen fil and ocus bid Derdriu a hainm ocus
+                        biaid olc impe.</q></p>
+                    <p>Ro-g&emacr;nair ind ingen &imacr;ar sin, ocus <frn lang="la">dixit</frn>
+                        Cathbad: <text type="poem">
+                            <body>
+                                <sp>
+                                    <speaker>Cathbad</speaker>
+
+                                    <lg type="quatrain" n="1">
+                                        <lb n="55" />
+                                        <l>A &Ddot;erdriu, maind&emacr;ra m&aacute;r,</l>
+                                        <l>Dia-msa c&oacute;em-ainech cloth-b&aacute;n.</l>
+                                        <l>C&emacr;sfaitit Ulaid rit r&eacute;,</l>
+                                        <l>A ingen &fdot;ial &Fdot;eidlimthe.</l>
+                                    </lg>
+
+                                    <lg type="quatrain" n="2">
+                                        <l>Bi&auml;id &emacr;tach cid &imacr;ar tain</l>
+                                        <lb n="60" />
+                                        <l>Dot d&aacute;ig, a b&eacute; for lassair.</l>
+                                        <l>Is it aimsir&mdash;cluinte se&mdash;</l>
+                                        <l>Lo&ndot;ges tri mac n-Uislinne.</l>
+                                    </lg>
+
+                                    <lg type="quatrain" n="3">
+                                        <l>Is it aimsir gn&iacute;m dremuin</l>
+                                        <l>G&emacr;ntar &iacute;arum i n-Emuin.</l>
+                                        <lb n="65" />
+                                        <l>Bid aithrech coll cid &imacr;ar tain</l>
+                                        <l>Fo<sup resp="VH">[r]</sup> fo&imacr;sam m<ex>ai</ex>c
+                        Roig rogmair.</l>
+                                    </lg>
+
+                                    <lg type="quatrain" n="4">
+                                        <l>Is tri&uuml;t, a b&eacute; co mbail,</l>
+                                        <l>Longes Fergusa &oacute;<!--underdot--> Ultaib,</l>
+                                        <l>Ocus gn&iacute;m ar-co&iacute;nfed guil</l>
+                                        <lb n="70" />
+                                        <l>Guin &Fdot;iachnai maic Conchobuir.</l>
+                                    </lg>
+
+                                    <lg type="quatrain" n="5">
+                                        <l>Is it chin, a b&eacute; co mbail,</l>
+                                        <l>Guin Gerrci maic Illadain, </l>
+                                        <pb n="45" />
+
+                                        <l>Ocus gn&iacute;m nat lugu smacht,</l>
+                                        <l>Orggain Eogain maic Durthacht.</l>
+                                    </lg>
+
+                                    <lg type="quatrain" n="6">
+                                        <lb n="75" />
+                                        <l>Do-g&emacr;na gn&iacute;m &ndot;gr&amacr;nda &ndot;garg</l>
+                                        <l>Ar &fdot;eirg ri r&iacute;g n-Ulad n-ard.</l>
+                                        <l>Biaid do lecht&aacute;n i nnach d&uacute;;</l>
+                                        <l>Bid sc&eacute;l n-airdairc, a &Ddot;erdriu.</l>
+                                        <trailer>(A &Ddot;erdriu)</trailer>
+                                    </lg>
+                                </sp>
+                            </body>
+                        </text>
+                    </p>
+                </div1>
+
+                <div1 type="section" n="6">
+                    <p><lb n="80" /> <q>Marbthar ind ingen!</q> ol ind &oacute;ic. <q>Ni-th&oacute;!</q>
+                        ol Conchobor. <q>B&emacr;rthair lim-sa ind ingen i mb&amacr;rach,</q> ol
+                        Conchobor, <q>ocus ailebthair dom r&eacute;ir f&eacute;in ocus bid s&iacute;
+                        ben b&iacute;as im &fdot;arrad-sa.</q></p>
+                    <p>Ocus nira-l&amacr;matar Ulaid a chocert immi. Do-gn&iacute;ther &oacute;n da<ex>
+                        no</ex>: <lb n="85" /> Ro-alt la Conchobor co-mbo s&iacute; ingen as
+                        m&oacute;r-&aacute;illem ro-bo&iacute; i n-H&eacute;rinn. Is i llis fo leith
+                        ro-alt connach-acced fer di Ultaib cosin n-&uacute;air no-foad la Conchobor
+                        ocus ni ba&imacr; duine no-l&emacr;icthe issin les sin acht a haite-si ocus
+                        a mumme ocus da<ex>no</ex> Lebarcham, ar n&iacute;-&eacute;ta gab&aacute;il
+                        di ssidi ar ba ban-ch&aacute;inte.</p>
+                </div1>
+
+                <div1 type="section" n="7">
+                    <p><lb n="90" /> Fecht n-and di<ex>diu</ex> ba&iacute; a haite na ingine oc
+                        fennad lo&iacute;g &fdot;othlai for snechtu i-mmaig issin gaimriuth dia
+                        &fdot;uni di-ssi. Co-n-acca-si n&iacute;, in f&iacute;ach oc &oacute;l inna
+                        fola forsin t-&sdot;nechtu. Is and as-bert-si fri Lebarchaim:<lb />
+<q>Ro-pad
+                        inmain &omacr;en-&fdot;er forsa-mbetis na tri dath ucut .i. in <lb n="95" />
+                        folt amal in f&imacr;ach ocus in gr&uacute;ad amal in fuil ocus in corp amal
+                        in snechta.</q></p>
+                    <p><q>Orddan ocus tocad duit!</q> ar in Lebarcham. <q>Ni c&iacute;an
+                        &uacute;ait. At&aacute; is'taig it arrad .i. No&iacute;si mac Usnig.</q> <q>Ni-pam
+                        sl&aacute;n-sa &aacute;m,</q> ol-si, <q>conid-n-accur-saide.</q></p>
+                </div1>
+
+                <div1 type="section" n="8">
+                    <p><lb n="100" /> Fecht n-and di<ex>diu</ex> ba&imacr;-seom int-&iacute;
+                        No&iacute;si a &oacute;enur for d&oacute;e inna rr&aacute;tha .i. ina Emna,
+                        oc andord. Ba bind im<ex>murgu</ex> a n-andord mac n-Usnig. Cech b&oacute;
+                        ocus cech m&iacute;l ro-chluined, no-mbligtis d&amacr; trian blechta
+                        d'immarcraid &umacr;adib. Cech duine rod-chluined, ba l&oacute;r
+                        s&iacute;thchaire ocus airfitiud d&oacute;ib. Ba maith a &ndot;gaisced da<ex>
+                        no</ex>. <lb n="105" /> C&imacr;a no-beth c&omacr;iced Ulad i
+                        n-&omacr;en-baili impu, acht corro-chuired c&aacute;ch d&iacute;b a triur a
+                        druim fri araile, ni-bertais b&uacute;aid diib ar &fdot;ebas na ursclaige
+                        ocus na imd&iacute;ten. Bat coml&umacr;atha da<ex>no</ex> fri conaib oc
+                        tafonn. No-marbdais na f&imacr;ada ar l&uacute;as.</p>
+                </div1>
+
+                <pb n="46" />
+                <div1 type="section" n="9">
+                    <p><lb n="110" /> A mbo&imacr;-seom di<ex>diu</ex> a o&iacute;nur int-&iacute;
+                        No&iacute;si i-mmaig, mos-&emacr;tlan-si cuci i-mmach am<ex>al</ex> bid do
+                        thecht secha ocus nis-n-athg&eacute;oin. <q>Is c&aacute;in,</q> ol-se-sseom, <q>in
+                        t-&sdot;amaisc t&eacute;te sechunn!</q> <q>Dlegtair,</q> ol-si-si, <q>samaisci
+                        m&oacute;ra bale na-b&iacute;t tairb.</q> <q>At&aacute; tarb in
+                        ch&oacute;icid lat,</q> or-se-sseom, <q>.i. r&iacute; Ulad.</q> <q>No-togfainn-se
+                        etruib far &ndot;d&iacute;s,</q> or-si-si, <q>ocus no-g&emacr;bainn <lb
+                                n="115" /> tarb&iacute;n &oacute;ag amalt-so.</q> <q>Ni-th&oacute;!</q>
+                        ol-se-sseom. <q>Cid fo b&imacr;thin f&aacute;itsine Cathbad.</q> <q>In dom
+                        f&eacute;med-sa adeiri sin?</q> <q>Bid d&omacr; im<ex>murgu</ex></q>
+                        or-se-ssem. La sodain fo-ceird-si bedg cuci corro-gab a d&aacute; n-&oacute;
+                        fora chinn. <lb n="120" /> <q>D&aacute; n-&oacute; m&emacr;le ocus cuitbiuda
+                        in-so,</q> ol-si, <q>manim-bera-su latt.</q> 
+<q>Eirgg &umacr;aim, a ben!</q>
+                        ol-se. <q>Rot-bia &oacute;n,</q> ol-si-si. At-racht la sodain a andord
+                        n-ass. Amail ro-ch&umacr;alatar Ulaid in-nunn in n-andord, at-raig cech fer
+                        d&iacute;b di alailiu.</p>
+                </div1>
+
+                <div1 type="section" n="10">
+                    <p><lb n="125" /> Lotar maic Uislenn i-mmach do thairmesc a mbr&amacr;thar. <q>Cid
+                        no-ta&iacute;?</q> ol-seat. <q>Na 'mma-&ndot;gonad d'Ultaib it chinaid!</q></p>
+                    <p>Is and at-ch&uacute;aid d&oacute;ib a ndo-r&oacute;nad friss.</p>
+                    <p><q>Biaid olc de,</q> ol ind &oacute;icc. <q>C&imacr;a beith, noco-bia-so fo
+                        mebail c&eacute;in bemmit-ni i mbethaid. Ragmai-ni lee i t&iacute;r n-aili.
+                        Ni-fil <lb n="130" /> i n-H&emacr;rinn r&iacute;g na-tibre f&amacr;ilti
+                        d&uacute;n.</q></p>
+                    <p>Batar eat a comairli. Ro-imthigsetar in n-aidchi sin. i. tri co&imacr;cait
+                        l&aacute;ech d&oacute;ib ocus tri co&imacr;cait ban ocus tri co&imacr;cait
+                        con ocus tri co&imacr;cait gilla ocus Derdriu i cumusc c&aacute;ich
+                        co-mba&imacr; etarru.</p>
+                </div1>
+
+                <div1 type="section" n="11">
+                    <p>B&amacr;tar for f&omacr;esamaib c&eacute;in m&oacute;ir m&oacute;r-thimchell
+                        n-&Eacute;renn <lb n="135" /> co-tr&imacr;allta a nd&iacute;th co mmenic
+                        tria indleda ocus chelga Conchobuir &omacr;-th&aacute; Ess R&uacute;aid
+                        timchell s&iacute;ar-des co Beinn &Eacute;tair sair-th&uacute;aid <frn
+                            lang="la">iterum.</frn> Ar-a&imacr;-de t<ex>r&aacute;</ex> conda-<sup
+                            resp="VH">[to]</sup>ro&imacr;fnetar Ulaid tairis i cr&iacute;ch n-Alban.
+                        Con-gabsat i nd&imacr;thrub and. &Omacr;nd &uacute;air ro-sc&aacute;ich
+                        d&oacute;ib f&iacute;adach in t-&sdot;l&eacute;be, do-elsat for cethra fer
+                        n-Alban do thabairt chucu. Do-ch&oacute;tar-side <lb n="140" /> dia
+                        nd&imacr;lgiund i n-&omacr;en-l&oacute; co-ndeochatar dochum r&iacute;g
+                        Alban conda-rragaib ina munteras ocus coro-gabsat amsaini acca ocus
+                        ro-suidigsitar a tige issind &fdot;aithchi. Im d&eacute;igin ina ingine
+                        do-r&oacute;nta na tige conna-hacced nech leo h&iacute; ar d&aacute;ig na
+                        ro-marbtais impe.</p>
+                </div1>
+
+                <div1 type="section" n="12">
+                    <p>Fecht n-and di<ex>diu</ex> luid in rechtaire matain moch co-rralai <lb
+                            n="145" /> cor imma tech-som. Co-n-accae in l&amacr;namain inna cotluth.
+                        Do-ch&umacr;aid &imacr;ar sin coro-d&uacute;sig in r&iacute;g.</p>
+                    <p><q>Ni-f&umacr;aramar-ni,</q> or-se, <q>mna&imacr; do di&ndot;gb&amacr;la-so
+                        cosin diu. At&aacute; i fail No&iacute;sen maic Uislenn ben
+                        di&ndot;gb&amacr;la r&iacute;g &iacute;arthair domuin. Marbthar <pb n="47" />
+                        fo ch&eacute;t-&oacute;ir No&imacr;si ocus foath in ben lat-so,</q> ol in
+                        rechtaire. <lb n="150" /> <q>Acc,</q> ol in r&iacute;, <q>acht eirg-siu dia
+                        guidi dam-sa cech l&amacr;a fo chlith.</q> Do-gn&iacute;ther &oacute;n. A
+                        n-at-bered im<ex>murgu</ex> in rechtaire frie-si chaidchi,
+                        ad-f&eacute;ded-si dia c&emacr;liu in n-aidchi sin fo
+                        ch&eacute;t-&oacute;ir. &Umacr;air naro-&eacute;tad n&iacute; d&imacr;,
+                        no-er&aacute;lta for maccaib Uislenn dul i &ndot;g&amacr;bthib ocus i
+                        cathaib ocus i ndrob&emacr;laib ar d&aacute;ig coro-mmarbtais.
+                        Ar-a&imacr;-de batar sonairti-sium <lb n="155" /> im cech n-imguin
+                        connar-&eacute;tad n&iacute; d&oacute;ib asna amsib sin.</p>
+                </div1>
+
+                <div1 type="section" n="13">
+                    <p>Ro-tin&omacr;lta fir Alban dia marbad &iacute;arna chomairli frie-si.
+                        At-f&eacute;t-si do No&iacute;sin.</p>
+                    <p><q>Imthigid ass!</q> or-si. <q>Mani-digsid ass in-nocht, nobor-mairfither i
+                        mb&aacute;rach.</q></p>
+                    <p><lb n="160" /> Lotar ass ind aidchi sin co-mb&amacr;tar i n-inis mara.
+                        Ad-f&imacr;adar do Ultaib an-&iacute;-sin.</p>
+                    <p><q>Is tr&oacute;g, a Chonchobuir,</q> ol Ulaid, <q>maic Uislenn do thuitim i
+                        t&iacute;rib n&aacute;mat tre chin droch-mn&aacute;. Ba ferr a comaitecht
+                        ocus a mb&iacute;athath ocus a nem-guin ocus tuidecht d&oacute;ib dochum a
+                        t&iacute;re ol-daas <lb n="165" /> a tuitim lia n&aacute;imtiu.</q> <q>Tecat
+                        di<ex>diu</ex>,</q> ol Conchobor, <q>ocus t&iacute;agat commairgi friu.</q></p>
+                    <p>Berair chucu an-&iacute;-sin.</p>
+                    <p><q>Is fo chen linn,</q> ol-seat. <q>Regthair ocus t&aelig;t<!--aelig;
+                            with acute accent--> Fergus frinn i
+                        commairgi ocus Dubthach ocus Cormac mac Conchobuir.</q></p>
+                    <p><lb n="170" />T&imacr;agait side co-ngabsat a ll&aacute;ma di muir.</p>
+                </div1>
+
+                <div1 type="section" n="14">
+                    <p>Ba&iacute; im<ex>murgu</ex> imchosnam im &Fdot;ergus dia churiud do
+                        chormannaib a comairli Chonchobuir, ar as-bertatar maic Uislenn
+                        nadcon-&iacute;stais b&iacute;ad i n-H&emacr;rinn acht b&imacr;ad Conchobuir
+                        i tossuch. Luid &imacr;arum Fiachu mac Fergusa leo ocus anaid Fergus ocus
+                        Dubthach <lb n="175" /> ocus do-llotar maic Uislenn co-mb&aacute;tar for
+                        faithchi na Emna. Is and da<ex>no</ex> t&amacr;nic Eogan mac Dur<ex>thacht</ex>
+                        r&iacute; Fernmaige do ch&oacute;rai fri Conchobor, ar ro-bo&iacute; i
+                        n-ess&iacute;d friss i c&iacute;ana. Is &emacr;-side ro-herbad dia mmarbad
+                        ocus amsaig Conchobuir immi conna-t&imacr;stais cuci-sium.</p>
+                </div1>
+
+                <div1 type="section" n="15">
+                    <p><lb n="180" />B&amacr;tar maic Uislenn ina sesum for l&amacr;r na faithche
+                        ocus b&amacr;tar inna mn&amacr; inna suidib for d&omacr;u na h-Emna. Luid di<ex>
+                        diu</ex> Eogan cuccu inna thur iarsind &fdot;aithchi. Do-lluid im<ex>murgu</ex>
+                        mac Fergusa co-mba&imacr; for leth-l&aacute;im No&iacute;sen. Feraid Eogan
+                        f&amacr;ilti friu la b&eacute;im forgama do ga&imacr; m&oacute;r i
+                        n-No&iacute;sin co-rro&imacr;mid a druim triit. Fo-ceird <lb n="185" /> la
+                        sodain mac Fergusa co-tuc a d&iacute; l&aacute;im dar No&imacr;sin co-tuc
+                        fo&iacute; ocus co-tarlaic fair an&uacute;as ocus is samlaid ro-b&iacute;th
+                        No&iacute;siu tre mac Fergusa an&umacr;as. Ro-marbtha &imacr;ar suidiu
+                        sethn&oacute;n na faithche conna-t&eacute;rna <pb n="48" /> ass acht a
+                        ndechuid do rind ga&imacr; ocus di giun chlaidib; ocus rucad-si in-nunn co
+                        Conchobor co-mba&iacute; fora l&aacute;im ocus ro-cumrigthe a ll&aacute;ma <lb
+                            n="190" /> &iacute;arna c&uacute;l.</p>
+                </div1>
+
+                <div1 type="section" n="16">
+                    <p>At-ch&umacr;as do &Fdot;ergus &imacr;arum an-&iacute;-sin ocus do Dubthach
+                        ocus do Chormac. T&amacr;ncatar side co-ndernsat gn&iacute;ma m&oacute;ra fo
+                        ch&emacr;t&oacute;ir .i. Dubthach do marbad Mane maic Conchobuir ocus
+                        &Fdot;iachna m<ex>a</ex>c Feidilme ingine Conchobuir do guin dond
+                        &omacr;en-&fdot;orgab ocus <lb n="195" /> Fergus do marbad
+                        Thraigthr&emacr;oin maic Traiglethain ocus a br&amacr;thar ocus
+                        s&amacr;rugud Conchobuir impu ocus cath do thabairt eturru &imacr;ar sin
+                        isind &omacr;en-l&omacr;u co-torchratar tri ch&eacute;t de Ultaib eturru
+                        ocus ingenrad Ulad do marbad do Dubthach r&imacr;a matain ocus Emain do
+                        loscud do &Fdot;ergus. Is ed lotar &imacr;arum co Ailill ocus co Meidb ar <lb
+                            n="200" /> ro-fetatar is s&iacute; l&amacr;namain foda-r&omacr;elsat
+                        ocus da<ex>no</ex> ni-bu ch&umacr;l serce do Ultaib. Tricha c&eacute;t ba
+                        &eacute; l&iacute;n na lloi&ndot;gse. Co cenn s&emacr; m(dot)bl<ex>
+                        &iacute;adna</ex> d&eacute;c niro-an gol na crith leu i n-Ultaib acht gol
+                        ocus crith leu cech n-&omacr;en-aidchi.</p>
+                </div1>
+
+                <div1 type="section" n="17">
+                    <p>Bl<ex>&iacute;adain</ex> di-ssi tr&aacute; i fail Chonchobuir ocus risin
+                        r&emacr; sin ni-tib <lb n="205" /> gen &ndot;g&amacr;ire ocus ni-d&omacr;id
+                        a s&aacute;ith do b&iacute;ud na cotluth ocus ni-t&umacr;argaib a cenn dia
+                        gl&uacute;n. In tan di<ex>diu</ex> do-mbertis na hairfiti d&imacr;, is and
+                        as-bered-si in reicni sea s&iacute;s: <text type="poem">
+                            <body>
+                                <sp>
+                                    <speaker>Deirdriu</speaker>
+
+                                    <lg type="quatrain" n="1">
+                                        <l>Cid c&amacr;in lib ind l&aelig;<!--aelig;
+                                            with acute accent-->chrad lainn</l>
+                                        <l>Ce&ndot;gtae i n-Emain &imacr;ar tochaim,</l>
+                                        <lb n="210" />
+                                        <l>Airdiu do-ci&ndot;gtis dia taig</l>
+                                        <l>T<ex>ri</ex> maic adl&aelig;<!--aelig;
+                                            with acute accent-->chda Uisnig.</l>
+                                    </lg>
+
+                                    <lg type="quatrain" n="2">
+                                        <l>No&iacute;si co mmid choll&amacr;n chain&mdash;</l>
+                                        <l>Folcud lim-sa d&oacute; 'con tein&mdash;</l>
+                                        <l>Ardd&amacr;n co ndam n&oacute; muicc mais,</l>
+                                        <lb n="215" />
+                                        <l>Ascla&ndot;g Aindli dar ardd-ais.</l>
+                                    </lg>
+
+                                    <lg type="quatrain" n="3">
+                                        <l>Cid milis lib a mmid mas</l>
+                                        <l>Ibes mac Nesa n&imacr;th-mas,</l>
+                                        <l>Ba&imacr;thium ri&auml;m&mdash;r&eacute;n for
+                        br&uacute;&mdash;</l>
+                                        <l>B&iacute;&auml;d menic ba millsiu.</l>
+                                    </lg>
+
+                                    <lg type="quatrain" n="4">
+                                        <lb n="220" />
+                                        <l>&Omacr; ro-sernad No&iacute;si n&aacute;r</l>
+                                        <l>Fulocht for feda f&imacr;an-chl&amacr;r,</l>
+                                        <l>Ba millsiu cach b&imacr;ud fo mil</l>
+                                        <l>Ara-r&amacr;lad mac Usnig.</l>
+                                    </lg>
+
+                                    <lg type="quatrain" n="5">
+                                        <l>Cid bindi lib in cach m&iacute;</l>
+                                        <lb n="225" />
+                                        <l>Cuslennaig is cornairi,</l>
+
+                                        <pb n="49" />
+                                        <l>Is s&iacute; mo chobais in-diu:</l>
+                                        <l>Ro-c&umacr;ala c&eacute;ol bad bindiu.</l>
+                                    </lg>
+
+                                    <lg type="quatrain" n="6">
+                                        <l>Bind la Conchobor for r&iacute;</l>
+                                        <l>Cuslennaig is cornairi;</l>
+                                        <lb n="230" />
+                                        <l>Ba bindiu lem-sa&mdash;cloth n-ell&mdash;</l>
+                                        <l>S&iacute;an no-gebtis maic Uislenn.</l>
+                                    </lg>
+
+                                    <lg type="quatrain" n="7">
+                                        <l>Fogur tuinne toirm No&imacr;si</l>
+                                        <l>Ba c&emacr;ol bind a bith-chl&oacute;isi.</l>
+                                        <l>Coblach Ardd&amacr;in ro-po maith,</l>
+                                        <lb n="235" />
+                                        <l>Andord Aindli dia &umacr;ar-baith.</l>
+                                    </lg>
+
+                                    <lg type="quatrain" n="8">
+                                        <l>No&iacute;si, do-r&omacr;nad a &fdot;ert.</l>
+                                        <l>Ba dirsan in chomaitecht.</l>
+                                        <l>D&omacr; ro-d&amacr;lius&mdash;drong tria alt&mdash;</l>
+                                        <l>In dig tonnaid dia-n-&emacr;rbalt.</l>
+                                    </lg>
+
+                                    <lg type="quatrain" n="9">
+                                        <lb n="240" />
+                                        <l>Inmain berth&aacute;n &aacute;illi blai,</l>
+                                        <l>Tuchtach duine cid dind-blai.</l>
+                                        <l>Ba dirsan nad-<sup resp="VH">[&fdot;]</sup>resco i<!--i
+                                            with underdot-->n-diu</l>
+                                        <l>Mac Uislenn do idnaidiu.</l>
+                                    </lg>
+
+                                    <lg type="quatrain" n="10">
+                                        <l>Inmain menma cobsaid c&aacute;ir;</l>
+                                        <lb n="245" />
+                                        <l>Inmain &oacute;clach ard imn&amacr;ir.</l>
+                                        <l>&Imacr;ar n-imthecht dar feda f&aacute;l,</l>
+                                        <l>Inmain costal i tiugn&aacute;r.</l>
+                                    </lg>
+
+                                    <lg type="quatrain" n="11">
+                                        <l>Inmain s&uacute;il glass carddais mn&aacute;;</l>
+                                        <l>Ba hamnas fri &emacr;crata.</l>
+                                        <lb n="250" />
+                                        <l>&Imacr;ar c&uacute;airt chaille&mdash;comul s&aelig;<!--with
+                                            acute accent-->
+                        r&mdash;</l>
+                                        <l>Inmain andord tria dub-r&aelig;<!--with
+                                            acute accent-->d.</l>
+                                    </lg>
+
+                                    <lg type="quatrain" n="12">
+                                        <l>Ni-cotlu tr&aacute;,</l>
+                                        <l>Ocus ni-corcu m'i&ndot;gne.</l>
+                                        <l>F&aacute;ilte, ni-t&amacr;et imm airi,</l>
+                                        <lb n="255" />
+                                        <l>&Omacr;r nach-taidi mac Tindle.</l>
+                                    </lg>
+
+                                    <lg type="quatrain" n="13">
+                                        <l>Ni-cotlu</l>
+                                        <l>Leth na haidche im ligiu.</l>
+                                        <l>Fo-ceird mo ch&emacr;ill imm dru&ndot;gu;</l>
+                                        <l>Sech ni-lu&ndot;gu, ni-tibiu.</l>
+                                    </lg>
+
+                                    <pb n="50" />
+                                    <lg type="quatrain" n="14">
+                                        <lb n="260" />
+                                        <l>F&aacute;ilte, in-diu ni-dam &uacute;ain</l>
+                                        <l>I nd&aacute;il Emna&mdash;ercdair sa&iacute;r&mdash;</l>
+                                        <l>Na s&iacute;d na suba na s&aacute;m</l>
+                                        <l>Na tech m&aacute;r na cumtach ca&iacute;n.</l>
+                                        <trailer>(Cid c&amacr;in)</trailer>
+                                    </lg>
+                                </sp>
+                            </body>
+                        </text>
+                    </p>
+                </div1>
+
+                <div1 type="section" n="18">
+                    <p><lb n="265" />In tan da<ex>no</ex> no-b&imacr;d Conchobor oca
+                        h&amacr;lgenugud-si, is and at-bered-si in reicni sea s&imacr;s: <text
+                            type="poem">
+                            <body>
+                                <sp>
+                                    <speaker>Deirdriu</speaker>
+                                    <lg type="quatrain" n="1">
+                                        <l>A Chonchobuir, cid no-ta&iacute;?</l>
+                                        <l>Do-rurmis dam br&oacute;n fo cha&iacute;,</l>
+                                        <l>Is ed &amacr;m <sup resp="VH">[i]</sup> c&eacute;in
+                        no-mmair,</l>
+                                        <lb n="270" />
+                                        <l>Do s(dot)erc lim ni-ba romair.</l>
+                                    </lg>
+
+                                    <lg type="quatrain" n="2">
+                                        <l>N&iacute; rop &amacr;illiu lim fo nim,</l>
+                                        <l>Ocus n&iacute; rop inmainib</l>
+                                        <l>R<sup resp="VH">[o]</sup>-ucais
+                        &uacute;aim&mdash;m&oacute;r in b&eacute;t&mdash;</l>
+                                        <l>Connach-acciu-sa comm &eacute;c.</l>
+                                    </lg>
+
+                                    <lg type="quatrain" n="3">
+                                        <lb n="275" />
+                                        <l>A i&ndot;gn&amacr;is is toirrse lem</l>
+                                        <l>Tucht dom-adbat mac Uislenn.</l>
+                                        <l>Caurn&aacute;n cir-dub dar corp &ndot;gel.</l>
+                                        <l>Ba s&umacr;aichnid sech ilar fer.</l>
+                                    </lg>
+
+                                    <lg type="quatrain" n="4">
+                                        <l>D&amacr; ngr&umacr;ad corcra c&amacr;iniu srath,</l>
+                                        <lb n="280" />
+                                        <l>B&emacr;oil deirg, abrait fo d&aelig;<!--with
+                                            acute accent-->l-dath;</l>
+                                        <l>D&emacr;itgen n&eacute;manda fo l&iacute;,</l>
+                                        <l>Am<ex>al</ex> s&omacr;er-dath snechtaidi.</l>
+                                    </lg>
+
+                                    <lg type="quatrain" n="5">
+                                        <l>Ba s&umacr;aichnid a eirred &ndot;glan</l>
+                                        <l>Et<ex>er</ex> f&imacr;anaib fer n-Alban.</l>
+                                        <lb n="285" />
+                                        <l>F&uacute;an c&amacr;in corcra&mdash;comul
+                        c&oacute;ir&mdash;</l>
+                                        <l>Cona imthacmu&ndot;g derg-&oacute;ir.</l>
+                                    </lg>
+
+                                    <lg type="quatrain" n="6">
+                                        <l>Inar sr&oacute;lda&mdash;s&eacute;t co
+                        mbr&iacute;g&mdash;</l>
+                                        <l>I-mbu&imacr; c&eacute;t ngem&mdash;ilar m&iacute;n.</l>
+                                        <l>Fora imd&emacr;num is gl&emacr;</l>
+                                        <lb n="290" />
+                                        <l>Co&iacute;ca u&ndot;ga findruine.</l>
+                                    </lg>
+
+                                    <lg type="quatrain" n="7">
+                                        <l>Claideb &oacute;r-duirn ina l&aacute;im,</l>
+                                        <l>D&amacr; ga&imacr; glasa co ngoth-gr&amacr;in,</l>
+
+                                        <pb n="51" />
+                                        <l>Finden co mbil &oacute;ir buidi,</l>
+                                        <l>Ocus taul argait fuirri.</l>
+                                    </lg>
+
+                                    <lg type="quatrain" n="8">
+                                        <lb n="295" />
+                                        <l>Fo-rru&iuml;ch frinn Fergus find</l>
+                                        <l>Ar tabairt darsa m&omacr;r-lind.</l>
+                                        <l>Ro-rir a einech ar chuirm.</l>
+                                        <l>Do-rochratar a m&omacr;r-gluinn.</l>
+                                    </lg>
+
+                                    <lg type="quatrain" n="9">
+                                        <l>C&imacr;a no-betis forsin muig</l>
+                                        <lb n="300" />
+                                        <l>Ulaid im gn&uacute;is Conchobuir,</l>
+                                        <l>Dos-mb&emacr;ruinn uili cen chlith</l>
+                                        <l>Ar gn&amacr;is No&imacr;si maic Uisnig.</l>
+                                    </lg>
+
+                                    <lg type="quatrain" n="10">
+                                        <l>Na briss in-diu mo chride;</l>
+                                        <l>Mos-ricub mo moch-lige.</l>
+                                        <lb n="305" />
+                                        <l>Is tressiu cuma i<!--with
+                                            underdot-->n-d&amacr; muir,</l>
+                                        <l>Madda &emacr;ola, a<!--with
+                                            underdot--> Chonchobuir.</l>
+                                        <trailer>(A Chonchobuir)</trailer>
+                                    </lg>
+                                </sp>
+                            </body>
+                        </text>
+                    </p>
+                </div1>
+
+                <div1 type="section" n="19">
+                    <p><q>Cid as m&oacute; miscais lat at-ch&iacute;?,</q> ar Conchobor. <q>Tu-ssu
+                        &aacute;m,</q> or-si, <q>ocus Eogan mac Durthacht!</q> 
+<lb n="310" /> <q>Bia-so
+                        da<ex>no</ex> bl<ex>&imacr;adain</ex> i fail Eogain,</q> ar Conchobor.</p>
+                    <p>Dus-mbert &imacr;arum for l&aacute;im Eogain. Lotar &imacr;arna b&aacute;rach
+                        do &omacr;enuch Macha. Bu&iacute;-si &imacr;ar c&uacute;l Eogain i carput.
+                        Do-rar&ndot;gert-si na-haiccfiuth a d&amacr; c&emacr;ile for talmain i
+                        n-&omacr;en-&fdot;echt.</p>
+                    <p><q>Maith, a Derdriu,</q> ol Conchobor, <q>s&uacute;il ch&aelig;<!--with
+                            acute accent-->rach eter
+                        d&amacr; rethe <lb n="315" /> gn&imacr;i-siu etrum-sa ocus Eogan.</q></p>
+                    <p>Ro-ba&iacute; ail chloiche m&oacute;r ara cinn. Do-ll&eacute;ici a cenn immon
+                        cloich co-nderna br&uacute;rig dia cinn co-mbo marb.</p>
+                    <p>Lo&ndot;gas mac n-Uislenn in-sin ocus longas Fergusa ocus aided mac n-Uis<ex>
+                        lenn</ex> ocus Derdrenn.</p>
+                    <closer>
+                        <lb n="320" />
+                        <frn lang="la">Finit.</frn>
+                    </closer>
+                </div1>
+            </div0>
+        </body>
+    </text>
+</TEI.2>

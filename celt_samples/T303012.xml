@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE TEI.2 SYSTEM "/dtds/tei/p4x/teicelt.dtd" [
+<!ENTITY % TEIbase "TEI.prose">
+]>
+<TEI.2 id="T303012">
+<teiHeader creator="Beatrix F&auml;rber" status="new" date.created="2009-05-22">
+<fileDesc>
+<titleStmt>
+<title type="uniform">Finn and the Man in the Tree</title>
+<title type="extended">[H. 3. 18, p. 361 b]</title>
+<title type="gmd">An electronic edition</title>
+<author>unknown</author>
+<respStmt>
+<resp>Translated by</resp>
+<name id="KM">Kuno Meyer</name>
+</respStmt>
+<respStmt>
+<resp>Electronic edition compiled by</resp>
+<name id="BF">Beatrix F&auml;rber</name>
+</respStmt>
+<respStmt>
+<resp>Proof corrections by</resp>
+<name>Beatrix F&auml;rber</name>
+</respStmt>
+<funder>The HEA via PRTLI 4</funder>
+</titleStmt>
+<editionStmt>
+<edition n="1">First draft, revised and corrected.</edition>
+</editionStmt>
+<extent><measure type="words">1368</measure></extent>
+<publicationStmt>
+<publisher>CELT: Corpus of Electronic Texts: a project of University College, Cork</publisher>
+<address>
+<addrLine>College Road, Cork, Ireland</addrLine>
+</address>
+<date>2009</date>
+<distributor>CELT online at University College, Cork, Ireland.</distributor>
+<idno type="celt">T303012</idno>
+<availability status="restricted">
+<p>Available with prior consent of the CELT project for purposes of academic research and teaching only.</p>
+</availability>
+</publicationStmt>
+<sourceDesc>
+<listBibl>
+<head>Manuscript source for the Irish text</head>
+<bibl n="1">Dublin, Trinity College Library, H 3 18, a vellum of the 16th century.</bibl>
+</listBibl>
+<listBibl>
+<head>The edition used in the digital edition</head>
+<biblStruct>
+<analytic>
+<editor>Kuno Meyer</editor>
+<title level="a">Finn and the Man in the Tree</title>
+</analytic>
+<monogr>
+<title level="j">Revue Celtique</title>
+<imprint>
+<biblScope type="Volume">25</biblScope>
+<pubPlace>Paris</pubPlace>
+<publisher>&Eacute;mile Bouillon</publisher>
+<date>1904</date>
+<biblScope type="page">344&ndash;349</biblScope>
+</imprint>
+</monogr>
+</biblStruct>
+</listBibl>
+</sourceDesc>
+</fileDesc>
+<encodingDesc>
+<projectDesc>
+<p>CELT: Corpus of Electronic Texts</p>
+</projectDesc>
+<samplingDecl>
+<p>The electronic text covers pages 344&ndash;349. The English translation is available in a separate file.</p>
+</samplingDecl>
+<editorialDecl>
+<correction status="low">
+<p>Text has been proof-read once.</p>
+</correction>
+<normalization>
+<p>The electronic text represents the edited text including footnotes.</p>
+</normalization>
+<quotation>
+<p>Quotations are rendered <emph>q</emph>.</p>
+</quotation>
+<hyphenation>
+<p>When a hyphenated word (hard or soft) crosses a page-break, the page-break is marked after the completion of the hyphenated word (and punctuation).</p>
+</hyphenation>
+<segmentation>
+<p><emph>div0</emph>=the tale; <emph>div1</emph>=the section.</p>
+</segmentation>
+<interpretation>
+<p>Names of persons (given names) and places are not tagged.</p>
+</interpretation>
+</editorialDecl>
+<refsDecl>
+<state gi="div1" freq="1" label="story" unit="number"/>
+</refsDecl>
+</encodingDesc>
+<profileDesc>
+<creation>By Kuno Meyer
+<date>May 1904</date></creation>
+<langUsage>
+<language id="en">The translation is in English.</language>
+<language id="la">Some words are in Latin.</language>
+<language id="ga">Some terms are in Irish; the footnotes contain Irish words.</language>
+</langUsage>
+<textClass>
+<keywords>
+<term>saga</term>
+<term>prose</term>
+<term>medieval</term>
+<term>Finn Cycle</term>
+<term>imbas forosnai</term>
+<term>translation</term>
+</keywords>
+</textClass>
+</profileDesc>
+<revisionDesc>
+<change>
+<date>2016-02-12</date>
+<respStmt>
+<name>Beatrix F&auml;rber</name>
+<resp>ed.</resp>
+</respStmt>
+<item>Minor update made.</item>
+</change>
+<change>
+<date>2009-05-22</date>
+<respStmt>
+<name>Beatrix F&auml;rber</name>
+<resp>ed.</resp>
+</respStmt>
+<item>File proofed (1); introduction and content of footnotes added; names marked up. Header created; file parsed; SGML and HTML files created.</item>
+</change>
+<change>
+<date>2009-05-22</date>
+<respStmt>
+<name>Beatrix F&auml;rber</name>
+<resp>text capture</resp>
+</respStmt>
+<item>Text keyed in.</item>
+</change>
+</revisionDesc>
+</teiHeader>
+<text n="T303012">
+<front><div type="intro" lang="en">
+<pb n="344"/>
+<p>The first four volumes of the <title type="book">Ancient Laws of Ireland</title> published under the auspices of the Brehon Laws Commissioners have repeatedly been made the subject of severe but just criticism. Among other things, the urgent necessity of a collation of the printed text with the original manuscripts from which O'Donovan and O'Curry made their transcripts has often been pointed out. Such a collation I hope will soon be undertaken
+<pb n="345"/>
+by members of the School of Irish Learning founded in Dublin, and the results laid before the public. But far more than this would be necesary if the student is to be supplied with a critical edition of the various texts contained in the four voulmes. O'Donovan and O'Curry selected certain manuscript versions without consulting and comparing, except in a few instances, other copies which often furnish better readings, supply gaps, or contain additional matter of importance. Perhaps now that the first volume is out of print, the Commissioners may see their way to entrust a new edition of the <frn lang="ga">Senchas M&oacute;r</frn> based upon all existing copies to a scholar of recognised standing. To show by example what important additions to our knowledge may be expected from such an edition I print here an interesting story of the Finn cycle taken from the version of the <frn lang="ga">Senchas M&oacute;r</frn> contained in the vellum codex H. 3. 18. It is given as an example of the practice of incantation called <term lang="ga">imbas forosnai</term>, and has, so far as I am aware, not been preserved elsewhere.</p></div></front>
+<body>
+<div0 type="saga" lang="en">
+<div1 type="section" n="1"><p>As did Finn ua Baiscne. When the <term lang="ga">fian</term> were at Badamair on the brink of the Suir, C&uacute;ldub the son of Ua Birgge came out of the fairy-knoll on the plain of Femen <frn lang="la">(ut Scotti dicunt)</frn> and carried off their cooking from them. For three nights he did thus to them. The third time however Finn knew<note type="auth" n="1">I take 'norat' as the Latin word.</note> and went before him to the fairy-knoll on Femen. Finn laid hold of him as he went into the knoll, so that he fell yonder.<note type="auth" n="2">allda anall= alla anall, LL 88a 6, contracted into all&aacute;nall, LU 84b 17.</note> When he withdrew his hand, a woman met him<note type="auth" n="3">fritninnle, from fris-indlim, with infixed -dn-, but I do not know the exact meaning.</note> (?) coming out of the knoll with a dripping vessel in her hand, having just distributed
+
+<pb n="347"/>
+drink, and she jammed the door against the knoll, and Finn squeezed his finger between the door and the post. Then he put his finger into his mouth. When he took it out again he began to chant, the <term lang="ga">imbas</term> illumines him and he said [Here follows an untranslatable <q>rhetoric</q>].</p></div1>
+
+<div1 type="section" n="2"><p>Some time afterwards they (i.e. the <term lang="ga">fian</term>) carried off captive women from D&uacute;n Iascaig<note type="auth" n="4">oc D&uacute;n Iscaig for Siuir, Rev. Celt. 11, 242.</note> in the land of the D&eacute;si. A beautiful maiden was taken by them. Finns mind desired<note type="auth" n="4">atecoboride seems to contain some form of the verb ad-cobraim.</note> the woman for himself. She set her heart on a servant whom they had, even Derg Corra son of Ua Daigre. For this was his practice. While food was being cooked by them, the lad jumped to and fro across the cooking hearth. It was for that the maiden loved him. And one day she said to him that he should come to her and lie with her. Derg Corra did not accept that on account of Finn.<note type="auth" n="5">atagegai (she desired him?) domnid do is obscure to me.</note> She incites Finn against him<note type="auth" n="6">cots&aacute;id, 3. sing. pres. ind. with infixed pronoun of con-s&aacute;idim, verb noun coss&aacute;it.</note> and said: <q>Let us set upon him by force!</q> Thereupon Finn said to him: <q>Go hence,</q> said he, <q>out of my sight, and thou shalt have a truce of three days and three nights, and after that beware of me!</q><note type="auth" n="7">fom-cialta-sa, 2. sing. imper. of fo-ciallur.</note></p></div1>
+
+<div1 type="section" n="3"><p>Then Derg Corra went into exile and took up his abode in a wood and used to go about on shanks of deer <frn lang="la">(si uerum est)</frn> for his lightness. One day as Finn was in the wood seeking him he saw a man in the top of a tree, a blackbird on his right shoulder and in his left hand a white vessel of bronze, filled with water, in which was a skittish trout, and a stag at the foot of the tree. And this was the practice of the man, cracking nuts; and he would give half the kernel of a nut to the blackbird that was on his right shoulder while he would himself eat the other half; and he would take an apple out of the bronze vessel that was in his left hand, divide it in two, throw one half to the stag that was at the foot of the tree, and then eat the other half himself. And on it he would drink a sip of 
+
+<pb n="349"/> <corr sic="" resp="BF">the water in</corr> the bronze vessel that was in his hand, so that he and the trout and the stag and the blackbird drank together. Then his followers asked of Finn who he in the tree was, for they did not recognise him on account of the hood of disguise which he wore.</p></div1>
+
+<div1 type="section" n="4"><p>Then Finn put his thumb into his mouth. When he took it out again, his <term lang="ga">imbas</term> illumines him and he chanted an incantation and said: <q>'Tis Derg Corra son of Ua Daigre,</q> said he, <q>that is in the tree.</q></p>
+
+<closer>
+<address rend="from">
+<addrLine>
+<pn type="town">P&ouml;styen</pn>, <pn type="country">Hungary</pn>,
+</addrLine>
+</address>
+<dateline>
+<date value="1904-05">May 1904</date>
+</dateline>
+<signed>Kuno Meyer</signed>
+</closer>
+</div1>
+</div0>
+</body>
+</text>
+</TEI.2>

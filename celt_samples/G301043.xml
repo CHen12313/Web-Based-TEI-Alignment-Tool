@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE TEI.2 SYSTEM "/dtds/tei/p4x/teicelt.dtd" [
+<!ENTITY % TEIbase "TEI.prose">
+]>
+<TEI.2 id="G301043">
+<teiHeader creator="Beatrix F&auml;rber" status="new" date.created="2010-11-04">
+<fileDesc>
+<titleStmt>
+<title type="uniform">Aided Chuind Ch&eacute;tchathaig</title>
+<title type="original">Oided Chuind Ch&emacr;tchathaich annso</title>
+<title type="gmd">An electronic edition</title>
+<author>unknown</author>
+<editor id="OB" sortas="bergin, osborn">Osborn Bergin</editor>
+<respStmt>
+<resp>Electronic edition compiled by</resp>
+<name>Dennis Groenewegen</name>
+</respStmt>
+<funder>University College, Cork</funder>
+</titleStmt>
+<editionStmt>
+<edition n="1">First draft, revised and corrected.</edition>
+</editionStmt>
+<extent>
+<measure type="words">845</measure></extent>
+<publicationStmt>
+<publisher>CELT: Corpus of Electronic Texts: a project of the Department of History, University College, Cork</publisher>
+<address>
+<addrLine>College Road, Cork, Ireland&mdash;http://www.ucc.ie/celt</addrLine>
+</address>
+<date>2010</date>
+<distributor>CELT online at University College, Cork, Ireland.</distributor>
+<idno type="celt">G301043</idno>
+<availability status="restricted"><p>Available with prior consent of the CELT programme for purposes of academic research and teaching only.</p>
+</availability>
+</publicationStmt>
+<sourceDesc>
+<listBibl>
+<head>Manuscript sources</head>
+<bibl n="1">Dublin, Royal Irish Academy, MS. 23 P 2 (Book of Lecan): f. 183v = p. 350a.</bibl>
+<bibl n="2">Dublin, Trinity College, MS. 1928 (olim H 2.7): part II, pp. 244&ndash;5.</bibl>
+</listBibl>
+<listBibl>
+<head>Literature</head>
+<bibl n="1">Dan M. Wiley, 'An Introduction to the Early Irish King Tales', in: Essays on the early Irish king tales, ed. Dan M. Wiley (Dublin 2008) 13&ndash;67.</bibl>
+</listBibl>
+<listBibl>
+<head>The edition used in the digital edition</head>
+<biblStruct>
+<analytic>
+<editor>Osborn Bergin</editor>
+<title level="a">Oided Chuind Ch&eacute;tchathaich annso</title>
+</analytic>
+<monogr>
+<title level="j">Zeitschrift f&uuml;r Celtische Philologie</title>
+<imprint>
+<biblScope type="volume">8</biblScope>
+<pubPlace> Halle/Saale</pubPlace>
+<publisher>Max Niemeyer</publisher>
+<date>1912</date>
+<biblScope type="page">274&ndash;277</biblScope>
+</imprint>
+</monogr>
+</biblStruct>
+</listBibl>
+</sourceDesc>
+</fileDesc>
+<encodingDesc>
+<projectDesc>
+<p>CELT: Corpus of Electronic Texts</p>
+</projectDesc>
+<samplingDecl>
+<p>The electronic edition covers pages 274 and 276. The English translation is available in a separate file, T301043.</p>
+</samplingDecl>
+<editorialDecl>
+<correction status="medium">
+<p>Text has been proof-read twice.</p>
+</correction>
+<normalization>
+<p>The electronic text represents the edited text. Text supplied by the editor is marked <emph>sup resp="OB"</emph>; the few expansions are marked <emph>ex</emph>.</p>
+</normalization>
+<quotation>
+<p>There is no direct speech.</p>
+</quotation>
+<hyphenation>
+<p>When a hyphenated word (hard or soft) crosses a page break, the break is marked after the completion of the hyphenated word.</p>
+</hyphenation>
+<segmentation>
+<p><emph>div0</emph>=the tale/saga. Paragraphs are marked <emph>p</emph> and numbered.</p>
+</segmentation>
+<interpretation>
+<p>Names are not tagged, nor are terms for cultural and social roles.</p>
+</interpretation>
+</editorialDecl>
+</encodingDesc>
+<profileDesc>
+<creation>In the Middle Irish period, based on earlier models.
+<dateRange from="900" to="1200" exact="none">c.900&ndash;1200</dateRange></creation>
+<langUsage>
+<language id="ga">The text is in Middle Irish.</language>
+<language id="la">Some formulaic phrases are in Latin.</language>
+</langUsage>
+<textClass>
+<keywords>
+<term>tale/saga</term>
+<term>prose</term>
+<term>medieval</term>
+<term>Ulster Cycle</term>
+<term>aided (death-tale)</term>
+<term>Conn C&eacute;tchathach</term>
+</keywords>
+</textClass>
+</profileDesc>
+<revisionDesc>
+<change>
+<date>2010-11-05</date>
+<respStmt>
+<name>Beatrix F&auml;rber</name>
+<resp>ed.</resp>
+</respStmt>
+<item>SGML and HTML versions created.</item>
+</change>
+<change>
+<date>2010-11-04</date>
+<respStmt>
+<name>Beatrix F&auml;rber</name>
+<resp>ed.</resp>
+</respStmt>
+<item>File converted; proofed (2); structural encoding added; header created; file parsed.</item>
+</change>
+<change>
+<date>2010-04</date>
+<respStmt>
+<name>Dennis Groenewegen, Utrecht University</name>
+<resp>ed.</resp>
+</respStmt>
+<item>Donated a proofed version of the file to CELT, including footnotes, manuscript details and literature.</item>
+</change>
+</revisionDesc>
+</teiHeader>
+<text n="G301043">
+<body>
+<div0 type="tale" lang="ga">
+<pb n="274"/>
+<head>Oided<note type="auth" n="1">oiged MS.</note> Chuind C&emacr;tchathaich annso</head>
+<head><sup resp="OB">Book of Lecan 350a.</sup></head>
+
+<p>Eochaid B&emacr;lbuidi mac Feidlimid Rechtmair br&amacr;thair Cuind. Luidside i cr&imacr;ch nUlad ar comairci do theiched Chuind a br&amacr;thar, &umacr;air fa dob&emacr;sach d&imacr;choisc Eochaid, &ampersir; romillead r&imacr;gi &ampersir; smacht a br&amacr;thar. Is andsin immorro cartais<note type="auth" n="2">carrthais MS.</note> Cond <ex>c&umacr;ic</ex>er fear gr&amacr;da d&omacr; co r&imacr;gaib Ulad con&amacr; beith Eochaid B&emacr;lbuidi aco, no co mbetis fo sob&emacr;s. Ba h&imacr;ad so in <ex>c&umacr;ic</ex>er techtairead luidsead fr<sup resp="OB">i</sup>sin .i. Foiti<ex>n</ex> Forbair mac F&emacr;igi &Emacr;chtaig, &ampersir; &Emacr;nda mac Dega Laigen, &ampersir; Ailill mac Fingein m<ex>ei</ex>c Luchta, &ampersir; Tibraidi T&umacr;aithebrach mac Cleitig, &ampersir; Asal mac Forand&amacr;in a Forma&imacr;l. &ampersir; luidsed foth&umacr;aid rompo a Temraig. Is andsin do hindised d&omacr;ib Eochaid B&emacr;lbuidi do beith ac seilc a Sl&emacr;ib Breg, &ampersir; do marbsad in tEochaid andsin, &umacr;air n&imacr; fr&imacr;th neach mailli fris acht a ch&umacr;, <frn lang="la">ut poeta dixit:</frn>
+
+<text type="poem">
+<body>
+<lg type="quatrain">
+<l>Eochaid B&emacr;lbuidi rob&imacr;th</l>
+<l>i cath Chomair, &umacr;ada a <sup resp="OB">&fdot;</sup>ich,</l>
+<l>&umacr;air n&imacr; roibi neach 'na d&umacr;,</l>
+<l>fr&imacr;th h&emacr; i mb&amacr;egal is a ch&umacr;.</l></lg></body></text></p>
+
+<p>Rob olc di<ex>diu</ex> la r&imacr;gaib Ulad in gn&imacr;m sin &ampersir; adubradar nach g&emacr;bdais coma ina sarugud acht a marbad, &umacr;air n&imacr;r gobad rompo. Ar &amacr;i dorondad s&imacr;d eturru &ampersir; Cond. Ba h&imacr;ad r&imacr;ga Ulad in tan sin .i. Cairpri Gn&amacr;thchorad mac M&amacr;il m<ex>ei</ex>c Rochraidi &ampersir; Bresal mac Bri&umacr;in. Adbathadur iar sin drem d&imacr;b. Adbert Breasal no Tibraidi mac M&amacr;il n&amacr; g&emacr;bad s&imacr;d, &umacr;air n&imacr;r lam beith i nUltaib deisid&emacr;n ar ecla Chuind &ampersir; la hecla r&imacr;g Ulad tre &fdot;oir&emacr;icin Chuind forro side.</p>
+
+<pb n="276"/>
+<p>Is ed doroindi Tibraidi dul i nAlbain co r&imacr;g Alban .i. co Failbe Findloga &ampersir; b&amacr;i tr&imacr; bliadhna aici side. Is andsin tuc r&imacr;g Alban comairli d&omacr; .i. t&imacr;achtain i n&Emacr;rind &ampersir; s&imacr;d do d&emacr;nam re Cond. Don&imacr;<sup resp="OB">th</sup> uili amlaid sin. R&amacr;idid Ulaid fris beith s&imacr;dach<note type="auth" n="3">sidaich MS.</note> re Cond. Adbert som<note type="auth" n="4">Something seems omitted here.</note> do d&emacr;nam &ampersir; n&imacr;r lam t&imacr;achtain ar comairci no a &amacr;enur co Cond, conid h&imacr; comairli doroindi t&imacr;achtain i rechtaib ban copc<sup resp="OB">h</sup>aill<ex>ech</ex> d' indsaigid<note type="auth" n="5">dinsaidig MS.</note> Chuind. Is and b&amacr;i Cond in tan sin i t&umacr;aithemair<note type="auth" n="6">tuaith themair MS.</note> ic urgnum Feisi na Temrach &ampersir; baidsi t&umacr;aith Themrach, &ampersir; ba f&umacr;athad do Chond in tan sin. Is and doroindi Tibraidi andsidi Cond do marbad, &umacr;air ba &umacr;athad d&omacr; &ampersir; ba l&imacr;nmar do Thibraidi, conad amlaid sin &imacr;arum do marbad Cond.</p>
+<closer>Finit. Amen.</closer></div0></body></text></TEI.2>

@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE TEI.2 SYSTEM "/dtds/tei/p4x/teicelt.dtd" [
+<!ENTITY % TEIbase "TEI.prose">
+]>
+<TEI.2 id="G301042">
+<teiHeader creator="Beatrix F&auml;rber" status="new" date.created="2009-05-25">
+<fileDesc>
+<titleStmt>
+<title type="uniform">Sc&eacute;l Baili Binnb&eacute;rlaig</title>
+<title type="gmd">An electronic edition</title>
+<author>unknown</author>
+<editor id="KM" sortas="meyer, kuno">Kuno Meyer</editor>
+<respStmt>
+<resp>Electronic edition compiled by</resp>
+<name>Beatrix F&auml;rber and Ruth Murphy</name>
+</respStmt>
+<respStmt>
+<resp>Proof corrections by</resp>
+<name>Ruth Murphy</name>
+<name>Hilary Lavelle</name>
+</respStmt>
+<funder>The HEA via the LDT Project and PRTLI 4</funder>
+</titleStmt>
+<editionStmt>
+<edition n="1">First draft, revised and corrected.</edition>
+</editionStmt>
+<extent><measure type="words">2250</measure></extent>
+<publicationStmt>
+<publisher>CELT: Corpus of Electronic Texts: a project of University College, Cork</publisher>
+<address>
+<addrLine>College Road, Cork, Ireland</addrLine>
+</address>
+<date>2009</date>
+<distributor>CELT online at University College, Cork, Ireland.</distributor>
+<idno type="celt">G301042</idno>
+<availability status="restricted">
+<p>Available with prior consent of the CELT project for purposes of academic research and teaching only.</p>
+</availability>
+</publicationStmt>
+<sourceDesc>
+<listBibl>
+<head>Manuscript source</head>
+<bibl n="1">London, British Library, MS Harl. 5280, fo. 48a-b;.</bibl>
+</listBibl>
+<listBibl>
+<head>The edition used in the digital edition</head>
+<biblStruct>
+<analytic>
+<editor>Kuno Meyer</editor>
+<title level="a">Sc&eacute;l Baili Binnb&eacute;rlaig</title>
+</analytic>
+<monogr>
+<title level="j">Revue Celtique</title>
+<imprint>
+<biblScope type="Volume">13</biblScope>
+<pubPlace>Paris</pubPlace>
+<publisher>&Eacute;mile Bouillon</publisher>
+<date>1892</date>
+<biblScope type="page">220&ndash;223</biblScope>
+</imprint>
+</monogr>
+</biblStruct>
+</listBibl>
+</sourceDesc>
+</fileDesc>
+<encodingDesc>
+<projectDesc>
+<p>CELT: Corpus of Electronic Texts</p>
+</projectDesc>
+<samplingDecl>
+<p>The electronic text covers pages 220&ndash;223. The English translation is available in a separate file.</p>
+</samplingDecl>
+<editorialDecl>
+<correction status="high">
+<p>Text has been proof-read three times.</p>
+</correction>
+<normalization>
+<p>The electronic text represents the edited text including footnotes. The ae-ligatures have been rendered ae. Expansions are marked <emph>ex</emph>; text supplied by the editor is marked <emph>sup resp="KM"</emph>; footnoted editorial corrections take the form of <emph>corr sic="" resp="KM"</emph> Missing portions of text are indicated by <emph>gap</emph>. When displayed in HTML format (due to its constraints) both expansions and supplied text appear in italics. When in doubt, users are asked to consult the SGML/XML master file to identify the markup.</p>
+</normalization>
+<quotation>
+<p>Quotations are rendered <emph>q</emph>.</p>
+</quotation>
+<hyphenation>
+<p>When a hyphenated word (hard or soft) crosses a page-break, the page-break is marked after the completion of the hyphenated word (and punctuation).</p>
+</hyphenation>
+<segmentation>
+<p><emph>div0</emph>=the tale.</p>
+</segmentation>
+<interpretation>
+<p>Names of persons (given names) and places are not tagged.</p>
+</interpretation>
+</editorialDecl>
+</encodingDesc>
+<profileDesc>
+<creation>By an unknown Irish scribe
+<dateRange from="1000" to="1100" exact="none">1000-1100?</dateRange></creation>
+<langUsage>
+<language id="ga">The text is in Middle Irish.</language>
+<language id="la">Some words are in Latin.</language>
+<language id="en">Introduction and some words in the notes are in English.</language>
+</langUsage>
+<textClass>
+<keywords>
+<term>saga</term>
+<term>prose</term>
+<term>medieval</term>
+<term>Kings Cycle</term>
+</keywords>
+</textClass>
+</profileDesc>
+<revisionDesc>
+<change>
+<date>2009-05-25</date>
+<respStmt>
+<name>Beatrix F&auml;rber</name>
+<resp>ed.</resp>
+</respStmt>
+<item>File proofed (3); introduction and content of footnotes added; some more markup applied. Header created; file parsed; SGML and HTML files created.</item>
+</change>
+<change>
+<date>2008-08-26</date>
+<respStmt>
+<name>Ruth Murphy</name>
+<resp>ed.</resp>
+</respStmt>
+<item>Text proof-read (2); structural and content markup added.</item>
+</change>
+<change>
+<date>2006-08</date>
+<respStmt>
+<name>Hilary Lavelle</name>
+<resp>ed.</resp>
+</respStmt>
+<item>Text proof-read (1).</item>
+</change>
+<change>
+<date>2006</date>
+<respStmt>
+<name>Data capture company</name>
+<resp>text capture</resp>
+</respStmt>
+<item>Text scanned and basic XML markup applied.</item>
+</change>
+</revisionDesc>
+</teiHeader>
+<text n="G301042">
+<front><div type="intro" lang="en">
+<pb n="220"/>
+<p>In his Appendix to his <title type="book">Lectures on the MS. Materials of Ancient Irish History</title>, pp. 472&ndash;475, <ps reg="Eugene O'Curry"><sn>O'Curry</sn></ps> has published and translated the story of Baile Binnb&eacute;rlach from H. 3. 18, p. 47. The same text is found in the British Museum MS Harl. 5280, fo. 48a; with this difference that for many ordinary Irish words <frn lang="ga">(gn&aacute;thfhocla)</frn> of H.3. 18, Latin, Hebrew, and archaic Irish words have been substituted. We have here, in fact, an instructive example of that delight in obscure modes of diction, which Irish poetry so often shows in its use of kennings,<note type="auth" n="1"></note> extinct forms of language, antiquated native, and
+ 
+<pb n="221"/>
+lastly even foreign words. We know that a regular training in the use of such expressions formed part of the curriculum of the aspiring <term lang="ga">fili</term>, and I think that it was these various modes of expression that were comprehended under the name of <term lang="ga">b&eacute;rla na filed</term> "the language or dialect of the poets", which the young <term lang="ga">fili</term>, then called <term lang="ga">anroth</term>, was required to master in the sixth year of his apprenticeship. See <ps reg="Rudolf Thurneysen"><sn>Thurneysen</sn></ps>, <title type="book">Irische Texte</title>, vol. III, I, p. 38. An amusing example of the use of such language occurs in Cormac's Glossary, s.v. <frn lang="ga">lethech</frn>.</p>
+<p>While in a literary point of view the use of the incongruous elements, misplaced fragments of learning, only serves to mar a pretty tale, it supplies the modern student with some valuable linguistic material. For this reason I have thought it worth while to publish the following text. I add a translation and a glossary of the old and rare words.</p></div></front>
+<body>
+<div0 type="saga" lang="ga">
+<head>Sc&eacute;l Baili Binnb&eacute;rlaig</head>
+
+<p><lb n="1"/><mls unit="MS Harleian 5280 folio" n="48a"/>Baili Binnberlach mac Buain. Tri hui Cabha m<ex>ai</ex>c Cinga m<ex>ai</ex>c Rosa m<ex>ai</ex>c <corr sic="Rugraidi" resp="KM">Rudraigi</corr>:  Monac<sup resp="KM">h</sup> &ampersir; Baili &ampersir; Fercorb, <frn lang="la">de quibus</frn> Dal m-Buain &ampersir; Dal Cuirb &ampersir; Monaig Arad. Oenmac Buain .i. Baili. Ba saincais-seom di <corr sic="Aillild" resp="KM">Aillinn</corr> <frn lang="la">filia</frn> 
+<lb n="5"/>Lug<sup resp="KM">d</sup>ach bein Fergusai Goo, no di deir Eog<ex>ain</ex> m<ex>ai</ex>c <ex>Da</ex>thi &ampersir; ba sainamor do cech oen atchid &ampersir; dicechlad et<ex>er</ex> issai &ampersir; genai ar a urriseib. Corrusdailset coir dala i n-dormain<ex>echt</ex> ic Ros na <corr sic="Turidin" resp="KM">Turigin</corr> occ Laind Moelduib ar bru Boinne Br<ex>eg</ex>.</p>
+
+<p><lb n="10"/>Dogene an uir atuaid dia torr<ex>acht</ex>oin o Eomuin Machi t<ex>ar</ex> Sliauh Fuaid &ampersir; t<ex>ar</ex> Teme Muiri co Traig m-Baili. Ro turnaid a n-drubai &ampersir; russcuirid a n-gabrai for an rindiuc dia gleth. Digensad ainius &ampersir; oibnius.</p>
+
+<pb n="222"/>
+
+<p>A m-bot<ex>ar</ex> ann conacat<ex>ar</ex> elpoid uathmor &aelig;nno&eacute; cugo
+<lb n="15"/>indes. Ba hudmall a rem &ampersir; a ascnamh. Meti les noraited in trogain s&iacute;n sighi se<sup resp="KM">i</sup>g di aild no clo do glasr&eacute;<sup resp="KM">i</sup>n. A clipio fri tir. <q>Ar a cind!</q> ol <corr sic="Ailbe" resp="KM">Baile</corr>, <q>conatcomaircter nde cid ted no canus tanuic no cia fat<sup resp="KM">h</sup> a cudnoidh.</q> <q>Di Tuaig-Inbir tiagoim &ampersir; t<ex>ar</ex> ais budthuaid anussai <corr sic="co" resp="KM">o</corr> 
+<lb n="20"/>Slioab Suidiu Laigeon &ampersir; nintha do imtecht liumm acht <ex>no</ex> Lug<ex>dach</ex> m<ex>ai</ex>c Fergusai tuc grad do Baili m<ex>a</ex>c Buain &ampersir; tainic dia dal, corucsat oic Laigevn fuirri &ampersir; bathaid, amail rusgellsad draide &ampersir; degfaidi doib, na comraicdis a m-b<ex>ethaid</ex> <frn lang="la">et</frn> <ex>con</ex>ricfaidis iarna n&aacute;s &ampersir; nach scerdais tre bithu sir. Is
+<lb n="25"/>siad sin mo scelai.</q> &ampersir; 'musteti uaib iermo &ampersir; nipt<ex>ar</ex> cuimgech a fostad. Otcechlai <corr sic="Ailuhi" resp="KM">Baile</corr> anni sin crinniur marb cin <frn lang="la">anima</frn> &ampersir; clandt<ex>air</ex> a fert &ampersir; a raith &ampersir; saitir a airne &ampersir; dognit<ex>er</ex> a oenuch guba la hUllto. &ampersir; lossaig <mls unit="MS folio" n="48b"/> eo trian lige combo reil <sup resp="KM">delb</sup> &ampersir; fuait<sup resp="KM">h</sup> capaid Baili for a
+<lb n="30"/>ind, <frn lang="la">unde dixid</frn> Traigh m-Baili.</p>
+
+<p>Iar<ex>om</ex> 'musla buddes in fer cetno co forad a m-bai an ing<ex>en</ex> Aildinn &ampersir; docing isan grianan. <q>Can tic anti nat aithgenamar?</q> ol ind ing<ex>en</ex>. <q>A fochlai Erend o Tuaig-Inbir &ampersir; secha so co Sliab Suidi Laig<ex>en</ex>.</q> <q>Scelai lat?</q> ol
+<lb n="35"/>in ingen. <q>Ni fuil sceloi is cointi sund, <ex>acht</ex> adconnorc Ultai ac oenuch guba <frn lang="la">et</frn> oc cloidi ratha &ampersir; ic <corr sic="sagad" resp="KM">sadad</corr> lia &ampersir; ac graifn<ex>ed</ex> a anma Baili m<ex>ai</ex>c Buain rigdamnoi Ul<ex>ad</ex> do thin Trago Baili, <frn lang="la">et</frn> se ic torr<ex>acht</ex>ain lennain &ampersir; mna s<ex>er</ex>ce dia tard tal, ar ni fuil a scoth doib coristais a m-<corr sic="betaig" resp="KM">bethaid</corr> no
+<lb n="40"/>nech dib d'faircsin aroili ina m-biu.</q> Dobidg amac<sup resp="KM">h</sup> iar n-indiuld an misceoil. Difuit Aill<ex>inn</ex> marb cin anmoin &ampersir; clait<ex>ir</ex> a f<ex>er</ex>t &ampersir;rl. <frn lang="la">Et</frn> assoid abhold trian <corr sic="lidhe" resp="KM">lige</corr> &ampersir; ba gesco mor a cind <frn lang="la">septimo anno</frn>, &ampersir; fethol chuid Aillinne for a uacht<ex>ar</ex>.</p>
+
+<pb n="223"/>
+
+<p><lb n="45"/>A cind <ex>secht</ex> m-blia<ex>dan</ex> da<ex>na</ex> tesc<ex>ait</ex> mail &ampersir; faidi &ampersir; fisidi int &eacute;v boi os Baili &ampersir; 'musgniet tauhull filiud nde &ampersir; scrib<ex>ait</ex> fise &ampersir; fese &ampersir; s<ex>er</ex>co &ampersir; toc<sup resp="KM">h</sup>m<ex>ar</ex>co Ul<ex>ad</ex> inni. Fon fiu cetni scriut<ex>ar</ex> tochm<ex>ar</ex>co Laig<ex>en</ex> inti-si.</p>
+
+<p>Doruacht ant samhuin iarsuidi &ampersir; dognit<ex>er</ex> a fes la hArt
+<lb n="50"/>mac Quind. Tolotatar dil &ampersir; aes cacha danai fon fes sin am<ex>ail</ex> ba bes &ampersir; doradsad a taibli leo. &ampersir; dusci Art &ampersir; otconnairc 'muscomairc. <frn lang="la">Et</frn> tuc<ex>ad</ex> cuce in di tabald co m-bat<ex>ar</ex> ina lamoib eneuch a n-inchoib. Imusling an tabold for araili dib cor' imnaisced am<ex>ail</ex> fet<sup resp="KM">h</sup>lind im urslait. <frn lang="la">Et</frn> ni
+<lb n="55"/>tual<ex>aing</ex> a n-imscar<ex>ad</ex> &ampersir; bat<ex>ar</ex> am<ex>ail</ex> g<ex>ach</ex> sed isan taisc<ex>ed</ex> i Temr<ex>aig</ex>, curusloisc Dunl<ex>ang</ex> m<ex>a</ex>c <sup resp="KM">Enda</sup> diar'ort an in-genr<ex>aid</ex>, <frn lang="la">unde dixit</frn>:
+
+<text type="poem">
+<body>
+<lg type="verse"><l>Aboll Aildinde ardai,</l>
+<l>ibor Baili, becc forboi,</l>
+<l><lb n="60"/>cia dobert<ex>ar</ex> au <corr sic="laidhib" resp="KM">laidhe</corr>,</l>
+<l>ni tuicid daine borba.</l></lg></body></text></p>
+
+<p><frn lang="la">Et</frn> am<ex>ail</ex> adbert ingen Cormaic ui Quinn:
+<text type="poem">
+<body>
+<lg><l>Es fris samlaim Aluime,</l> 
+<l>fri hibor Traga Baili,</l>
+<l><lb n="65"/>fris <ex>com</ex>baroim aroili,</l> 
+<l>frisan abaild a <corr sic="ahailli" resp="KM">hAili</corr>.</l></lg></body></text></p>
+
+<p>Fland mac Lonain <frn lang="la">dixit</frn>:
+
+<text type="poem">
+<body>
+<lg><l>Desid Cormac im cel coir</l>
+<l>conid fris format ant &sdot;luaig,</l>
+<l><lb n="70"/>tab<ex>rad</ex> Dia airi noeb n&aacute;r</l>
+<l>in craeb do Tra<sup resp="KM">i</sup>g Baili buain.</l></lg>
+
+<lg><l>Forbuir bili buidnip reb,</l> 
+<l>rolaa a delb truimi<sup resp="KM">b</sup> tor,</l> 
+<l>diarcelgad rocelgaid fir</l> 
+<l>aml<ex>aid</ex> sin <corr sic="celcaid" resp="KM">rocelgaid</corr> cor.</l></lg></body></text></p>
+
+<p><lb n="75"/>Cormac <frn lang="la">dixit</frn><gap/></p></div0></body></text></TEI.2>
+

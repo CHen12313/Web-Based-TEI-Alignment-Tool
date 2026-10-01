@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE TEI.2 SYSTEM "/dtds/tei/p4x/teicelt.dtd" [
+<!ENTITY % TEIbase "TEI.prose">
+]>
+<TEI.2 id="G303012">
+<teiHeader creator="Beatrix F&auml;rber" status="new" date.created="2009-05-22">
+<fileDesc>
+<titleStmt>
+<title type="uniform">Finn and the Man in the Tree</title>
+<title type="extended">[H. 3. 18, p. 361 b]</title>
+<title type="gmd">An electronic edition</title>
+<author>unknown</author>
+<editor id="KM" sortas="meyer, kuno">Kuno Meyer</editor>
+<respStmt>
+<resp>Electronic edition compiled by</resp>
+<name>Beatrix F&auml;rber and Ruth Murphy</name>
+<resp>Proof corrections by</resp>
+<name>Ruth Murphy</name>
+<name>Hilary Lavelle</name>
+</respStmt>
+<funder>The HEA via the LDT Project and PRTLI 4</funder>
+</titleStmt>
+<editionStmt>
+<edition n="1">First draft, revised and corrected.</edition>
+</editionStmt>
+<extent><measure type="words">1320</measure></extent>
+<publicationStmt>
+<publisher>CELT: Corpus of Electronic Texts: a project of University College, Cork</publisher>
+<address>
+<addrLine>College Road, Cork, Ireland</addrLine>
+</address>
+<date>2009</date>
+<distributor>CELT online at University College, Cork, Ireland.</distributor>
+<idno type="celt">G303012</idno>
+<availability status="restricted">
+<p>Available with prior consent of the CELT project for purposes of academic research and teaching only.</p>
+</availability>
+</publicationStmt>
+<sourceDesc>
+<listBibl>
+<head>Manuscript source</head>
+<bibl n="1">Dublin, Trinity College Library, H 3 18, a vellum of the 16th century.</bibl>
+</listBibl>
+<listBibl>
+<head>The edition used in the digital edition</head>
+<biblStruct>
+<analytic>
+<editor>Kuno Meyer</editor>
+<title level="a">Finn and the Man in the Tree</title>
+</analytic>
+<monogr>
+<title level="j">Revue Celtique</title>
+<imprint>
+<biblScope type="Volume">25</biblScope>
+<pubPlace>Paris</pubPlace>
+<publisher>&Eacute;mile Bouillon</publisher>
+<date>1904</date>
+<biblScope type="page">344&ndash;349</biblScope>
+</imprint>
+</monogr>
+</biblStruct>
+</listBibl>
+</sourceDesc>
+</fileDesc>
+<encodingDesc>
+<projectDesc>
+<p>CELT: Corpus of Electronic Texts</p>
+</projectDesc>
+<samplingDecl>
+<p>The electronic text covers pages 344&ndash;348. The English translation is available in a separate file.</p>
+</samplingDecl>
+<editorialDecl>
+<correction status="high">
+<p>Text has been proof-read three times.</p>
+</correction>
+<normalization>
+<p>The electronic text represents the edited text including footnotes. The ae-ligatures have been rendered ae. Expansions are marked <emph>ex</emph>; text supplied by the editor is marked <emph>sup
+resp="KM"</emph>; footnoted editorial corrections take the form of <emph>corr sic="" resp="KM"</emph> Missing portions of text are indicated by <emph>gap</emph>. When displayed in HTML format (due to its constraints) both expansions and supplied text appear in italics. When in doubt, users are asked to consult the SGML/XML master file to identify the markup.</p>
+</normalization>
+<quotation>
+<p>Quotations are rendered <emph>q</emph>.</p>
+</quotation>
+<hyphenation>
+<p>When a hyphenated word (hard or soft) crosses a page-break, the page-break is marked after the completion of the hyphenated word (and punctuation).</p>
+</hyphenation>
+<segmentation>
+<p><emph>div0</emph>=the tale.</p>
+</segmentation>
+<interpretation>
+<p>Names of persons (given names) and places are not tagged.</p>
+</interpretation>
+</editorialDecl>
+<refsDecl>
+<state gi="div1" freq="1" label="story" unit="number"/>
+</refsDecl>
+</encodingDesc>
+<profileDesc>
+<creation>By an unknown Irish scribe
+<dateRange from="1000" to="1200" exact="none">1000-1200?</dateRange></creation>
+<langUsage>
+<language id="ga">The text is in Middle Irish.</language>
+<language id="la">Some words are in Latin.</language>
+<language id="en">Introduction and some words in the notes are in English.</language>
+</langUsage>
+<textClass>
+<keywords>
+<term>saga</term>
+<term>prose</term>
+<term>medieval</term>
+<term>Finn Cycle</term>
+<term>imbas forosnai</term>
+</keywords>
+</textClass>
+</profileDesc>
+<revisionDesc>
+<change>
+<date>2009-05-22</date>
+<respStmt>
+<name id="BF">Beatrix F&auml;rber</name>
+<resp>ed.</resp>
+</respStmt>
+<item>File proofed (3); introduction and content of footnotes added; names marked up. Header created; file parsed; SGML and HTML files created.</item>
+</change>
+<change>
+<date>2008-08-26</date>
+<respStmt>
+<name>Ruth Murphy</name>
+<resp>ed.</resp>
+</respStmt>
+<item>Text proof-read (2); structural and content markup added.</item>
+</change>
+<change>
+<date>2006-08</date>
+<respStmt>
+<name>Hilary Lavelle</name>
+<resp>ed.</resp>
+</respStmt>
+<item>Text proof-read (1).</item>
+</change>
+<change>
+<date>2006</date>
+<respStmt>
+<name>Data capture company</name>
+<resp>text capture</resp>
+</respStmt>
+<item>Text scanned and basic XML markup applied.</item>
+</change>
+</revisionDesc>
+</teiHeader>
+<text n="G303012">
+<front><div type="intro" lang="en">
+<pb n="344"/>
+<p>The first four volumes of the <title type="book">Ancient Laws of Ireland</title> published under the auspices of the Brehon Laws Commissioners have repeatedly been made the subject of severe but just criticism. Among other things, the urgent necessity of a collation of the printed text with the original manuscripts from which O'Donovan and O'Curry made their transcripts has often been pointed out. Such a collation I hope will soon be undertaken
+<pb n="345"/>
+by members of the School of Irish Learning founded in Dublin, and the results laid before the public. But far more than this would be necesary if the student is to be supplied with a critical edition of the various texts contained in the four voulmes. O'Donovan and O'Curry selected certain manuscript versions without consulting and comparing, except in a few instances, other copies which often furnish better readings, supply gaps, or contain additional matter of importance. Perhaps now that the first volume is out of print, the Commissioners may see their way to entrust a new edition of the <frn lang="ga">Senchas M&oacute;r</frn> based upon all existing copies to a scholar of recognised standing. To show by example what important additions to our knowledge may be expected from such an edition I print here an interesting story of the Finn cycle taken from the version of the <frn lang="ga">Senchas M&oacute;r</frn> contained in the vellum codex H. 3. 18. It is given as an example of the practice of incantation called <term lang="ga">imbas forosnai</term>, and has, so far as I am aware, not been preserved elsewhere.</p></div></front>
+<body>
+<div0 type="saga" lang="ga">
+<pb n="344"/>
+<head>H. 3. 18, p. 361 b</head>
+
+<div1 type="section" n="1">
+<p><mls unit="MS page" n="361b"/>Fo chosmailius dorigne Finn h&umacr;a Baiscne. In tan b&umacr;i in fian oc Badamair for br&umacr; Si&umacr;ire dodechaidh C&umacr;ldub mac h&umacr;i Birgge a s&imacr;d ar Femun <frn lang="la">ut Scotti dicunt</frn> co mb<ex>er</ex>t a fulacht n&umacr;adaib. Co te&omacr;r<ex>a</ex> aidchi a<ex>m</ex>in deg&emacr;ni friu. Isin tres fecht iarum <ex>no</ex>rat Finn co luid riam <corr sic="a" resp="KM">i</corr> s&imacr;d ar <corr sic="femin" resp="KM">Femun</corr>. Fortngaib Finn la techt isa s&imacr;d co torchair allda anall. A ndosreng fris a l&amacr;im fritninnle in ben asin ts&imacr;d &ampersir; escra fliuch ina l&amacr;im iar nd&amacr;il isin &umacr;air riam &ampersir; doinsort a comlaid frisa s&imacr;d co ndruid Finn a m&emacr;r it<ex>ir</ex> in com<ex>laid</ex> &ampersir; in ursain. Gabais iarom a m&eacute;r ina b&emacr;ol<ex>u</ex>. A
+
+<pb n="346"/>
+
+donic as afrithisi foop<ex>air</ex>t dicetal. F<ex>or</ex>tnosmen an imbas condebert: <q>Tair Femen fuigial f<ex>or</ex>muig meis mui muic cetso<ex>n</ex> sirc<ex>hra</ex>nd sirl&umacr;ath laith fi<ex>n</ex>d <sic corr="fri" resp="KM">s<ex>ra</ex></sic> aulad <corr sic="Cullduib" resp="KM">C&umacr;lduib</corr> c<ex>h</ex>anmae.</q></p>
+</div1>
+
+<div1 type="section" n="2">
+<p>Cinn ree iarom dobertatar mn&amacr; braite <corr sic="i dun Iscath" resp="KM">a D&umacr;n Iascaich</corr> a t&imacr;r na nD&emacr;sea. Dobreth ingen &amacr;lainn l&emacr;o. Atecoboride menma Find in ben d&omacr;. Focairdd s&imacr; menmain for in gilla b&umacr;i l&emacr;o .i. Dercc Corra mac h&umacr;i Daigre. Ar ba h&emacr; a <corr sic="abraside" resp="KM">abras-side</corr>. C&emacr;in fonnuith<sup resp="KM">e</sup>a fulacht l&emacr;o l&emacr;<sup resp="KM">i</sup>m &ampersir; dol&emacr;im <mls unit="MS page" n="362a"/>in gilla tarsin n-indiu. Tre sin di<ex>diu</ex> carais an ingen &emacr; &ampersir; asbert fris laa n-aill ara t&imacr;sed cuice i lighe. N&imacr; fo&emacr;t s&omacr;n Dercc Corra d&emacr;ag Finn. Atagegai domnid<note type="auth" n="1"><frn lang="en">perhaps</frn> doinnid.</note> d&omacr;. Cots&amacr;id fri Finn &ampersir; asbert: <q>F<ex>or</ex>taprom ar &emacr;cin!</q>  Asbert iarum Finn fris: <q>&Emacr;irgg es</q>, ol s&emacr;, <q>de m' inchaib &ampersir; ro<sup resp="KM">t</sup>bia essomon tr&imacr; laithi &ampersir; te&omacr;ra n-aidchi &ampersir; fomcialta-sa &omacr; suidhiu inund!</q></p>
+</div1>
+
+<div1 type="section" n="3">
+<p>Luid di<ex>diu</ex> Derc Corra for loinges &ampersir; arfo&emacr;t caill &ampersir; imtighed for luirgnib oss n-allta <frn lang="la">(si <corr sic="uerus" resp="KM">uerum</corr> est)</frn> ar a &emacr;trumai. Laa n-aill di<ex>diu</ex> do Find isin caill oc a cuingidh-som co n-aca Find in fer i n-&umacr;achtar in craind &ampersir; lon for a g&umacr;alainn ndeis &ampersir; find-lestar n-uma for a l&amacr;imh <corr sic="incli" resp="KM">cl&imacr;</corr>, os&emacr; co n-usce &ampersir; h&emacr; brecc bedcach and &ampersir; dam allaith fo bun in craind &ampersir; ba h&emacr; abras ind fir teinm cn&omacr; &ampersir; <corr sic="doberidh" resp="KM">dob<ex>er</ex>ed</corr> leth n-airne na cn&omacr; don lun nob&imacr;th for a g&umacr;alaind ndeis, no-ithed feisin al-leth n-aill &ampersir; doicsed a uball <corr sic="isin" resp="KM">asin</corr> lestar n-uma b&umacr;i for a l&amacr;imh cl&imacr; &ampersir; noranda<sup resp="KM">d</sup> i nd&emacr; &ampersir; docuireth a l<ex>eth</ex> don dam all<ex>aid</ex> b&umacr;i fo bun in craind. No-ithad som iarom
+
+<pb n="348"/> 
+
+<corr sic="the water in" resp="BF"></corr> in l<ex>eth</ex> n-aill &ampersir; no-ibed loim fair den uisce <corr sic="isin" resp="KM">asin</corr> lest<ex>ur</ex> huma b&umacr;i for a l&amacr;im co mbo com&omacr;l d&omacr; frisin n-iich &ampersir; a n-oss &ampersir; in lon. Friscomarcar di<ex>diu</ex> a muinter do Finn cia bo h&emacr; hisin crunn, ar n&imacr;nathg&emacr;ntar som d&amacr;igh celtair d&imacr;clithe b&umacr;i imbe.</p>
+</div1>
+
+<div1 type="section" n="4">
+<p>Is de dobert Finn a hordain ina b&emacr;olo. Addonich as eisib<note type="auth" n="2"><frn lang="en">There is a horizontal stroke through the stem of the first s</frn>= as<ex>er</ex>eisib (as ar &eacute;isib)?</note> afrithisi fortnosna a imb<ex>us</ex> &ampersir; dichan di<ex>cet</ex>al co n?eipert: <q><ex>Con</ex> fri lon l<ex>eth</ex>cno <ex>con</ex>tethai<ex>n</ex> cotith in dithraib Dercc Corra com&omacr;l fri hich ni ba filliud fabaill a uball f&imacr;n mblais cona fricarbaith m<ex>a</ex>c &umacr;i co dedail Daigre.</q> <q>Dercc Corra mac h&umacr;i Daigre</q>, ol s&emacr;, <q>fil isan crund</q>.</p>
+</div1></div0></body></text></TEI.2>

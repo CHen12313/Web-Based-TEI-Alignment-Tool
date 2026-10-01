@@ -1,0 +1,468 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE TEI.2 SYSTEM "/dtds/tei/p4x/teicelt.dtd" [
+<!ENTITY % TEIbase "TEI.prose">
+]>
+<TEI.2 id="T303027">
+<teiHeader creator="Emer Purcell" status="update" date.created="2006-09-25" date.updated="2010-04-13">
+<fileDesc>
+<titleStmt>
+<title type="uniform">Comrac Liadaine ocus Cuirithir</title>
+<title type="translation" lang="en">Liadain and Curithir: an Irish love-story of the ninth century</title>
+<title type="supplementary">English translation</title>
+<title type="gmd">An electronic edition</title>
+<editor id="KM" sortas="meyer, kuno">Kuno Meyer</editor>
+<respStmt>
+<resp>translated by</resp>
+<name>Kuno Meyer</name>
+<resp>Electronic edition compiled by</resp>
+<name id="EP">Emer Purcell</name>
+</respStmt>
+<funder>University College, Cork</funder>
+<funder>The HEA via the LDT Project.</funder>
+<respStmt>
+<resp>proof corrections by</resp>
+<name>Emer Purcell</name> 
+</respStmt>
+</titleStmt>
+<editionStmt>
+<edition n="2">Second draft.</edition>
+</editionStmt>
+<extent>
+<measure type="words">2010</measure></extent>
+<publicationStmt>
+<publisher>CELT: Corpus of Electronic Texts: a project of the Department of History, University College, Cork</publisher>
+<address>
+<addrLine>College Road, Cork, Ireland&mdash;http://www.ucc.ie/celt</addrLine>
+</address>
+<date>2006</date>
+<date>2010</date>
+<distributor>CELT online at University College, Cork, Ireland.</distributor>
+<idno type="celt">T303027</idno>
+<availability status="restricted">
+<p>Available with prior consent of the CELT project for purposes of academic research and teaching only.</p>
+</availability>
+</publicationStmt>
+<sourceDesc>
+<listBibl>
+<head>Manuscript sources for the Irish text</head> 
+<bibl n="1">London, British Library, Harl. 5280, fo. 26f.</bibl>
+<bibl n="2">Dublin, Trinity College Library, MS 1337, 759f. (olim H. 3. 18).</bibl>
+</listBibl>
+<listBibl>
+<head>Editions/translations</head> 
+<bibl n="1">Kuno Meyer (ed. &amp; tr.), Comrac Liadaine ocus Cuirithir or Liadain and Curithir; an Irish love-story of the ninth century (London 1902). This edition is also available online at http://www.univie.ac.at/indogermanistik/download/texte/Comracc_Liadaine_ocus_Cuirithir.htm#m</bibl>
+<bibl n="2">English translation: P. L. Henry, D&aacute;nta Ban, pp. 52&ndash;59.</bibl>
+<bibl n="3">For a  new edition by David Stifter, see: http://www.univie.ac.at/indogermanistik/download/texte/Comracc_Liadaine_ocus_Cuirithir.htm#s</bibl>
+<bibl n="4">For an English translation of the new edition by Liz Gabay, see http://www.univie.ac.at/indogermanistik/download/texte/Comracc_Liadaine_ocus_Cuirithir.htm#g</bibl>
+</listBibl>
+<listBibl>
+<head>Further reading</head>  
+<bibl n="1">Eugene O'Curry, Lectures on the manuscript materials of ancient Irish history (New York 1861).</bibl>
+<bibl n="2">Kuno Meyer (ed. &amp; tr.), 'Stories and songs from Irish MSS', Otia Merseiana 1 (1899) 113&ndash;128.</bibl>
+<bibl n="3">Brian &Oacute; Cu&iacute;v, 'A quatrain from "L&iacute;adain and Cuirithir"', &Eacute;igse; 6 (1945&ndash;7) 229&ndash;230.</bibl>
+<bibl n="4">Anders Ahlqvist, 'A line in L&iacute;adan and Cuirithir', Peritia 1 (1982) 334.</bibl>
+<bibl n="5">For editions/translations the poem 'Cen &aacute;inius' see also http://www.ucc.ie/celt/published/G400035/index.html</bibl>
+</listBibl>
+<listBibl>
+<head>The edition used in the digital edition</head>
+<biblFull>
+<titleStmt>
+<title level="m">Comrac Liadaine ocus Cuirithir</title>
+<editor>Kuno Meyer</editor>
+</titleStmt>
+<editionStmt>
+<edition>First edition</edition>
+</editionStmt>
+<extent>30pp.; 5&ndash;9 Introduction; Text 12&ndash;27; 28&ndash;30 Glossary.</extent>
+<publicationStmt>
+<publisher>D. Nutt</publisher>
+<pubPlace>London</pubPlace>
+<date>1902</date>
+</publicationStmt>
+</biblFull>
+</listBibl>
+</sourceDesc>
+</fileDesc>
+<encodingDesc>
+<projectDesc>
+<p>CELT: Corpus of Electronic Texts</p>
+</projectDesc>
+<samplingDecl> 
+<p>The present text represents uneven pages 13&ndash;27 of the volume. All editorial introduction, notes and indexes have been omitted.</p> 
+</samplingDecl>
+<editorialDecl>
+<correction status="medium">
+<p>Text has been proof-read twice.</p>
+</correction>
+<normalization>
+<p>The electronic text represents the edited text.</p>
+</normalization>
+<quotation>
+<p>There are no quotations.</p>
+</quotation>
+<hyphenation>
+<p>Soft hyphens are silently removed. When a hyphenated word (hard or soft) crosses a page-break, this break is marked after the completion of the hyphenated word.</p>
+</hyphenation>
+<segmentation>
+<p><emph>div0</emph>=the whole text; stanzas are marked <emph>lg</emph>. Paragraphs are marked <emph>p</emph>.</p>
+</segmentation>
+<interpretation>
+<p>Names are not tagged, nor are terms for cultural and social roles.</p>
+</interpretation>
+</editorialDecl>
+<!--<refsDecl>   
+<state gi="div0" freq="1" label="section" unit="number"/>   
+</refsDecl>-->  
+</encodingDesc>
+<profileDesc>
+<creation>Translation by Kuno Meyer
+<date>1902</date></creation>
+<langUsage>
+<language id="en">The text is in English.</language>
+</langUsage>
+<textClass>
+<keywords>
+<term>saga</term>
+<term>prose</term>
+<term>medieval</term>
+<term>translation</term>
+</keywords>
+</textClass>
+</profileDesc>
+<revisionDesc>
+<change>
+<date>2010-04-13</date>
+<respStmt>
+<name>Beatrix F&auml;rber</name>
+<resp>ed.</resp>
+</respStmt>
+<item>Conversion script run; header updated; new wordcount made; file parsed.</item>
+</change>
+<change>
+<date>2008-09-22</date>
+<respStmt>
+<name>Beatrix F&auml;rber</name>
+<resp>ed.</resp>
+</respStmt>
+<item>Keywords added; file validated.</item>
+</change>
+<change>
+<date>2008-07-28</date>
+<respStmt>
+<name>Beatrix F&auml;rber</name>
+<resp>ed.</resp>
+</respStmt>
+<item>Value of div0 "type" attribute modified, title elements streamlined, creation date inserted, content of 'langUsage' revised; new wordcount; minor modifications made to header.</item>
+</change>
+<change>
+<date>2006-10-03</date> 
+<respStmt>
+<name>Beatrix F&auml;rber</name>
+<resp>ed.</resp>
+</respStmt>
+<item>Header modified; more bibliographical details added, file parsed, HTML file created.</item>
+</change>
+<change>
+<date>2006-09-25</date>
+<respStmt>
+<name>Emer Purcell</name>
+<resp>ed.</resp>
+</respStmt>
+<item>Header compiled with bibliographical details.</item>
+</change>
+<change>
+<date>2006-09-24</date>
+<respStmt>
+<name>Emer Purcell</name>
+<resp>ed.</resp>
+</respStmt>
+<item>File proof-read (2); structural and content markup added; page-breaks inserted.</item>
+</change>
+<change>
+<date>2006-09-24</date>
+<respStmt>
+<name>Emer Purcell</name>
+<resp>ed.</resp>
+</respStmt>
+<item>File proof-read (1) and basic markup applied in line with file G302027.</item>
+</change>
+<change>
+<date>2006-09-24</date>
+<respStmt>
+<name>Emer Purcell</name>
+<resp>Text capture</resp>
+</respStmt>
+<item>File captured by scanning.</item>
+</change>
+</revisionDesc>
+</teiHeader>
+<text n="T303027">
+<body>
+<div0 type="saga" lang="en">
+<pb n="13"/>
+<head>Liadain and Curithir</head>
+
+<p>Liadain of the Corco Dubne, a poetess, went visiting into the country of Connaught. There Cuirithir, Otter's son, of Connaught, himself a poet, made an ale-feast for her.</p>
+
+<p><q>Why should not we two unite, Liadain?</q> saith Cuirithir. <q>A son of us two would be famous.</q></p>
+
+<p><q>Do not let us do so</q>, saith she, <q>lest my round of visiting be ruined for me. If you will come for me again at my home, I shall go with you.</q></p>
+
+<p>That fell so. Southward he went, and a single gillie behind him with his poet's cloak in a bag upon his back, while Cuirithir himself was in a poor cloak. And there were spearheads in the bag also. He went till he was at the well beside Liadain's court. There he took his crimson cloak about him, and the heads were put upon their shafts, and he stood  brandishing them.</p>
+
+<p>Then he saw Mac Da Cherda, coming towards him, a fool, the son of Maelochtraig, son of Dinertach, of the Dessi of Munster. He would go dryshod across sea and land alike. Chief poet he was and the fool of all Ireland.</p>
+
+<p>He went up to Cuirithir. <q>Well met!</q>, said Mac Da Cherda.</p>
+
+<pb n="15"/>
+
+<p><q>So be it!</q> said Curithir. <q>Are you the owner of the court?</q> <q>Not I</q>, said Curithir; <q>whence are you yourself?</q> <q>I am the poor fool of the Dessi, Mac Da Cherda is my name.</q></p>
+
+<p><q>We have heard of you</q>, said Curithir. <q>Will you go into the court?.</q></p>
+
+<p><q>I will</q>, said he.  <q>Do me a favour</q>, said Curithir. <q>The tall woman who is there, tell her, using your own wits, to come to this well.</q> <q>What is your name?</q> <q>Liadain.</q> <q>What is yours?</q> <q>Curithir Otter's son.</q> <q>Right!</q> quoth he. He goes into the house. She was there in her bed-room with four other women. Down he sat, but no notice was taken of him. 'Twas then he said:
+
+<text type="poem">
+<body>
+<sp>
+<lg type="quatrain" n="1">
+<l>The mansion</l>
+<l>Which the pillars support&mdash;</l>
+<l>If any there be who have made a tryst,</l>
+<l>The behest for them is till sunset.</l></lg>
+
+<lg n="2">
+<l>It were timely one should visit thee,</l>
+<l>O well which art before the house,</l>
+<l>Around it larks</l>
+<l>Fair, hesitating (?), take flight.</l></lg>
+
+<pb n="17"/>
+
+<lg n="3">
+<l>Darkness is on my eyes,</l>
+<l>I make nothing of indications,</l>
+<l>So that I call Liadain (the Grey Lady)</l>
+<l>Every woman whom I do not know.</l></lg>
+
+<lg n="4">
+<l>O woman with the firm foot,</l>
+<l>Thy like for great fame I have not found:</l>
+<l>Under nun's veil will not be known</l>
+<l>A woman with more sense.</l></lg>
+
+<lg n="5">
+<l>The son of the beast</l>
+<l>That stays at night under pools,</l>
+<l>As he waits for you,</l>
+<l>Pale-grey feet with points support him.</l></lg></sp>
+</body></text></p>
+
+<p>It is after this she went with Curithir, and they put themselves under the spiritual direction of Cummine the 
+Tall, the son of Fiachna.</p>
+
+<p><q>Good</q>, said Cummine. <q>It is many of my morsels that are offered up. The power of soul-friendship be upon you! Whether for you shall it be seeing, or talking together?</q></p>
+
+<p><q>Talking for us!</q> said Curithir. <q>What will come of it will be better. We have ever been looking at each other.</q></p>
+
+<p>So whenever he went around the grave-stones of the saints, her cell was closed upon her. In the same way his 
+would be closed upon him whenever she went. 'Tis then she said:
+
+<text type="poem">
+<body>
+<sp>
+<speaker>[L&iacute;adan]</speaker>
+<lg type="quatrain" n="1">
+<l>Curithir, once the poet,</l>
+<l>I loved; the profit has not reached me:</l>
+<l>Dear lord of two grey feet,</l>
+<l>It will be alas to be without their company for ever!</l></lg>
+
+<pb n="19"/>
+
+<lg n="2">
+<l>The flagstone to the south of the oratory</l> 
+<l>Upon which is he who was poet once,</l> 
+<l>It is there I often go each day,</l> 
+<l>At eve after the triumph of prayer.</l></lg>
+
+<lg n="3">
+<l>He shall have neither cow</l> 
+<l>Nor yearlings nor heifers,</l> 
+<l>Never a mate shall be</l> 
+<l>At the right hand of him who once was a poet.</l></lg></sp>
+
+<sp>
+<speaker>Curithir says:</speaker>
+
+<lg n="4">
+<l>Beloved is the dear voice that I hear,</l> 
+<l>I dare not welcome it!</l>
+<l>But this only do I say:</l>
+<l>Beloved is this dear voice!</l></lg></sp>
+
+<sp>
+<speaker>Says the woman:</speaker>
+
+<lg n="5">
+<l>The voice which comes to me through the wattled wall,</l> 
+<l>It is right for it to blame me:</l>
+<l>What the voice does to me, is</l> 
+<l>It will not let me sleep.</l></lg></sp></body></text>
+
+[She expostulates with Cummine and exculpates herself.]
+
+<text type="poem">
+<body>
+<sp>
+<lg n="6">
+<l>Thou man, ill it is what thou dost,</l> 
+<l>To name me with Curithir:</l>
+<l>He from the brink of Lough Seng,</l>
+<l>I from Kil-Conchinn.</l></lg>
+</sp></body></text></p>
+
+<pb n="21"/>
+
+<p><q>Sleep by each other to-night!</q> said Cummine, <q>And let a little scholar go between you lest you do any folly.</q></p>
+
+<p>It was then Curithir said:
+
+<text type="poem">
+<body>
+<sp>
+<lg type="verse" n="1">
+<l>If it is one night you say</l>
+<l>I am to sleep with Liadain,</l> 
+<l>A layman who would sleep the night</l>
+<l>Would make much of it that he had not bought it.</l></lg></sp>
+</body></text></p>
+
+<p>It was then Liadain said:
+
+<text type="poem">
+<body>
+<sp>
+<lg type="verse" n="1">
+<l>If it is one night you say</l> 
+<l>I am to sleep with Curithir,</l> 
+<l>Though a year we gave to it,</l> 
+<l>There would be converse between us.</l></lg></sp>
+</body></text></p>
+
+<p>They sleep by each other that night. On the morrow the little boy is brought to Cummine to be examined on soul and 
+conscience.</p>
+
+<p><q>You must not conceal anything</q>, said Cummine; <q>I shall kill you if you do,</q></p>
+
+<p>It is indifferent to him whether he dies:&mdash; <q>I shall kill you if you confess.</q></p> 
+
+<p>After that Curithir was taken to another church. It was then he said:
+
+<text type="poem">
+<body>
+<sp>
+<lg type="verse" n="1">
+<l>Of late</l> 
+<l>Since I parted from Liadain,</l> 
+<l>Long as a month every day,</l> 
+<l>Long as a year every month.</l></lg></sp>
+
+<pb n="23"/>
+
+<sp>
+<speaker>Liadain says:</speaker>
+<lg n="2">
+<l>If Curithir to-day</l> 
+<l>Is gone to the scholars,</l> 
+<l>Alas for the sense he will make</l> 
+<l>To any who do not know!</l></lg></sp>
+
+<sp>
+<speaker>Cummine says:</speaker>
+<lg n="3">
+<l>What you say is not well,</l> 
+<l>Liadain, wife of Curithir.</l>
+<l>Curithir was here, he was not mad,</l> 
+<l>Any more than before he came.</l></lg></sp></body></text>
+
+[Liadain repudiates the term 'wife'.]
+<text type="poem">
+<body>
+<sp>
+<lg n="4">
+<l>That Friday</l> 
+<l>It was no camping on pastures of honey,</l>
+<l>Upon the fleeces of my white couch</l> 
+<l>Between the arms of Curithir.</l></lg></sp>
+</body></text></p>
+
+<p>He however went on a pilgrimage until he came to Kil-Letrech in the land of the Dessi. She went seeking him and said:
+
+<text type="poem">
+<body>
+<lg type="verse" n="1">
+<l>Joyless</l> 
+<l>The bargain I have made!</l>
+<l>The heart of him I loved I wrung.</l></lg>
+
+<lg n="2">
+<l>'Twas madness</l> 
+<l>Not to do his pleasure,</l> 
+<l>Were there not the fear of the King of Heaven.</l></lg>
+
+<pb n="25"/>
+
+<lg n="3">
+<l>To him the way he has wished</l>
+<l>Was great gain,</l> 
+<l>To go past the pains of Hell into Paradise.</l></lg>
+
+<lg n="4">
+<l>'Twas a trifle</l> 
+<l>That wrung Curithir's heart against me:</l>
+<l>To him great was my gentleness.</l></lg>
+
+<lg n="5">
+<l>I am Liadain</l> 
+<l>Who loved Curithir:</l>
+<l>It is true as they say.</l></lg>
+
+<lg n="6">
+<l>A short while I was</l> 
+<l>In the company of Curithir:</l>
+<l>Sweet was my intimacy with him.</l></lg>
+
+<lg n="7">
+<l>The music of the forest</l> 
+<l>Would sing to me when with Curithir,</l> 
+<l>Together with the voice of the purple sea.</l></lg>
+
+<lg n="8">
+<l>Would that</l> 
+<l>Nothing whatever of all I might do</l> 
+<l>Should wring the heart of Curithir against me!</l></lg>
+
+<lg n="9">
+<l>Conceal it not!</l>
+<l>He was the love of my heart,</l> 
+<l>If I loved every other.</l></lg>
+
+<lg n="10">
+<l>A roaring flame</l> 
+<l>Dissolved this heart of mine,</l> 
+<l>However, for certain it will cease to beat.</l></lg>
+</body></text></p>
+
+<pb n="27"/>
+
+<p>But how she had wrung his heart was the haste with which she had taken the veil.</p>
+
+<p>When he heard that she was coming from the west, he went in a coracle upon the sea, and took to strange lands
+and pilgrimage, so that she never saw him more. <q>He has gone now!</q> she said.</p>
+
+<p>The flagstone upon which he was wont to pray, she was upon it till she died. Her soul went to Heaven. And that 
+flagstone was put over her face.</p>
+
+<p>Thus far the Meeting of Liadain and Curithir.</p>
+</div0></body></text></TEI.2>

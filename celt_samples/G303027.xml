@@ -1,0 +1,487 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE TEI.2 SYSTEM "/dtds/tei/p4x/teicelt.dtd" [
+<!ENTITY % TEIbase "TEI.prose">
+]>
+<TEI.2 id="G303027">
+<teiHeader creator="Emer Purcell" status="update" date.created="2006-08-31" date.updated="2008-09-01">
+<fileDesc>
+<titleStmt>
+<title type="uniform">Comrac Liadaine ocus Cuirithir</title>
+<title type="gmd">An electronic edition</title>
+<author>unknown</author>
+<editor id="KM" sortas="meyer, kuno">Kuno Meyer</editor>
+<respStmt>
+<resp>Electronic edition compiled by</resp>
+<name id="EP">Emer Purcell</name>
+</respStmt>
+<respStmt>
+<resp>proof corrections by</resp>
+<name>Hilary Lavelle, University of Ulster at Coleraine</name> 
+</respStmt>
+<funder>University College, Cork</funder>
+<funder>The HEA via the LDT Project.</funder>
+</titleStmt>
+<editionStmt>
+<edition n="2">Second draft.</edition>
+</editionStmt>
+<extent>
+<measure type="words">2270</measure></extent>
+<publicationStmt>
+<publisher>CELT: Corpus of Electronic Texts: a project of the Department of History, University College, Cork</publisher>
+<address>
+<addrLine>College Road, Cork, Ireland&mdash;http://www.ucc.ie/celt</addrLine>
+</address>
+<date>2006</date>
+<date>2008</date>
+<distributor>CELT online at University College, Cork, Ireland.</distributor>
+<idno type="celt">G303027</idno>
+<availability status="restricted">
+<p>Available with prior consent of the CELT project for purposes of academic research and teaching only.</p>
+</availability>
+</publicationStmt>
+<sourceDesc>
+<listBibl>
+<head>Manuscript sources</head> 
+<bibl n="1">London, British Library, Harl. 5280, fo. 26f.</bibl>
+<bibl n="2">Dublin, Trinity College Library, MS 1337 (olim H. 3. 18) 759f.</bibl>
+</listBibl>
+<listBibl>
+<head>Editions/translations</head> 
+<bibl n="1">Kuno Meyer (ed. and tr.), Comrac Liadaine ocus Cuirithir or Liadain and Curithir; an Irish love-story of the ninth century (London 1902). This edition is also available online at http://www.univie.ac.at/indogermanistik/download/texte/Comracc_Liadaine_ocus_Cuirithir.htm#m</bibl>
+<bibl n="2">English translation: P. L. Henry, D&aacute;nta Ban, pp. 52&ndash;59.</bibl>
+<bibl n="3">For a new edition by David Stifter, see: http://www.univie.ac.at/indogermanistik/download/texte/Comracc_Liadaine_ocus_Cuirithir.htm#s</bibl>
+<bibl n="4">For an English translation of the new edition by Liz Gabay, see http://www.univie.ac.at/indogermanistik/download/texte/Comracc_Liadaine_ocus_Cuirithir.htm#g</bibl>
+</listBibl>
+<listBibl>
+<head>Further reading</head>  
+<bibl n="1">Eugene O'Curry, Lectures on the manuscript materials of ancient Irish history (New York 1861).</bibl>
+<bibl n="2">Kuno Meyer (ed. and tr.), Stories and songs from Irish MSS, Otia Merseiana 1 (1899) 113&ndash;128.</bibl>
+<bibl n="3">Brian &Oacute; Cu&iacute;v, A quatrain from "L&iacute;adain and Cuirithir", &Eacute;igse; 6 (1945&ndash;7) 229&ndash;230.</bibl>
+<bibl n="4">Anders Ahlqvist, A line in L&iacute;adan and Cuirithir, Peritia 1 (1982) 334.</bibl>
+<bibl n="5">For editions/translations of the poem 'Cen &aacute;inius' see also http://www.ucc.ie/celt/published/G400035/index.html</bibl>
+</listBibl>
+<listBibl>
+<head>The edition used in the digital edition</head>
+<biblFull>
+<titleStmt>
+<title level="m">Comrac Liadaine ocus Cuirithir</title>
+<editor>Kuno Meyer</editor>
+</titleStmt>
+<editionStmt>
+<edition>First edition</edition>
+</editionStmt>
+<extent>30pp.; 5&ndash;9 Introduction; Text 12&ndash;27; 28&ndash;30 Glossary.</extent>
+<publicationStmt>
+<publisher>David Nutt</publisher>
+<pubPlace>London</pubPlace>
+<date>1902</date>
+</publicationStmt>
+</biblFull>
+</listBibl>
+</sourceDesc>
+</fileDesc>
+<encodingDesc>
+<projectDesc>
+<p>CELT: Corpus of Electronic Texts</p>
+</projectDesc>
+<samplingDecl> 
+<p>The present text represents even pages 12&ndash;26 of the volume. All editorial introduction, notes and indexes have been omitted.</p> 
+</samplingDecl>
+<editorialDecl>
+<correction status="medium">
+<p>Text has been proof-read twice.</p>
+</correction>
+<normalization>
+<p>The electronic text represents the edited text. Text supplied by the editor is tagged <emph>sup resp="KM"</emph>. Expansions to the text are marked <emph>ex</emph>.</p>
+</normalization>
+<quotation>
+<p>Direct speech is rendered <emph>q</emph>.</p>
+</quotation>
+<hyphenation><p>The editor's hyphenation has been retained.</p>
+</hyphenation>
+<segmentation>
+<p><emph>div0</emph>=the whole text; stanzas are marked <emph>lg</emph>. Paragraphs are marked <emph>p</emph>; page-breaks are marked <emph>pb="nn"</emph>. Line-breaks are marked <emph>lb</emph> and numbered every five lines. Unnumbered line-breaks are commented out.</p>
+</segmentation>
+<interpretation>
+<p>Names are not tagged, nor are terms for cultural and social roles.</p>
+</interpretation>
+</editorialDecl>
+<!--<refsDecl>   
+<state gi="div0" freq="1" label="saga" unit="number"/>   
+</refsDecl>-->
+</encodingDesc>
+<profileDesc>
+<creation>By one or more unknown author(s)
+<dateRange from="800" to="900" exact="none">c. 800&ndash;900</dateRange></creation>
+<langUsage>
+<language id="ga">The text is in Old and Middle Irish.</language>
+<language id="la">Some words are in Latin.</language>
+<language id="en">The witness list and some words in the annotations are in English.</language>
+</langUsage>
+<textClass>
+<keywords>
+<term>saga</term>
+<term>prose</term>
+<term>medieval</term>
+<term>Liadan and Cuirithir</term>
+</keywords>
+</textClass>
+</profileDesc>
+<revisionDesc>
+<change>
+<date>2008-09-01</date>
+<respStmt>
+<name>Beatrix F&auml;rber</name>
+<resp>ed.</resp>
+</respStmt>
+<item>Keywords added, file validated; new wordcount made.</item>
+</change>
+<change>
+<date>2008-07-27</date>
+<respStmt>
+<name>Beatrix F&auml;rber</name>
+<resp>ed.</resp>
+</respStmt>
+<item>Value of div0 "type" attribute modified, content of 'langUsage' revised; additions made to header; content markup added, file reparsed.</item>
+</change>
+<change>
+<date>2006-10-03</date> 
+<respStmt>
+<name>Beatrix F&auml;rber</name>
+<resp>ed.</resp>
+</respStmt>
+<item>Header modified; more bibliographical details added, file parsed, HTML file created.</item>
+</change>
+<change>
+<date>2006-08-14</date>
+<respStmt>
+<name>Emer Purcell</name>
+<resp>ed.</resp>
+</respStmt>
+<item>Header compiled with bibliographical details.</item>
+</change>
+<change>
+<date>2006-08-10</date>
+<respStmt>
+<name>Emer Purcell</name>
+<resp>ed.</resp>
+</respStmt>
+<item>File proof-read (2); more markup added, structural and content markup converted to CELT usage; page-breaks inserted.</item>
+</change>
+<change>
+<date>2006-05-30</date>
+<respStmt>
+<name>Hilary Lavelle</name>
+<resp>ed.</resp>
+</respStmt>
+<item>File proof-read (1) and basic markup applied.</item>
+</change>
+<change>
+<date>2006</date>
+<respStmt>
+<name>Data capture company</name>
+<resp>Text capture</resp>
+</respStmt>
+<item>File captured by scanning.</item>
+</change>
+</revisionDesc>
+</teiHeader>
+<text n="G303027">
+<front>
+<div type="Witness List" lang="en">
+<witList> 
+<witness sigil="Ha">London, British Library, Harl. 5280, fo. 26f.</witness>
+<witness sigil="Li">Dublin, Trinity College Library, MS 1337, 759f. (olim H. 3. 18).</witness>
+</witList>
+</div>
+</front>
+<body>
+<div0 type="saga" lang="ga">
+
+<pb n="12"/>
+
+<head>Comrac Liadaine ocus Curithir</head>
+
+<lb n="1"/><p><app><lem>L&iacute;adain</lem><rdg wit="Ha">Liaduin</rdg></app> ben do Chorco Duibne .i. ban&eacute;ces. Luid s&iacute; for
+<!--<lb/>-->c&uacute;airt hi cr&iacute;ch Connacht. Cuirithir mac Doborchon, &eacute;ces side
+<!--<lb/>-->dno. Do Chonnachtaib d&oacute;. Dogn&iacute;ther &oacute;n cuirm d&iacute;-si <app><lem>le</lem><rdg wit="Ha">lie</rdg></app> <app><lem>Cuirithir</lem><rdg wit="H">Cuirither</rdg></app>.</p>
+
+<!--<lb/>--><p><q><app><lem>Cid</lem><rdg wit="H">cia</rdg></app> n&aacute; d&eacute;naim-ni &oacute;entaid, a L&iacute;adain?</q> ol <app><lem>Cuirithir</lem><rdg wit="H">Cuirither</rdg></app>.
+<lb n="5"/><q>Ropud &aacute;n ar mac ar nd&iacute;s.</q></p>
+
+<!--<lb/>--><p><q>N&iacute; <app><lem>d&eacute;naim-ni</lem><rdg wit="Ha">denuimsi</rdg></app> &oacute;n</q>, ol sise, <q>ar n&aacute; loiti mo ch&uacute;airt <app><lem>immum</lem><rdg wit="Ha">[omitted]</rdg></app>.
+<!--<lb/>-->D&iacute;a t&iacute;s ar mo chend <app><lem>dor&iacute;si</lem><rdg wit="H">dor&iacute;s</rdg></app> dom thig, <app><lem>doreg-s&aelig;</lem><rdg wit="Ha">doreg&aelig;</rdg></app> lat.</q></p>
+
+<!--<lb/>--><p>Ba f&iacute;r s&oacute;n. Luid fodess &ampersir; <app><lem>&oacute;engilla</lem><rdg wit="H">oengilla lais</rdg></app> 'na diaid &ampersir; a <app><lem>&eacute;tach-
+<!--<lb/>-->som</lem><rdg wit="H">etachside</rdg></app> hi t&eacute;ig for a muin-side &ampersir; droch&eacute;tach imme &ampersir; cenn&aelig; <app><lem>na
+<lb n="10"/> ng&aacute;i</lem><rdg wit="Ha">na ng&oacute;</rdg></app> isin t&eacute;ig. Luid &iacute;arum <app><lem>co  mb&aacute;i</lem><rdg wit="Ha">conbo</rdg></app> icon topur i t&oacute;ib ind lis.
+<!--<lb/>-->Gaibid &iacute;arum a &eacute;tach <app><lem>corcord&aelig;</lem><rdg wit="Ha">[omitted]</rdg></app> imme &ampersir; dorat&aelig; na g&aacute;i <app><lem>for a
+<!--<lb/>-->cronna</lem><rdg wit="Ha">for cronna</rdg><rdg wit="H">for a crad&aelig;</rdg></app>, <app><lem>co mb&oacute;i</lem><rdg wit="H">ambui</rdg></app> ic a crothud.</p>
+
+<!--<lb/>--><p><app><lem>Co n-acc&aelig;</lem><rdg wit="Ha">[con]feuca</rdg></app> Mac D&aacute; Cherd&aelig; cucai. &Oacute;inmit side, mac <app><lem>M&aacute;ile-
+<!--<lb/>-->ochtraig</lem><rdg wit="Ha">Moiloctr[aig]</rdg></app> maic D&iacute;nertaig dona D&eacute;ssib Muman. Cumma imt&eacute;ged
+<lb n="15"/> muir &ampersir; t&iacute;r inna chossaib tirmaib. <app><lem>Ardfili na H&eacute;renn</lem><rdg wit="Ha">airttfili Erionn esiden</rdg></app> &ampersir; &oacute;inmit
+<!--<lb/>-->na H&eacute;renn &eacute;-siden.</p>
+
+<!--<lb/>--><p>Dot&eacute;it side co Cuirithir.
+<!--<lb/>--><q>Maith sin</q>, or Mac mo Cherda.</p>
+
+<pb n="14"/>
+
+<!--<lb/>--><p><q>Amin</q>, or Cuirithir.
+<!--<lb/>--><q>In t&uacute; fer ind lis?</q>
+<!--<lb/>--><app><lem><q>N&iacute; m&eacute;</q></lem><rdg wit="Ha">nac me</rdg></app>, or Cuirithir. <q>Can deit-siu?</q> or Cuirithir.
+<!--<lb/>--><q><app><lem>In &oacute;inmit</lem><rdg wit="H">ni [hansa]. In oinmit</rdg></app> tr&oacute;g dina D&eacute;ssib .i. Mac D&aacute; Cherda.</q></p>
+
+<lb n="5"/><p><q>Roc&uacute;alamar</q>, or Cuirithir. <q>In <app><lem>rega</lem><rdg wit="H">raga</rdg></app> isin lis?</q></p>
+
+<!--<lb/>--><p><q>Ragat</q>, ol s&eacute;.
+<!--<lb/>--><q>D&eacute;na mo lessa</q>, ol Cuirithir. <q>Ben m&oacute;r <app><lem>file</lem><rdg wit="H">fil[e]</rdg><rdg wit="Ha">file talt</rdg></app> thall, apair
+<!--<lb/>--><app><lem>frie</lem><rdg wit="H">fria</rdg></app> triat ch&eacute;ill f&eacute;in <app><lem>tudecht</lem><rdg wit="Ha">tidecd</rdg></app> cosin topur so.</q>
+<!--<lb/>--><q><app><lem>C&iacute;a a</lem><rdg wit="Ha">caide</rdg></app> hainm?</q>
+<lb n="10"/> <app><lem><q>L&iacute;adain.</q></lem><rdg wit="Ha">Liaduin</rdg></app>
+<!--<lb/>--><app><lem><q>C&iacute;a th'ainm-si?</q></lem><rdg wit="Ha">caidi hainmsie</rdg></app>
+<!--<lb/>--><q>Cuirithir mac Doborchon.</q>
+<!--<lb/>--><q>Maith</q>, or s&eacute;.
+<!--<lb/>-->T&eacute;it <app><lem>isa tech</lem><rdg wit="Ha">isin teg</rdg></app>. <app><lem>B&oacute;i s&iacute; ina himda cetheora mn&aacute;</lem><rdg wit="Ha">boi siom isan imda cetiura mna</rdg><rdg wit="H">mnaib</rdg></app>. Dessid
+<lb n="15"/> som &ampersir; n&iacute; <app><lem>rolaad</lem><rdg wit="H">ral&aelig;</rdg></app> &oacute;id aire. Is ann asbert som:
+
+<text type="poem">
+<body>
+<lg type="quatrain" n="1">
+<!--<lb/>--><l>A tech m&oacute;r</l>
+<!--<lb/>--><l>folongat na tuireda,</l>
+<!--<lb/>--><l>d&iacute;a mbeith nech nod&aacute;lad d&aacute;il,</l>
+<!--<lb/>--><l>timn&aelig; d&aacute;ib co fuineda.</l></lg>
+
+<lg n="2">
+<lb n="20"/><l>Nech don&iacute;sed ba mithig,</l>
+<!--<lb/>--><l>a thopuir file fiad tig,</l>
+<!--<lb/>--><l>ferait a l&uacute;adain imbi</l>
+<!--<lb/>--><l>uissi &aacute;illi imrinni.<note type="auth" n="1">H <frn lang="en">has instead:</frn> Ba mithigh a topor fil fiada tigh donnis<sup resp="KM">ed</sup>h nech ferait  alluadhain imbi hussin ailli imrinne;  Ha <frn lang="en">has instead:</frn> Ba mithid a tobuir fil fiada tig nech donised feruid a liaduin imbi uisi ailliu imbrinne.</note></l></lg>
+
+<pb n="16"/>
+
+<lg n="3">
+<!--<lb/>--><l>Rol&aacute; temel dom roscaib,</l>
+<!--<lb/>--><l>am <app><lem>dillig</lem><rdg wit="H">dilig</rdg></app> ar inchoscaib,</l>
+<!--<lb/>--><l>conid L&iacute;adain <app><lem>congairiu</lem><rdg wit="HHa">congaire</rdg></app></l>
+<!--<lb/>--><l>cach bansc&aacute;l <app><lem>n&aacute;d athgniniu</lem><rdg wit="H">nad athgeniu</rdg><rdg wit="Ha">nat athgena</rdg></app>.</l></lg>
+
+<lg n="4">
+<lb n="5"/><l>A ben cosind remorchois,</l>
+<!--<lb/>--><l>n&iacute; f&uacute;ar do &sdot;&eacute;t <app><lem>di m&aacute;rchlois</lem><rdg wit="H">damarchlois</rdg><rdg wit="H">dimarclais (diniarclais ?)</rdg></app>,</l>
+<!--<lb/>--><l>n&iacute;con festor fo chailliu</l>
+<!--<lb/>--><l>bansc&aacute;l badid <app><lem>c&iacute;allaidiu</lem><rdg wit="HHa">ciallaide</rdg></app>.</l></lg>
+
+<lg n="5">
+<!--<lb/>--><l>Mac in m&iacute;l</l>
+<lb n="10"/><l><app><lem>anas</lem><rdg wit="H">anais</rdg></app> adaig fo linnib,</l>
+<!--<lb/>--><l>folongat cot idnaidiu</l>
+<!--<lb/>--><l>cossa glassa fo rinnib.</l></lg></body></text></p>
+
+<!--<lb/>--><p>Is &iacute;arsin doch&uacute;aid s&iacute; tra leis-som, co <app><lem>rogabsat</lem><rdg wit="Ha">rugaib</rdg></app> <app><lem>anmchairde
+<!--<lb/>-->Cummaine</lem><rdg wit="Ha">anmcairdios Cumin</rdg></app> Fota maic Fiachna.</p>
+
+
+<lb n="15"/><p><q>Maith</q>, or Cummaine. <q>M&oacute;r <app><lem>dom</lem><rdg wit="H">do[m]h</rdg></app> m&iacute;rennaib <app><lem>adobar[r]</lem><rdg wit="H">adtobar</rdg><rdg wit="Ha">adoboir</rdg></app>.
+<!--<lb/>-->Nert na hanmchairde foirb. In <app><lem>ba d&eacute;icsiu</lem><rdg wit="Ha">bi dexi</rdg></app> d&uacute;ib n&aacute; himmacallam?</q></p>
+
+<!--<lb/>--><p><q>Immacallam d&uacute;in</q>, or Cuirithir. <q>Is ferr a mb&iacute;a de.
+<!--<lb/>--><app><lem>Immanacc&aelig;</lem><rdg wit="Ha">immonfacca</rdg></app> d&uacute;n r&iacute;am.</q></p>
+
+<lb n="20"/><p>Intan &iacute;arum <app><lem>not&eacute;ged</lem><rdg wit="Ha">notigeod</rdg></app> som timchell <app><lem>martra</lem><rdg wit="H">martar</rdg></app>, no-&iacute;ata a tech
+<!--<lb/>-->fuirri-si. No-&iacute;ata dno fair-som, intan not&eacute;ged s&iacute;.</p>
+
+<!--<lb/>--><p>Is and asbert si:
+<text type="poem">
+<body>
+<lg type="quatrain" n="1">
+<!--<lb/>--><l>Cuirithir in t-ath&eacute;ces</l>
+<!--<lb/>--><l>carsam, n&iacute;mr&aacute;inic <app><lem>a less</lem><rdg wit="Ha">alless</rdg></app>:</l>
+<lb n="25"/><l>inmain fiada <app><lem>d&aacute; coss nglas</lem><rdg wit="Ha">di cos nglas</rdg><rdg wit="H">da cois nglais</rdg></app>,</l>
+<!--<lb/>--><l><app><lem>bid</lem><rdg wit="H">ba</rdg></app> dirsan <app> <lem>a bithingnas</lem><rdg wit="Ha">a mbithingnas</rdg><rdg wit="H">a bithingnais</rdg></app>.</l></lg>
+
+<pb n="18"/>
+
+<lg n="2">
+<!--<lb/>--><l>In lecc fri derthach andess</l>
+<!--<lb/>--><l>forsa <app><lem>mb&iacute;d</lem><rdg wit="H">mbi</rdg></app> in t-ath&eacute;ces,</l>
+<!--<lb/>--><l>minic t&iacute;agar d&iacute; <app><lem>im cach nd&eacute;</lem><rdg wit="Ha">in gach de</rdg></app></l>
+<!--<lb/>--><l>fescor &iacute;ar mb&uacute;aid ernaigthe.</l></lg>
+
+<lg n="3">
+<lb n="5"/><l>Nicon <app><lem>biaid aice</lem><rdg wit="H">biaidh aige</rdg><rdg wit="Ha">bia ace</rdg></app> b&oacute;</l>
+<!--<lb/>--><l>n&aacute; <app><lem>dairti</lem><rdg wit="Ha">dart&aelig;</rdg></app> n&aacute; dartad&oacute;,</l>
+<!--<lb/>--><l>nocha bia cn&aacute;im do <app><lem>liss</lem><rdg wit="HHa">less</rdg></app></l>
+<!--<lb/>--><l>for l&aacute;im deis ind <app><lem>ath&eacute;cis</lem><rdg wit="HHa">aitheices</rdg></app>.</l></lg>
+
+<sp>
+<speaker>[Cuirithir <frn lang="la">dixit</frn>:]</speaker>
+<lg n="4" type="quatrain">
+<lb n="10"/><l>Inmain guth&aacute;n rocluniur,</l>
+<!--<lb/>--><l>f&aacute;ilte fris nocho lamur,</l>
+<!--<lb/>--><l>acht is ed atbiur namm&aacute;:</l>
+<!--<lb/>--><l>is inmain in guth&aacute;n sa.</l></lg>
+</sp>
+
+<sp>
+<speaker><frn lang="la">Dixit</frn> in ben:</speaker>
+<lg n="5" type="quatrain">
+<lb n="15"/><l>Guth <app><lem>domadbat</lem><rdg wit="H">donadbat</rdg><rdg wit="Ha">domarbat</rdg></app> trie <app><lem>cleth&aelig;</lem><rdg wit="Ha">clethea</rdg></app></l>
+<!--<lb/>--><l>is maith d&oacute; domincrech&aelig;:</l>
+<!--<lb/>--><l><app><lem>is ed dogn&iacute; frim in guth</lem><rdg wit="Ha">seadh is mait domincrethao</rdg><rdg wit="H">is maith do domincreth&aelig;</rdg></app>,</l>
+<!--<lb/>--><l>nachoml&eacute;ci do chotlud.</l></lg>
+
+<lg n="6">
+<!--<lb/>--><l>A &fdot;ir, n&iacute; maith a ndobir,</l>
+<lb n="20"/><l>mo l&iacute;ud-sa for Cuirithir:</l>
+<!--<lb/>--><l>h&eacute;-sium do br&uacute; Locha <app><lem>Sing</lem><rdg wit="H">Seing</rdg></app>,</l>
+<!--<lb/>--><l>messe <app><lem>f&eacute;in</lem><rdg wit="H">f&eacute;n</rdg><rdg wit="Ha">fene</rdg></app> &oacute; Chill Conchinn.</l></lg>
+</sp></body></text></p>
+
+<pb n="20"/>
+
+<!--<lb/>--><p><q><app><lem>Foid</lem><rdg wit="H">Foidh</rdg><rdg wit="Ha">Foidid</rdg></app> far nd&iacute;s innocht</q>, ar <app><lem>Cummaine</lem><rdg wit="H">Cumin</rdg></app>, <q>&ampersir; <app><lem>t&eacute;it</lem><rdg wit="Ha">tet</rdg></app> <app><lem>l&eacute;ignid</lem><rdg wit="Ha">leignith</rdg><rdg wit="Ha">leccnid</rdg></app> becc
+<!--<lb/>-->etraib, co n&aacute; dernaid <app><lem>anespa</lem><rdg wit="Ha">anespuig</rdg><rdg wit="Ha">anapaigh</rdg></app>.</q></p>
+
+<!--<lb/>--><p><app><lem>Is and asbert som</lem><rdg wit="Ha">Is and asbert som Cuirithir no Liadain</rdg></app>:
+
+<text type="poem">
+<body>
+<lg type="verse" n="1">
+<!--<lb/>--><l><app><lem>M&aacute;su</lem><rdg wit="HHa">m&aacute;sa</rdg></app> &oacute;enadaig atbir</l>
+<lb n="5"/><l><app><lem>fesi</lem><rdg wit="H">feis</rdg></app> dam-s&aelig; <app><lem>la L&iacute;adain</lem><rdg wit="Ha">pri Liaduin</rdg></app>,</l>
+<!--<lb/>--><l><app><lem>m&eacute;ti</lem><rdg wit="H">met&eacute;</rdg></app> la l&aacute;ech <app><lem>nodfiad</lem><rdg wit="H">notfiaad</rdg></app></l>
+<!--<lb/>--><l>ind daig ni <app><lem>archriad</lem><rdg wit="Ha">arcriaadh</rdg></app>.</l></lg></body>
+</text></p>
+
+<!--<lb/>--><p>Is and asbert L&iacute;adain:
+<text type="poem">
+<body>
+<lg type="verse" n="1">
+<!--<lb/>--><l><app><lem>M&aacute;su</lem><rdg wit="H">mass&aelig;</rdg><rdg wit="H">masa</rdg></app> &oacute;enadaig atbir</l>
+<lb n="10"/><l><app><lem>feis</lem><rdg wit="Ha">fes</rdg></app> dam-s&aelig; la Cuirithir,</l>
+<!--<lb/>--><l>cid bl&iacute;adain <app><lem>dob&eacute;rmais</lem><rdg wit="Ha">dobermaois</rdg></app> fris,</l>
+<!--<lb/>--><l><app><lem>baithum</lem><rdg wit="Ha">botum</rdg></app> immarordamais.</l></lg></body>
+</text></p>
+
+<!--<lb/>--><p><app><lem>Foit</lem><rdg wit="H">foitit</rdg><rdg wit="Ha">foidid</rdg></app> in oidchi sin. Doberor in mac bec <app><lem>arnab&aacute;ruch</lem><rdg wit="Ha">arabharuch</rdg></app> dia
+<!--<lb/>-->chuibsigud do Chummaine.</p>
+
+<lb n="15"/><p><q>Is <app><lem>taccar duit</lem><rdg wit="Ha">tacoir det</rdg></app>  n&iacute; cela</q>, ar Cummaine. 
+<q>Not selo[s]&ndash;
+<!--<lb/>-->s&aelig; dia cela.</q></p>
+
+<!--<lb/>--><p>Is <app><lem>cumma</lem><rdg wit="Ha">coma</rdg></app> d&oacute; c&iacute;a <app><lem>eipli</lem><rdg wit="Ha">elbe</rdg></app>. <q>No[t]sela[s]-s&aelig; d&iacute;a n-<app><lem>atma</lem><rdg wit="Ha">adm&aelig;</rdg></app>.</q></p>
+
+<!--<lb/>--><p>Rucad som &iacute;arum do chill aili. <app><lem>Is and asbert som:</lem><rdg wit="Ha">itp[er]t som sunt</rdg></app>
+<text type="poem">
+<body>
+<lg type="quatrain" n="1">
+<!--<lb/>--><l><app><lem>Di ch&iacute;anaib</lem><rdg wit="Ha">do cianoib</rdg></app></l>
+<lb n="20"/><l><app><lem>&oacute; roscarus</lem><rdg wit="Ha">orscarus&aelig;</rdg></app> fri L&iacute;adain,</l>
+<!--<lb/>--><l><app><lem>sithithir</lem><rdg wit="H">is sithir</rdg></app> cech l&aacute; fri m&iacute;,</l>
+<!--<lb/>--><l><app><lem>sithithir m&iacute;</lem><rdg wit="H">sithir gach m&iacute;</rdg></app> fri bl&iacute;adain.</l></lg>
+
+<pb n="22"/>
+
+<sp>
+<speaker>[L&iacute;adain <frn lang="la">dixit</frn>:]</speaker>
+<lg n="2" type="quatrain">
+<!--<lb/>--><l><app><lem>M&aacute;su</lem><rdg wit="Ha">masso</rdg><rdg wit="H">mas&aelig;</rdg></app> Chuirithir ind&iacute;u</l>
+<!--<lb/>--><l><app><lem>doch&uacute;aid</lem><rdg wit="H">docoad</rdg></app> co r&eacute;tairiu,</l>
+<!--<lb/>--><l>dirsan <app><lem>in ch&iacute;all dusng&eacute;na</lem><rdg wit="H">ann ciall frisngen&aelig;</rdg></app></l>
+<lb n="5"/><l>fri nech <app><lem>nachid aithg&eacute;na</lem><rdg wit="H">nach&aelig; aithgen&aelig;</rdg></app>.</l></lg>
+</sp>
+
+<sp>
+<speaker>Cuimmine <frn lang="la">dixit</frn>:</speaker>
+<lg n="3" type="quatrain">
+<!--<lb/>--><l>N&iacute; maith lim an&iacute; atbir,</l>
+<!--<lb/>--><l>a L&iacute;adain ben Chuirithir,</l>
+<!--<lb/>--><l>rob&oacute;i sunn&aelig;, nirb&oacute; mer,</l>
+<lb n="10"/><l>cid s&iacute;u t&iacute;sed Cuirither.</l></lg>
+</sp>
+
+<sp>
+<speaker>[L&iacute;adain <frn lang="la">dixit</frn>:]</speaker>
+<lg n="4" type="quatrain">
+<!--<lb/>--><l>D&iacute;a h&aacute;ine didine</l>
+<!--<lb/>--><l>n&iacute;  <app><lem>bu</lem><rdg wit="H">bo</rdg></app>  scor for <app><lem>milide</lem><rdg wit="Ha">milighe</rdg><rdg wit="H">midlighi</rdg></app></l>
+<!--<lb/>--><l><app><lem>for l&oacute;&aelig;</lem><rdg wit="H">forlui</rdg></app> mo <app><lem>gaimn&eacute;n gil</lem><rdg wit="H">gaimnengil</rdg><rdg wit="Ha">g[r]aemne[n]gil</rdg></app></l>
+<lb n="15"/><l><app><lem>itir d&iacute; l&aacute;im Cuirithir</lem><rdg wit="Ha">et[ir] di laim do Cuirither  c[ur] (sic)</rdg><rdg wit="Ha">Z</rdg></app>.</l></lg>
+</sp>
+</body></text></p>
+
+<!--<lb/>--><p>Luid sium di<ex>du</ex> <app><lem>co mb&oacute;i</lem><rdg wit="Ha">conbo</rdg></app> hi Cill Letrech i t&iacute;r na nD&eacute;sse
+<!--<lb/>--><app><lem>inna ailithri</lem><rdg wit="Ha">i n-oilitre</rdg></app>. <app><lem>Doluid s&iacute;</lem><rdg wit="Ha">dilotsi</rdg></app> for a &iacute;arair-som &ampersir; <frn lang="la">dixit</frn>:
+
+<text type="poem">
+<body>
+<lg type="verse" n="1">
+<!--<lb/>--><l>Cen &aacute;inius</l>
+<!--<lb/>--><l><app><lem>in chaingen dorigenus:</lem><rdg wit="H">in gnimh hi dorighnius</rdg><rdg wit="Ha">hin gniom dorinius</rdg></app></l>
+<lb n="20"/><l><app><lem>an rocharus rocr&aacute;idius</lem><rdg wit="Ha">in rocharus rotcraidius</rdg></app>.</l></lg>
+
+<lg n="2">
+<!--<lb/>--><l>Ba mire</l>
+<!--<lb/>--><l>n&aacute; dernad <app><lem>a airer-som</lem><rdg wit="Ha">a airisiom</rdg></app>,</l>
+<!--<lb/>--><l><app><lem>manbad</lem><rdg wit="Ha">monb[ad]</rdg></app> oman r&iacute;g nime.</l></lg>
+
+<pb n="24"/>
+
+<lg n="3">
+<!--<lb/>--><l>N&iacute; <app><lem>b&uacute;</lem><rdg wit="Ha">bud</rdg></app> amlos</l>
+<!--<lb/>--><l>d&oacute;-sum <app><lem>in dul</lem><rdg wit="Ha">an dal</rdg></app> d&uacute;thracair:</l>
+<!--<lb/>--><l>ascnam sech <app><lem>p&eacute;in</lem><rdg wit="H">ph&eacute;in</rdg><rdg wit="Ha">pen</rdg></app> hi pardos.</l></lg>
+
+<lg n="4">
+<!--<lb/>--><l>Becc mbr&iacute;ge</l>
+<lb n="5"/><l><app><lem>rocr&aacute;ide</lem><rdg wit="H">romcraide</rdg></app> frim Cuirithir:</l>
+<!--<lb/>--><l>fris-seom ba m&oacute;r mo m&iacute;ne.</l></lg>
+
+<lg n="5">
+<!--<lb/>--><l>M&eacute; L&iacute;adain,</l>
+<!--<lb/>--><l>rocarus-sa Cuirithir:</l>
+<!--<lb/>--><l>is <app><lem>f&iacute;rithir</lem><rdg wit="H">firit[ir]</rdg><rdg wit="Ha">frithir</rdg></app> adfiadar.</l></lg>
+
+<lg n="6">
+<lb n="10"/><l>Gair <app><lem>b&aacute;-sa</lem><rdg wit="Ha">bassa</rdg><rdg wit="H">bass&aelig;</rdg></app></l>
+<!--<lb/>--><l><app><lem>hi coimthecht Cuirithir:</lem><rdg wit="H">hi coim (sic) Cuirithir</rdg></app></l>
+<!--<lb/>--><l>fris-som ba maith mo gn&aacute;s-sa.</l></lg>
+
+<lg n="7">
+<!--<lb/>--><l>C&eacute;ol caille</l>
+<!--<lb/>--><l>fomchanad la Cuirithir</l>
+<lb n="15"/><l>la fogur fairce flainne.</l></lg>
+
+<lg n="8">
+<!--<lb/>--><l><app><lem>Dom&eacute;nainn</lem><rdg wit="Ha">demenaind</rdg></app></l>
+<!--<lb/>--><l>n&iacute; cr&aacute;idfed frim Cuirithir</l>
+<!--<lb/>--><l>do d&aacute;laib <app><lem>cacha nd&eacute;nainn</lem><rdg wit="H">acht a ndenuim</rdg></app>.</l></lg>
+
+<lg n="9">
+<!--<lb/>--><l>N&iacute; chela!</l>
+<lb n="20"/><l>ba h&eacute;-som mo <app><lem>chride&sdot;erc</lem><rdg wit="H">cridhserc</rdg><rdg wit="Ha">sainserc</rdg></app>,</l>
+<!--<lb/>--><l>c&iacute;a nocarainn c&aacute;ch chen&aelig;.</l></lg>
+
+<lg n="10">
+<!--<lb/>--><l><app><lem>Deilm</lem><rdg wit="Ha">delm</rdg></app> ndeg&aelig;</l>
+<!--<lb/>--><l><app><lem>rotetaind</lem><rdg wit="Ha">rotethaind</rdg></app> mo chride-s&aelig;,</l>
+<!--<lb/>--><l>rofess n&iacute;con <app><lem>b&iacute;ad cen&aelig;</lem><rdg wit="Ha">bia cheuna</rdg></app>. Ce.</l></lg></body></text></p>
+
+<pb n="26"/>
+
+<!--<lb/>--><p>Is &eacute; di<ex>du</ex> <app><lem>cr&aacute;d</lem><rdg wit="Ha">grad</rdg></app> dorat s&iacute; fair-som a l&uacute;as <app><lem>rogab</lem><rdg wit="Ha">dogab</rdg></app> caille.</p>
+
+<!--<lb/>--><p><app><lem>Amail roncuala som</lem><rdg wit="Ha">amoil ronchual[u]siom</rdg><rdg wit="H">rocul[ai]dh seom</rdg></app> a <app><lem>tuidecht-si</lem><rdg wit="Ha">tuidecht-som (sic)</rdg></app> an&iacute;ar, luid som hi
+<!--<lb/>--><app><lem>forsan</lem><rdg wit="Ha">for in</rdg></app> fairci, co <app><lem>ndechaid</lem><rdg wit="Ha">ndeochaid</rdg></app> <app><lem>inna ailithriu</lem><rdg wit="Ha">a n-ailithri</rdg></app>, <app><lem>co n&aacute; acca s&iacute;</lem><rdg wit="Ha">cona faca si</rdg><rdg wit="H">cona anaccaisi (sic)</rdg></app>
+<!--<lb/>-->hinnunn. <q>Doc&oacute;id som <app><lem>a fecht so</lem><rdg wit="Ha">hif[echt]soe</rdg></app></q>, ol s&iacute;.</p>
+
+<p><lb n="5"/> Ind lecc fora mb&iacute;d som ac <app><lem>ernaigthe</lem><rdg wit="Ha">urnuide</rdg></app>, rob&oacute;i s&iacute; for inn <app><lem>leicc</lem><rdg wit="Ha">lecd</rdg></app>
+<!--<lb/>-->sin co n-erbailt s&iacute;, co ndechaid a hanim dochum nime. <app><lem>Conid
+<!--<lb/>-->ind lecc sin doch&oacute;id</lem><rdg wit="H">conidh si dochoidh</rdg></app> dar a hagaid-si.</p>
+
+<!--<lb/>--><p><app><lem>Comracc L&iacute;adaine &ampersir; Cuirithir inn sin an&uacute;as</lem><rdg wit="Ha">gonad conricc (sic) Liat[haine] &ampersir; Cuirithir conice sin. <frn lang="la">Finid.</frn></rdg></app>.</p></div0></body></text></TEI.2>
+
