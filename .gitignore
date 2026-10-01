@@ -217,3 +217,7 @@ __marimo__/
 # Streamlit
 .streamlit/secrets.toml
 .DS_Store
+
+# Personal study notes (not part of the deliverable)
+Cheat_Sheets/
+.vscode/settings.json
