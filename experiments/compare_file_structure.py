@@ -20,10 +20,12 @@ translation_tree = load_tei(SAMPLES_FOLDER/"T301020B.xml")
 original_body: Tag = original_tree.find("body")
 if original_body is None:
     print("No body in original tree")
+    exit()
 
 translation_body: Tag = translation_tree.find("body")
 if translation_body is None:
     print("No body in translation tree")
+    exit()
 
 
 original_all_tags = original_body.find_all(True)
@@ -33,7 +35,7 @@ original_all_tags = original_body.find_all(True)
 #         original_tag_occurrences[tag.name] += 1
 #     original_tag_occurrences[tag.name] = 1
 
-translation_all_tags = translation_body.findall(True)
+translation_all_tags = translation_body.find_all(True)
 # translation_tag_occurrences = {}
 # for tag in translation_all_tags:
 #     if tag in translation_tag_occurrences:
@@ -41,8 +43,8 @@ translation_all_tags = translation_body.findall(True)
 #     translation_tag_occurrences[tag.name] = 1
 
 #better to use counter, it does the same thing
-original_tag_occurrences: Counter[str] = Counter(original_all_tags)
-translation_tag_occurrences: Counter[str] = Counter(translation_all_tags)
+original_tag_occurrences: Counter[str] = Counter(tag.name for tag in original_all_tags)
+translation_tag_occurrences: Counter[str] = Counter(tag.name for tag in translation_all_tags)
 
 tag_occurrences_union: set[str] = set(original_tag_occurrences) | set(translation_tag_occurrences) #merge the 2 occurrences
 for tag in tag_occurrences_union:
