@@ -45,23 +45,29 @@ def compare_occurrences(original_tags: List[Tag], translation_tags: List[Tag]) -
 original_tree = load_tei(SAMPLES_FOLDER/"G301020B.xml")
 translation_tree = load_tei(SAMPLES_FOLDER/"T301020B.xml")
 
-original_div1s: List[Tag] = original_tree.find_all("div1")
+original_div1s: ResultSet[Tag] = original_tree.find_all("div1")
 if original_div1s is None:
     print("No div1 in original tree")
     exit()
 
-translation_div1s: List[Tag] = translation_tree.find_all("div1") #returns a list of all div1 elements 
+translation_div1s: ResultSet[Tag] = translation_tree.find_all("div1") #returns a list of all div1 elements 
 if translation_div1s is None:
     print("No div1 in translation tree")
     exit()
 
-counter = 1
+counter = 0
 section_mismatches = {}
 for original_div1, translation_div1 in zip(original_div1s, translation_div1s):
-    print(f"section {counter}:")
-    mismatches = compare_occurrences(original_div1.find_all(True), translation_div1.find_all(True))
+    print(f"div {counter}:")
+
+    original_section_number = original_div1s.get("n")
+    translation_section_number = translation_div1s.get("n")
+    if original_section_number != translation_section_number:
+        print(f"Section number mismatch:\n  oroginal - {original_section_number}\n  translation - {translation_section_number}")
+        continue #doesn't make much sense to compare sections that doesn't line up
+    
+    mismatches = compare_occurrences(original_div1.find_all(True), translation_div1.find_all(True)) #the find_all(True) gives it all the nested elements inside the div1
     if mismatches:
-        section_mismatches[counter] = mismatches
-    #the find_all(True) gives it all the nested elements inside the div1
+        section_mismatches[original_section_number] = mismatches #doesn't matter which one we use, they are the same anyway
     counter+=1
 print(section_mismatches)
