@@ -1,9 +1,10 @@
 Backend Components:
 File loader - frontend passes files (original AND translation) to backend, then BeautifulSoup(raw_text, "html.parser")
 
-File scanner - Controller that orchastrates scanner modules to find all the issue with the file
-Scanner module - small targeted module aimed to find issue of A SPECIFIC NATURE. It can either return the issue it finds out right, 
-                or it can look deeper into them and give a more nuanced nature.
+File scanner - Controller that orchastrates scanner modules to find all the issue with the file. 
+               Do a in-file scan first and fix issues within the file. (Essentially do the whole scan->propose->fix loop for 2 files individually. Then do cross-file runs)
+
+File analyzer - Human in the loop, analyzes file structure, have user confirm that the structure is correct, then we align
 
 Aligner - Matches elements between original and translation, for example which <p> in original corresponds to which <p> in translation.
           Runs after File loader, before the cross document scanners. Outputs a linked form of the 2 files which the scanner modules then work on.
@@ -21,6 +22,9 @@ Aligner - Matches elements between original and translation, for example which <
           Aligns sections first, then children within each section, so one bad section can't cascade.
           Anchor priority: explicit ids (div1 n) > structural sequence (difflib) > position.
 
+Scanner module - small targeted module aimed to find issue of A SPECIFIC NATURE. It can either return the issue it finds out right, 
+                or it can look deeper into them and give a more nuanced nature.
+
 Fix Proposer/Dispatch - Takes the list of issues(categorized by their nature), and propose corresponding fixes (for user to agree like coding agents does)
                       - The fixes should be applied and proposed from the end to the start, because other wise the earlier fix will change the absolute 
                       positions of later issues
@@ -28,6 +32,8 @@ Fix Proposer/Dispatch - Takes the list of issues(categorized by their nature), a
 Fixer module - Dedicated modules that fixes one specific nature of issues. Fixes should be implemented in place using positional data from BS4.
                Aside from implementing the fix, it should also be able to produce a "fix proposal" for frontend Illustrator.
                Fixes should all be applied to a temporarily file for safety and output upon user's request.
+               Issue to be careful with:
+                Fixes could interfere with each other, while making modules, make the scope tight, and be careful of unexpected side effects
 
 Applier interface - Fixer modules' fix actions go through this, this is what actually implement the fix in their correct place using location meta data from BS4
                     Because entities are decoded, so &amacr becomes ā and the file no longer matches CELT's encoding or its declared ISO-8859-1
@@ -75,6 +81,10 @@ need to decide in development
 
 
 
+Principle for development:
+Incremental development, make workable and showable demo as priority, and make sure the system is expandable and easy to work with
+Allow others to make upgrades easily, since it is public repo.
+Focus on most common types if issues.
 
 
 
