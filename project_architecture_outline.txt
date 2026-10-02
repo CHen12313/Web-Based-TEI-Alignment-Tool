@@ -8,6 +8,13 @@ Scanner module - small targeted module aimed to find issue of A SPECIFIC NATURE.
 Aligner - Matches elements between original and translation, for example which <p> in original corresponds to which <p> in translation.
           Runs after File loader, before the cross document scanners. Outputs a linked form of the 2 files which the scanner modules then work on.
           
+          This is a cleaner split of responsibility, because for the scanner modules to spot more subtle and neuanced mismatches, it would need to first 
+          establish a logical correlation between the 2 files. And such process has to be repeated in every scanner module. So separating it out into its 
+          own thing moves it out and make the boundaries cleaner. Every subsequent scanner module will just work against the alignment map the aligner built (and the 2 file trees)
+          
+          Otherwise we would have the issue of maintaining duplicated alignment logic across all scanners, which does repeated work for
+          both the system and us. The aligner itself can also be more easily tested.
+
           (AIed the following paragraph)
           Output: matched pairs (1:1, 1:many), unmatched elements, unaligned regions, and the anchor method used.
           "No counterpart" is a normal result, not a failure. Interpreting it is the scanners' job.
@@ -17,6 +24,7 @@ Aligner - Matches elements between original and translation, for example which <
 Fix Proposer/Dispatch - Takes the list of issues(categorized by their nature), and propose corresponding fixes (for user to aggree like coding agents does)
                       - The fixes should be applied and proposed from the end to the start, because other wise the eariler fix will change the absolute 
                       positions of later issues
+
 Fixer module - Dedicated modules that fixes one specific nature of issues. Fixes should be implemented in place using positional data from BS4.
                Aside from implementing the fix, it should also be able to produce a "fix proposal" for frontend Illustrator.
                Fixes should all be applied to a temporaty file for safety and output upon user's request.
@@ -42,6 +50,18 @@ Other things to design:
 Issue data contract - Scanner -> Proposer -> Highlighter -> Fix suggester -> Aligner interface
 Pipeline controller logic, and control signal logic
 
+Time complexity of the system:
+Backend:
+For each scanner module, it is (or should be) at worst O(N), where N is the number of elements in one file. 
+Given the previous designs, each scanner only finds one kind of issue, and it is working off of the map produced by the scanner.
+It should theoretically eliminate the need to "look back" or do O(N^2) operations
+
+For the aligner, it is also at worst O(N). Technically it is 2N for both original and translation, but it's big O, so 2N = N
+
+Each file "scan" will run all the scanners, so it will become O(NM), where M is the number of scanners
+ 
+Plus the aligner, the total time complexity will be O(NM), which I think is good for a system like this.
+
 Misc:
 Start prototyping with untyped dict for speed, later switch to data classes (preferably) or typed dicts for more "machine enforced contracts"
 
@@ -52,6 +72,11 @@ dispatcher then give the list of fix requests to the backend Fix Proposer/Dispat
 
 However it would also be nice for the frontend to show the entire fixed file in the GUI, but that could introduce multiple sources of truth 
 need to decide in development
+
+
+
+
+
 
 
 More on the aligner backend:
