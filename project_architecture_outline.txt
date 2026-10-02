@@ -1,0 +1,98 @@
+Backend Components:
+File loader - frontend passes files (original AND translation) to backend, then BeautifulSoup(raw_text, "html.parser")
+
+File scanner - Controller that orchastrates scanner modules to find all the issue with the file
+Scanner module - small targeted module aimed to find issue of A SPECIFIC NATURE. It can either return the issuue it finds out right, 
+                or it can look deeper into them and give a more nuanced nature.
+
+Aligner - Matches elements between original and translation, for example which <p> in original corresponds to which <p> in translation.
+          Runs after File loader, before the cross document scanners. Outputs a linked form of the 2 files which the scanner modules then work on.
+          
+          (AIed the following paragraph)
+          Output: matched pairs (1:1, 1:many), unmatched elements, unaligned regions, and the anchor method used.
+          "No counterpart" is a normal result, not a failure. Interpreting it is the scanners' job.
+          Aligns sections first, then children within each section, so one bad section can't cascade.
+          Anchor priority: explicit ids (div1 n) > structural sequence (difflib) > position.
+
+Fix Proposer/Dispatch - Takes the list of issues(categorized by their nature), and propose corresponding fixes (for user to aggree like coding agents does)
+                      - The fixes should be applied and proposed from the end to the start, because other wise the eariler fix will change the absolute 
+                      positions of later issues
+Fixer module - Dedicated modules that fixes one specific nature of issues. Fixes should be implemented in place using positional data from BS4.
+               Aside from implementing the fix, it should also be able to produce a "fix proposal" for frontend Illustrator.
+               Fixes should all be applied to a temporaty file for safety and output upon user's request.
+
+Applier interface - Fixer modules' fix actions go through this, this is what actually implement the fix in their correct place using location meta data from BS4
+                    Because entities are decoded, so &amacr becomes ā and the file no longer matches CELT's encoding or its declared ISO-8859-1
+                    html.parser records only sourceline and sourcepos, so it will also have to find the tag ending
+
+There should be an option to re-run the scanner on the "fixed" temporay file to verify that the fix has worked.
+
+Frontend Components:
+Aligned view (frontend) - RENDERS the aligner's pairs side by side so matching parts line up on screen. Computes nothing itself, so the screen and the 
+                          scanners can never disagree.
+
+Issuue Highlighter - High lights the issue reported by File Scanner (on both files for better reference). Different kind of issues should be shown 
+                     differently for easy distinction.
+
+Fix suggester - Take the proposal from Fix Proposer/Dispatch, and display the "fix proposal" for users (just like coding agents displaying change diffs)
+Dispatch bridge (API calls) - Responsible for passing signals to approve fixes, which the dispatcher in backend then use to authorize fixer's "fix" method.
+GUI - Basic controls for uploading files, clicking on stuff, and calling respective handlers for different actions
+
+Other things to design:
+Issue data contract - Scanner -> Proposer -> Highlighter -> Fix suggester -> Aligner interface
+Pipeline controller logic, and control signal logic
+
+Misc:
+Start prototyping with untyped dict for speed, later switch to data classes (preferably) or typed dicts for more "machine enforced contracts"
+
+For the frontend, the more intuitive way is to show the fixes from start to finish, but for backend, it HAS TO apply them from back to start.
+
+One posible way to do it is to have the user select all the fixes they want to apply, and once they are done selecting, they click apply, and the 
+dispatcher then give the list of fix requests to the backend Fix Proposer/Dispatch to apply from end to start.
+
+However it would also be nice for the frontend to show the entire fixed file in the GUI, but that could introduce multiple sources of truth 
+need to decide in development
+
+
+More on the aligner backend:
+Aligner (backend) - Runs after File loader, before the cross-document scanners.
+                    Answers ONE question: "which element in the original corresponds to which element in the translation?"
+                    Reports FACTS only, never produces Issues. Deciding whether something is a problem is the scanners' job.
+
+    Output:
+        - Matched pairs: original element <-> translation element
+        - One-to-many / many-to-one matches: one original element <-> several translation elements (or the reverse)
+        - Unmatched elements: an element on either side with no counterpart
+        - Unaligned regions: stretches that could not be aligned with confidence
+        - For every match: which anchor method was used (so scanners know how much to trust it)
+
+    Misalignment is NOT failure:
+        "No counterpart" is a normal result. The aligner only fails if a file cannot be parsed.
+        (Analogy: diff marks lines as inserted/deleted, but does not decide whether the change is a bug.)
+
+    Strategy:
+        - Hierarchical: align sections first, then align children WITHIN each matched section,
+          so a problem in one section cannot cascade into later sections (the zip problem)
+        - Anchor priority:
+            1. Explicit identifiers (div1 n, id)
+            2. Structural sequence alignment (e.g. difflib on tag-name sequences)
+            3. Position (last resort, lowest confidence)
+
+    Example (301020B, section 12):
+        Original (G) has 2 <p>, translation (T) has 3 <p>
+
+        Aligner output:
+            section 12 (anchor: div1 n)
+                G p1 <-> T p1          (1:1)
+                G p2 <-> T p2 + T p3   (1:2)
+
+        Scanner interpretation (NOT the aligner's job):
+            one original paragraph maps to two translation paragraphs
+            -> category: paragraph split
+            -> severity: warning
+            -> fixability: needs user input (merge T p2 + T p3, or accept the translator's split)
+
+    Related work: Gale & Church (1993), "A Program for Aligning Sentences in Bilingual Corpora",
+                  Computational Linguistics. Allows 1:1, 1:2, 2:1, 1:0, 0:1 matches.
+                  Adapted here from sentences to TEI element structure.
+
