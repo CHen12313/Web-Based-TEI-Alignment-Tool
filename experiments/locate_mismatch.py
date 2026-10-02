@@ -60,8 +60,8 @@ section_mismatches = {}
 for original_div1, translation_div1 in zip(original_div1s, translation_div1s):
     print(f"div {counter}:")
 
-    original_section_number = original_div1s.get("n")
-    translation_section_number = translation_div1s.get("n")
+    original_section_number = original_div1.get("n")
+    translation_section_number = translation_div1.get("n")
     if original_section_number != translation_section_number:
         print(f"Section number mismatch:\n  oroginal - {original_section_number}\n  translation - {translation_section_number}")
         continue #doesn't make much sense to compare sections that doesn't line up
