@@ -2,13 +2,13 @@ Backend Components:
 File loader - frontend passes files (original AND translation) to backend, then BeautifulSoup(raw_text, "html.parser")
 
 File scanner - Controller that orchastrates scanner modules to find all the issue with the file
-Scanner module - small targeted module aimed to find issue of A SPECIFIC NATURE. It can either return the issuue it finds out right, 
+Scanner module - small targeted module aimed to find issue of A SPECIFIC NATURE. It can either return the issue it finds out right, 
                 or it can look deeper into them and give a more nuanced nature.
 
 Aligner - Matches elements between original and translation, for example which <p> in original corresponds to which <p> in translation.
           Runs after File loader, before the cross document scanners. Outputs a linked form of the 2 files which the scanner modules then work on.
           
-          This is a cleaner split of responsibility, because for the scanner modules to spot more subtle and neuanced mismatches, it would need to first 
+          This is a cleaner split of responsibility, because for the scanner modules to spot more subtle and nuanced mismatches, it would need to first 
           establish a logical correlation between the 2 files. And such process has to be repeated in every scanner module. So separating it out into its 
           own thing moves it out and make the boundaries cleaner. Every subsequent scanner module will just work against the alignment map the aligner built (and the 2 file trees)
           
@@ -21,25 +21,25 @@ Aligner - Matches elements between original and translation, for example which <
           Aligns sections first, then children within each section, so one bad section can't cascade.
           Anchor priority: explicit ids (div1 n) > structural sequence (difflib) > position.
 
-Fix Proposer/Dispatch - Takes the list of issues(categorized by their nature), and propose corresponding fixes (for user to aggree like coding agents does)
-                      - The fixes should be applied and proposed from the end to the start, because other wise the eariler fix will change the absolute 
+Fix Proposer/Dispatch - Takes the list of issues(categorized by their nature), and propose corresponding fixes (for user to agree like coding agents does)
+                      - The fixes should be applied and proposed from the end to the start, because other wise the earlier fix will change the absolute 
                       positions of later issues
 
 Fixer module - Dedicated modules that fixes one specific nature of issues. Fixes should be implemented in place using positional data from BS4.
                Aside from implementing the fix, it should also be able to produce a "fix proposal" for frontend Illustrator.
-               Fixes should all be applied to a temporaty file for safety and output upon user's request.
+               Fixes should all be applied to a temporarily file for safety and output upon user's request.
 
 Applier interface - Fixer modules' fix actions go through this, this is what actually implement the fix in their correct place using location meta data from BS4
                     Because entities are decoded, so &amacr becomes ā and the file no longer matches CELT's encoding or its declared ISO-8859-1
                     html.parser records only sourceline and sourcepos, so it will also have to find the tag ending
 
-There should be an option to re-run the scanner on the "fixed" temporay file to verify that the fix has worked.
+There should be an option to re-run the scanner on the "fixed" temporarily file to verify that the fix has worked.
 
 Frontend Components:
 Aligned view (frontend) - RENDERS the aligner's pairs side by side so matching parts line up on screen. Computes nothing itself, so the screen and the 
                           scanners can never disagree.
 
-Issuue Highlighter - High lights the issue reported by File Scanner (on both files for better reference). Different kind of issues should be shown 
+Issue Highlighter - High lights the issue reported by File Scanner (on both files for better reference). Different kind of issues should be shown 
                      differently for easy distinction.
 
 Fix suggester - Take the proposal from Fix Proposer/Dispatch, and display the "fix proposal" for users (just like coding agents displaying change diffs)
@@ -79,7 +79,7 @@ need to decide in development
 
 
 
-More on the aligner backend:
+More on the aligner backend (AIed this, this would be next big thing to develop, needs more nuance):
 Aligner (backend) - Runs after File loader, before the cross-document scanners.
                     Answers ONE question: "which element in the original corresponds to which element in the translation?"
                     Reports FACTS only, never produces Issues. Deciding whether something is a problem is the scanners' job.
