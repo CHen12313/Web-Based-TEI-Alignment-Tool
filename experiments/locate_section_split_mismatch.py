@@ -119,14 +119,6 @@ def align_elements(original_tags: ResultSet[Tag], translation_tags: ResultSet[Ta
     return align_as_one_block()
 
 def align_on_section_numbers(original_tags: ResultSet[Tag], translation_tags: ResultSet[Tag]) -> list[AlignedPair]:
-    #we use the section numbers as anchors, and use them to step into them, and find all the <p>s, and compare the 
-    output_list: List[AlignedPair] = []
-    
-    for original_div, translation_div in zip(original_tags, translation_tags):
-        if original_div.get("n") == translation_div.get("n"):
-            pass
-
-def align_on_position(original_tags: ResultSet[Tag], translation_tags: ResultSet[Tag]) -> list[AlignedPair]:
     #use a lookup table to store which <p n="x"> maps to which <p> in 
     #For anchor, we use <lb> in Original and the <p n="x"> in translation
     #For mapping, we take the <lb> from Original, and map it to the translation
@@ -134,6 +126,13 @@ def align_on_position(original_tags: ResultSet[Tag], translation_tags: ResultSet
     # if the corresponding line inside original is in the middle of a <p>, we know the original <p> was split into multiple translation <p>s
     #For multiple original <p> being merged into one translation <p> (many to one), we check if the start of the original <p> falls in the middle of a 
     # translation <p>, essentially the opposite of the one to many case
+    output_list: List[AlignedPair] = []
+    
+    for original_div, translation_div in zip(original_tags, translation_tags):
+        if original_div.get("n") == translation_div.get("n"):
+            pass
+
+def align_on_position(original_tags: ResultSet[Tag], translation_tags: ResultSet[Tag]) -> list[AlignedPair]:
     pass
 
 def align_as_one_block(original_tags: ResultSet[Tag], translation_tags: ResultSet[Tag]) -> list[AlignedPair]:
