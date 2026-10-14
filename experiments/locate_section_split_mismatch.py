@@ -4,7 +4,7 @@ from pathlib import Path
 from bs4 import BeautifulSoup, Tag, XMLParsedAsHTMLWarning
 from bs4.element import ResultSet
 
-from typing import List
+from typing import List, Dict, Set
 from enum import StrEnum
 from collections import Counter
 
@@ -45,28 +45,39 @@ class Element:
     technique that measures the lengths of original and translation. A paragraph would have more characters, so that minor differences in char-count
     across languages would be less "dominant", which should hopefully improve matching accuracy.
     """
-    def __init__(self, input_element: Tag):
+    def __init__(self, input_element: Tag, order_index: int = None, start_line_number: int = None):
         self.name: str = input_element.name
-        self.length: int = self.get_length()
-        self.length: int = None
+        self.start_line_number: int = None
         self.source_column: int = input_element.sourcepos #the column that the element is located in source file
         self.section_number: int | None = input_element.get("n") #we get the section number for that element, not every file has that, so None if "none"
         self.order_index: int = None #this stores the position in document order among all other tags, has to be assigned
 
-    @property
-    def length(self) -> int:
-        pass
-
-class AlignedPair:
-    def __init__(self, section_index: int, source_elements: List[Tag], target_elements: List[Tag],
+class AlignedPair: #I worked out the attributes with claude, I asked it to do the comments so I don't forget
+    def __init__(self, source_elements: List[Element], target_elements: List[Element],
                  section_label: str | None = None, confidence_score: float = 0.0, 
                  anchor_method: AnchorMethod = AnchorMethod.POSITION):
-        self.section_index: int = section_index
+        # the original (Irish) elements in this pair, in document order;
+        # one element normally, several for a merge, empty when the translation has no counterpart
+        self.source_elements: List[Element] = source_elements
+
+        # the translation (English) elements in this pair, in document order;
+        # one element normally, several for a split, empty when the original has no counterpart
+        self.target_elements: List[Element] = target_elements
+
+        # the section number written in the file (div1@n), for showing to the user;
+        # None when the file has no numbers (e.g. 301042's div0)
         self.section_label: str = section_label
-        self.source_elements: List[Tag] = source_elements
-        self.target_elements: List[Tag] = target_elements
+
+        # how sure the aligner is that these elements correspond, from 0.0 (guess) to 1.0 (certain)
         self.confidence_score: float = confidence_score
+
+        # which method produced this pairing (section number, position, length, ...),
+        # so scanners know how far to trust it
         self.anchor_method: AnchorMethod = anchor_method
+
+        # the alignment of the elements one level down, inside this pair
+        # (e.g. the paragraph pairs inside a section pair);
+        # empty until the aligner steps in, and stays empty at the lowest level
         self.child_pairs: list[AlignedPair] = []
 
     @property
@@ -118,7 +129,6 @@ def align_elements(original_tags: ResultSet[Tag], translation_tags: ResultSet[Ta
 
     return align_as_one_block()
 
-def align_on_section_numbers(original_tags: ResultSet[Tag], translation_tags: ResultSet[Tag]) -> list[AlignedPair]:
     #use a lookup table to store which <p n="x"> maps to which <p> in 
     #For anchor, we use <lb> in Original and the <p n="x"> in translation
     #For mapping, we take the <lb> from Original, and map it to the translation
@@ -126,17 +136,56 @@ def align_on_section_numbers(original_tags: ResultSet[Tag], translation_tags: Re
     # if the corresponding line inside original is in the middle of a <p>, we know the original <p> was split into multiple translation <p>s
     #For multiple original <p> being merged into one translation <p> (many to one), we check if the start of the original <p> falls in the middle of a 
     # translation <p>, essentially the opposite of the one to many case
+
+def align_on_section_numbers(original_tags: ResultSet[Tag], translation_tags: ResultSet[Tag]) -> list[AlignedPair]:
     output_list: List[AlignedPair] = []
-    
-    for original_div, translation_div in zip(original_tags, translation_tags):
-        if original_div.get("n") == translation_div.get("n"):
-            pass
+    original_div_number_lookup: Dict[str, Element] = {} #div.get("n") returns str
+    translation_div_number_lookup: Dict[str, Element] = {}
+    included_section_numbers: Set[str] = set()
+
+    for i, original_div in enumerate(original_tags): 
+        original_div_element = Element(original_div, i)
+        original_div_number_lookup[original_div.get("n")] = original_div_element
+
+    for i, translation_div in enumerate(translation_tags):
+        translation_div_element = Element(translation_div, i)
+        translation_div_number_lookup[translation_div.get("n")] = translation_div_element
+        
+    for original_div in original_tags:
+        original_div_element = original_div_number_lookup[original_div.get("n")]
+
+        if original_div.get("n") not in translation_div_number_lookup:
+            output_list.append(AlignedPair([original_div_element], [], original_div.get("n"), None, AnchorMethod.SECTION_NUMBER))
+            #we use SECTION_NUMBER for orphans because they are still orphans produced by this AnchorMethod, design choice
+            included_section_numbers.add(original_div.get("n"))
+
+        else:
+            found_translation_div_element = translation_div_number_lookup[original_div.get("n")]
+            output_list.append(AlignedPair([original_div_element], [found_translation_div_element], original_div.get("n"), None, AnchorMethod.SECTION_NUMBER))
+
+            included_section_numbers.add(original_div.get("n"))
+
+    #After this loop, all <div> elements that is not added to the output_list would be orphans 
+    for translation_div in translation_tags:
+        if translation_div.get("n") not in included_section_numbers:
+            translation_div_element = translation_div_number_lookup[translation_div.get("n")]
+            output_list.append(AlignedPair([], [translation_div_element], translation_div.get("n"), None, AnchorMethod.SECTION_NUMBER))
+
+    return output_list
 
 def align_on_position(original_tags: ResultSet[Tag], translation_tags: ResultSet[Tag]) -> list[AlignedPair]:
     pass
 
 def align_as_one_block(original_tags: ResultSet[Tag], translation_tags: ResultSet[Tag]) -> list[AlignedPair]:
     pass
+
+def align_section(original_tags: ResultSet[Tag], translation_tags: ResultSet[Tag]) -> list[AlignedPair]:
+    original_elements: List[Element] = []
+    translation_tags: List[Element] = []
+    
+    for i, tag in enumerate(original_tags):
+        element = Element(tag, i)
+        
 
 original_tree = load_tei(SAMPLES_FOLDER/"G301042B.xml")
 translation_tree = load_tei(SAMPLES_FOLDER/"T301042B.xml")
