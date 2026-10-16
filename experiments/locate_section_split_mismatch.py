@@ -1,14 +1,15 @@
 import warnings
 from pathlib import Path
 
-from bs4 import BeautifulSoup, Tag, XMLParsedAsHTMLWarning
+from bs4 import BeautifulSoup, Tag, XMLParsedAsHTMLWarning, NavigableString, Comment
 from bs4.element import ResultSet
 
-from typing import List, Dict, Set
+from typing import List, Dict, Set, Tuple
 from enum import StrEnum
 from collections import Counter
 
 import re
+from bisect import bisect_left, bisect_right
 
 warnings.filterwarnings("ignore", category=XMLParsedAsHTMLWarning)
 
@@ -22,7 +23,11 @@ IGNORE_LIST: set[str] = { #<-AI wrote this set (list)
     "frn",  # foreign (Latin) words: marked in the source, not the translation
 }
 
+NON_PRINTED_TAGS: set[str] = {"note"}
+
 #this script will work on 301042
+#one key convention is that it aligns the translation ONTO the original
+
 class AlignmentKind(StrEnum):
     ONE_TO_ONE = "one_to_one"
     ONE_TO_MANY = "one_to_many"
@@ -31,7 +36,7 @@ class AlignmentKind(StrEnum):
     SOURCE_ONLY = "source_only"
     TARGET_ONLY = "target_only"
 
-class AnchorMethod(StrEnum):
+class AnchorMethod(StrEnum): #AI wrote this class
     SECTION_NUMBER = "section_number"            # div1@n matches on both sides
     ELEMENT_ID = "element_id"                    # matching id attributes
     STRUCTURAL_SEQUENCE = "structural_sequence"  # tag-name sequence comparison (difflib)
@@ -47,6 +52,8 @@ class Element:
     """
     def __init__(self, input_element: Tag, order_index: int = None, start_line_number: int = None):
         self.name: str = input_element.name
+        self.tag: Tag = input_element
+        self.order_index: int = order_index
         self.start_line_number: int = None
         self.source_column: int = input_element.sourcepos #the column that the element is located in source file
         self.section_number: int | None = input_element.get("n") #we get the section number for that element, not every file has that, so None if "none"
@@ -105,7 +112,51 @@ def load_tei(file_path: str) -> BeautifulSoup:
 def get_comparable_children(parent_tag: Tag) -> list[Tag]:
     return [child for child in parent_tag.children if isinstance(child, Tag) and child.name not in IGNORE_LIST]
 
-def align_elements(original_tags: ResultSet[Tag], translation_tags: ResultSet[Tag]):
+def align_elements(original_tags: List[Tag], translation_tags: List[Tag]) -> Tuple[List[AlignedPair], List[AlignedPair]]:
+    #entry point of the aligner
+    aligned_sections: List[AlignedPair] = align_sections(original_tags, translation_tags)
+    aligned_elements_per_section = []
+
+    for sec in aligned_sections:
+        if not sec.source_elements or not sec.target_elements:
+            continue
+
+        original_child_division_tags: List[Tag] = [
+            child_division_tag 
+            for division_element in sec.source_elements for child_division_tag in division_element.tag.find_all(division_pattern, recursive=False) 
+        ]
+
+        translation_child_division_tags: List[Tag] = [
+            child_division_tag
+            for division_element in sec.target_elements for child_division_tag in division_element.tag.find_all(division_pattern, recursive=False)
+        ]
+
+        if original_child_division_tags and translation_child_division_tags: 
+            #we have to do recursion because there could be nested <div>s, without it, we only get the direct children of each section div
+            sec.child_pairs = align_elements(original_child_division_tags, translation_child_division_tags)
+
+        elif not original_child_division_tags and not translation_child_division_tags:
+            original_paragraph_tags: List[Tag] = [
+                paragraph_tag
+                for division_element in sec.source_elements for paragraph_tag in division_element.tag.find_all("p", recursive=False)
+            ]
+            translation_paragraph_tags: List[Tag] = [
+                paragraph_tag
+                for division_element in sec.target_elements for paragraph_tag in division_element.tag.find_all("p", recursive=False)
+            ]
+
+            original_paragraph_elements: List[Element] = [
+                Element(paragraph_tag, paragraph_index) for paragraph_index, paragraph_tag in enumerate(original_paragraph_tags)
+            ]
+            translation_paragraph_elements: List[Element] = [
+                Element(paragraph_tag, paragraph_index) for paragraph_index, paragraph_tag in enumerate(translation_paragraph_tags)
+            ]
+
+            aligned_elements_per_section.append(align_individual_section(original_paragraph_elements, translation_paragraph_elements))
+
+    return aligned_elements_per_section, aligned_sections
+
+def align_sections(original_tags: ResultSet[Tag], translation_tags: ResultSet[Tag]) -> List[AlignedPair]:
     all_sections_numbered = True
     same_sections_count = True
 
@@ -127,15 +178,7 @@ def align_elements(original_tags: ResultSet[Tag], translation_tags: ResultSet[Ta
     if same_sections_count:
         return align_on_position(original_tags, translation_tags)
 
-    return align_as_one_block()
-
-    #use a lookup table to store which <p n="x"> maps to which <p> in 
-    #For anchor, we use <lb> in Original and the <p n="x"> in translation
-    #For mapping, we take the <lb> from Original, and map it to the translation
-    #For one original <p> to multiple translation (one to many), we check the start of the translation paragraph(s), 
-    # if the corresponding line inside original is in the middle of a <p>, we know the original <p> was split into multiple translation <p>s
-    #For multiple original <p> being merged into one translation <p> (many to one), we check if the start of the original <p> falls in the middle of a 
-    # translation <p>, essentially the opposite of the one to many case
+    return align_as_one_block(original_tags, translation_tags)
 
 def align_on_section_numbers(original_tags: ResultSet[Tag], translation_tags: ResultSet[Tag]) -> list[AlignedPair]:
     output_list: List[AlignedPair] = []
@@ -173,19 +216,97 @@ def align_on_section_numbers(original_tags: ResultSet[Tag], translation_tags: Re
 
     return output_list
 
-def align_on_position(original_tags: ResultSet[Tag], translation_tags: ResultSet[Tag]) -> list[AlignedPair]:
-    pass
+def align_on_position(original_tags: ResultSet[Tag], translation_tags: ResultSet[Tag]) -> List[AlignedPair]:
+    if len(original_tags) != len(translation_tags):
+        raise ValueError("original_tags and translation_tags must have the same length")
+
+    output_list: List[AlignedPair] = []
+
+    for i, original_div in enumerate(original_tags):
+        original_div_element = Element(original_div, i)
+        translation_div_element = Element(translation_tags[i], i)
+
+        output_list.append(AlignedPair([original_div_element], [translation_div_element])) 
+
+    return output_list
 
 def align_as_one_block(original_tags: ResultSet[Tag], translation_tags: ResultSet[Tag]) -> list[AlignedPair]:
     pass
 
-def align_section(original_tags: ResultSet[Tag], translation_tags: ResultSet[Tag]) -> list[AlignedPair]:
-    original_elements: List[Element] = []
-    translation_tags: List[Element] = []
-    
-    for i, tag in enumerate(original_tags):
-        element = Element(tag, i)
+#use a lookup table to store which <p n="x"> maps to which <p> in 
+#For anchor, we use <lb> in Original and the <p n="x"> in translation
+#For mapping, we take the <lb> from Original, and map it to the translation
+#For one original <p> to multiple translation (one to many), we check the start of the translation paragraph(s), 
+# if the corresponding line inside original is in the middle of a <p>, we know the original <p> was split into multiple translation <p>s
+#For multiple original <p> being merged into one translation <p> (many to one), we check if the start of the original <p> falls in the middle of a 
+# translation <p>, essentially the opposite of the one to many case
+def align_individual_section(original_elements: List[Element], translation_elements: List[Element]) -> list[AlignedPair]:
+    translation_start_lines: List[int] = []
+    translation_paragraph_elements: List[Element] = []  #parallel to translation_start_lines: entry k = same paragraph
+    output_list: List[AlignedPair] = []
+
+    for paragraph in translation_elements:
+        irish_line_marker: Tag | None = paragraph.tag.find("mls", attrs={"unit": "Irish text line"})
+        if irish_line_marker is None:
+            continue
+        translation_start_lines.append(int(irish_line_marker.get("n")))
+        translation_paragraph_elements.append(paragraph)
+
+    for position in range(1, len(translation_start_lines)):
+        if translation_start_lines[position] < translation_start_lines[position - 1]:
+            raise ValueError(f"mls line numbers out of order at line {translation_start_lines[position]}")
+
+    for paragraph in original_elements:
+        first_linebreak: Tag | None = paragraph.tag.find("lb")
+        if first_linebreak is None or first_linebreak.get("n") is None:
+            continue  # no numbered line inside this paragraph; TODO: handle
+
+        if is_paragraph_start(first_linebreak, paragraph.tag):
+            found_translation_element, starts_on_line = find_containing_translation_paragraph(
+                int(first_linebreak.get("n")), translation_start_lines, translation_paragraph_elements
+            )
+            if found_translation_element is None:
+                continue  # line comes before every translation start; TODO: handle (e.g. translation p1)
+            if starts_on_line:
+                output_list.append(AlignedPair([paragraph], [found_translation_element]))
+            else:
+                pass
+                # TODO: starts_on_line False -> the Irish paragraph starts inside found_translation_element (merge)
+        else:
+            # TODO: paragraph does not start on its first lb -> start line has to be estimated
+            pass
+    return output_list
+
+def is_paragraph_start(line_break: Tag, paragraph: Tag):
+    for element in line_break.previous_elements:
+        if element is paragraph:
+            return True #reached the start of the paragraph without hitting printed text
         
+        if isinstance(element, Comment):
+            if element.find_parent(list(NON_PRINTED_TAGS)) is not None:
+                continue #<note> is not printed in a file, so it doesn't count as the "start"
+            if len(element.strip()) > 0:
+                return False
+    raise ValueError(f"line_break <{line_break.name} n={line_break.get('n')}> is not inside the given paragraph")
+
+def find_containing_translation_paragraph(irish_start_line: int, translation_start_lines: list[int],
+                                            translation_paragraph_elements: list[Element]) -> tuple[Element | None, bool]:
+    """Find the translation paragraph whose range of Irish lines contains irish_start_line.
+
+    translation_start_lines: the Irish line each translation paragraph starts at (from its mls), ascending.
+    translation_paragraph_elements: the paragraph Element belonging to each entry of translation_start_lines.
+    Returns the paragraph Element (None if the line comes before every translation paragraph)
+    and whether that translation paragraph starts exactly on the line.
+    """
+    insert_index: int = bisect_right(translation_start_lines, irish_start_line)
+    containing_position: int = insert_index - 1
+
+    if containing_position < 0:
+        return None, False
+
+    starts_exactly: bool = translation_start_lines[containing_position] == irish_start_line
+    return translation_paragraph_elements[containing_position], starts_exactly
+
 
 original_tree = load_tei(SAMPLES_FOLDER/"G301042B.xml")
 translation_tree = load_tei(SAMPLES_FOLDER/"T301042B.xml")
@@ -195,14 +316,14 @@ translation_body = translation_tree.find("body")
 
 division_pattern: re.Pattern[str] = re.compile(r"^div\d?$") #this is to look for <div1>s and <div0>s
 
-original_div0s: ResultSet[Tag] = original_body.find_all(division_pattern, recursive=False)
+original_divs: ResultSet[Tag] = original_body.find_all(division_pattern, recursive=False)
 #we use the regex pattern to find all kinds of divs, and do it non-recursively, because we need to preserve the structure, 
 # recursive would flatten everything into a list.
-if not original_div0s:
+if not original_divs:
     print("No div in original tree")
     exit()
 
-translation_div0s: ResultSet[Tag] = translation_body.find_all(division_pattern, recursive=False)
-if not translation_div0s:
+translation_divs: ResultSet[Tag] = translation_body.find_all(division_pattern, recursive=False)
+if not translation_divs:
     print("No div in translation tree")
     exit()
