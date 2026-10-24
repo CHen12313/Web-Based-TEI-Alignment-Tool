@@ -41,10 +41,12 @@ class Element:
         self.name: str = input_element.name
         self.tag: Tag = input_element
         self.order_index: int = order_index
-        self.start_line_number: int = None
+        self.start_line_number: int = start_line_number
         self.source_column: int = input_element.sourcepos #the column that the element is located in source file
         self.section_number: int | None = input_element.get("n") #we get the section number for that element, not every file has that, so None if "none"
-        self.order_index: int = None #this stores the position in document order among all other tags, has to be assigned
+
+    def __str__(self):
+        return f"<{self.name}{' section=' + str(self.section_number) if self.section_number is not None else ''}{' order_index=' + str(self.order_index) if self.order_index is not None else ''}>"
 
 class AlignedPair: #I worked out the attributes with claude, I asked it to do the comments so I don't forget
     def __init__(self, source_elements: List[Element], target_elements: List[Element],
@@ -90,6 +92,17 @@ class AlignedPair: #I worked out the attributes with claude, I asked it to do th
             return AlignmentKind.MANY_TO_ONE
         return AlignmentKind.MANY_TO_MANY
 
+    def __str__(self):
+        source_string = "-".join([str(element) for element in self.source_elements])
+        target_string = "-".join([str(element) for element in self.target_elements])
+
+        return f"source_string: {source_string}\ntarget_string: {target_string}\nalignment_kind: {self.alignment_kind}" 
+
+    def __repr__(self) -> str:
+        source_string: str = ", ".join(str(element) for element in self.source_elements)
+        target_string: str = ", ".join(str(element) for element in self.target_elements)
+
+        return f"AlignedPair({self.alignment_kind}: source[{source_string}] -> target[{target_string}], anchor={self.anchor_method})"
 
 def align_elements(original_tags: List[Tag], translation_tags: List[Tag]) -> Tuple[List[AlignedPair], List[AlignedPair]]:
     #entry point of the aligner
