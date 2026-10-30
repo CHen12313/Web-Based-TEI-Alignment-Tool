@@ -8,10 +8,15 @@ from typing import List, Dict, Set, Tuple
 from enum import StrEnum
 from collections import Counter
 
+from itertools import takewhile
+
 import re
 from bisect import bisect_left, bisect_right
 
-NON_PRINTED_TAGS: set[str] = {"note"}
+NON_PRINTED_TAGS: set[str] = {
+    "note",  # editorial footnotes, printed at the bottom of the page and not part of the running text
+    "rdg",   # variant readings inside <app>, only the <lem> reading is printed in the text
+}
 
 division_pattern: re.Pattern[str] = re.compile(r"^div\d?$") #this is to look for <div1>s and <div0>s
 
@@ -48,6 +53,42 @@ class Element:
     def __str__(self):
         return f"<{self.name}{' section=' + str(self.section_number) if self.section_number is not None else ''}{' order_index=' + str(self.order_index) if self.order_index is not None else ''}>"
 
+    def get_clean_text(self, recursive: bool = True) -> str:
+        content_pieces = self.tag.find_all(string = True, recursive=recursive)
+        kept_pieces = [
+            str(piece) for piece in content_pieces 
+            if not any(parent.name in NON_PRINTED_TAGS for parent in takewhile(lambda parent: parent is not self.tag, piece.parents))
+            #the self.tag itself can be inside of an NON_PRINTED_TAGS, so we need to avoid checking the parent above the self.tag or else it could fail every test
+            ]
+        out_string = "".join(kept_pieces)
+        return out_string
+
+
+    def get_tag_string(self) -> str:
+        """Stringify the tag attribute, for debug only"""
+        return str(self.tag)
+
+    def serialize(self) -> dict:
+        """Serialize the element into a dict, so the LLM can process it better as a string. Not meant for sending to the frontend.
+
+        Output schema:
+        ```python
+        {
+            # tag name, e.g. "p" or "div1"
+            "name": str,
+            # full markup of the element, including its children
+            "tag_string": str,
+            # the element's n attribute, None if it has none
+            "section_number": str | None
+        }
+        ```
+        """
+        return {
+            "name" : self.name,
+            "tag_string" : self.get_tag_string(), #this is for the LLM, which needs the text of the tag
+            "section_number" : self.section_number
+        }
+
 class AlignedPair: #I worked out the attributes with claude, I asked it to do the comments so I don't forget
     def __init__(self, source_elements: List[Element], target_elements: List[Element],
                  section_label: str | None = None, confidence_score: float = 0.0, 
@@ -76,6 +117,35 @@ class AlignedPair: #I worked out the attributes with claude, I asked it to do th
         # empty until the aligner steps in, and stays empty at the lowest level
         self.child_pairs: list[AlignedPair] = []
 
+    def serialize(self) -> dict:
+        """Serialize the pair into a dict, so the LLM can process it better as a string. Not meant for sending to the frontend.
+
+        Output schema:
+        ```python
+        {
+            # original (Irish) elements, in document order
+            "source_elements": list[Element.serialize()],
+            # translation (English) elements, in document order
+            "target_elements": list[Element.serialize()],
+            # div1@n of the section, None if the file has no numbers
+            "section_label": str | None,
+            # 0.0 (guess) to 1.0 (certain)
+            "confidence_score": float | None,
+            # an AnchorMethod value, e.g. "section_number"
+            "anchor_method": str,
+            # nested pairs one level down, empty at the lowest level
+            "child_pairs": list[AlignedPair.serialize()]
+        }
+        ```
+        """
+        return {
+            "source_elements" : [element.serialize() for element in self.source_elements],
+            "target_elements" : [element.serialize() for element in self.target_elements],
+            "section_label" : self.section_label,
+            "confidence_score" : self.confidence_score,
+            "anchor_method" : self.anchor_method,
+            "child_pairs" : [pair.serialize() for pair in self.child_pairs]
+        }
     @property
     def alignment_kind(self) -> str:
         source_count: int = len(self.source_elements)
