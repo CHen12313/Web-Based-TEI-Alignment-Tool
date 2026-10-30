@@ -9,6 +9,8 @@ from typing import List, Dict, Set, Tuple
 import re
 from aligner import division_pattern
 
+from utils import load_file_pair
+
 warnings.filterwarnings("ignore", category=XMLParsedAsHTMLWarning)
 
 SAMPLES_FOLDER = Path(__file__).resolve().parent.parent / "celt_samples"
@@ -24,18 +26,11 @@ IGNORE_LIST: set[str] = { #<-AI wrote this set (list)
 
 #this script will work on 301042
 #one key convention is that it aligns the translation ONTO the original
-
-    
-def load_tei(file_path: str) -> BeautifulSoup:
-    raw_text = Path(file_path).read_text(encoding="iso-8859-1")
-    return BeautifulSoup(raw_text, "html.parser")
-
 def get_comparable_children(parent_tag: Tag) -> list[Tag]:
     return [child for child in parent_tag.children if isinstance(child, Tag) and child.name not in IGNORE_LIST]
 
 
-original_tree = load_tei(SAMPLES_FOLDER/"G301042B.xml")
-translation_tree = load_tei(SAMPLES_FOLDER/"T301042B.xml")
+original_tree, translation_tree = load_file_pair(file_code="301042")
 
 original_body = original_tree.find("body")
 translation_body = translation_tree.find("body")
