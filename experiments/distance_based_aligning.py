@@ -20,6 +20,7 @@ from bisect import bisect_left, bisect_right
 
 from aligner import Element, AlignedPair, AnchorMethod
 from utils import load_file_pair
+from AlignmentRefiner import AlignmentRefiner, BoundaryShiftMerger
 
 IGNORE_LIST: set[str] = { #<-AI wrote this set (list)
     "lb",   # line breaks of the printed edition: only marked in the Irish text
@@ -62,6 +63,13 @@ def align_on_distance(original_elements: List[Element], translation_elements: Li
             aligned_pairs += align_insert_pairs(translation_slice)
         elif operation == "replace":
             aligned_pairs += align_replace_pairs(original_slice, translation_slice)
+
+    refiner_modules: List[AlignmentRefiner] = [
+        BoundaryShiftMerger(max_matched_between=2)
+    ]
+
+    for module in refiner_modules:
+        aligned_pairs = module.refine(aligned_pairs)
 
     return aligned_pairs
 
@@ -114,7 +122,10 @@ if __name__ == "__main__":
     original_body: Tag = original_tree.find("body")
     translation_body: Tag = translation_tree.find("body")
 
-    original_paragraphs = [Element(tag, index) for index, tag in enumerate(original_body.find("div0").find("div1", attrs={"n": "1"}, recursive=False).find_all("p", recursive=False))]
-    translation_paragraphs = [Element(tag, index) for index, tag in enumerate(translation_body.find("div0").find("div1", attrs={"n": "1"}, recursive=False).find_all("p", recursive=False))]
+    section_numbers = ["5", "6", "7", "10", "12", "13", "19"]
+    original_sections = [original_body.find("div0").find("div1", attrs={"n": n}, recursive=False) for n in section_numbers]
+    translation_sections = [translation_body.find("div0").find("div1", attrs={"n": n}, recursive=False) for n in section_numbers]
+    original_paragraphs = [Element(tag, index) for index, tag in enumerate(p for section in original_sections for p in section.find_all("p", recursive=False))]
+    translation_paragraphs = [Element(tag, index) for index, tag in enumerate(p for section in translation_sections for p in section.find_all("p", recursive=False))]
 
     print(align_on_distance(original_paragraphs, translation_paragraphs, signature_tags=["lg", "l", "q"]))
