@@ -31,31 +31,44 @@ class BoundaryShiftMerger(AlignmentRefiner):
         self.max_matched_between = max_matched_between
 
     def refine(self, aligned_pairs: List[AlignedPair]) -> List[AlignedPair]:
-        left_index = 0
-        right_index = 1
+        left_index: int = 0
         refined_list = []
 
-        while right_index < len(aligned_pairs) and left_index < len(aligned_pairs):
-            left_pair = aligned_pairs[left_index]
+        while left_index < len(aligned_pairs) and left_index < len(aligned_pairs):
+            left_pair: AlignedPair = aligned_pairs[left_index]
             if not self._is_orphan(left_pair):
-                refined_list.append(aligned_pairs[left_index])
-                left_index = right_index
-                right_index += 1
+                refined_list.append(left_pair)
+                left_index += 1
                 continue
 
-            while (right_index < len(aligned_pairs) - 1)  and (not self._is_orphan(aligned_pairs[right_index])) and (right_index - left_index <= self.max_matched_between):
+            right_index: int = left_index + 1
+            segment_end_index: int = left_index
+            has_source_only = len(left_pair.target_elements) == 0 and len(left_pair.source_elements) != 0
+            has_target_only = len(left_pair.source_elements) == 0 and len(left_pair.target_elements) != 0
+            matched_since_last_orphan = 0
+
+            while right_index < len(aligned_pairs):
+                right_pair = aligned_pairs[right_index]
+                if self._is_orphan(right_pair): 
+                    segment_end_index = right_index
+                    has_source_only = has_source_only or (len(right_pair.source_elements) != 0 and len(right_pair.target_elements) == 0)
+                    has_target_only = has_target_only or (len(right_pair.target_elements) != 0 and len(right_pair.source_elements) == 0)
+                    matched_since_last_orphan = 0
+                else:
+                    matched_since_last_orphan += 1
+                    if matched_since_last_orphan > self.max_matched_between:
+                        break
+
                 right_index += 1
 
-            right_pair = aligned_pairs[right_index]
-
-            if self._is_orphan(left_pair) and self._is_orphan(right_pair):
-                refined_list += self._merge_segment(aligned_pairs[left_index:right_index + 1])
+            segment: List[AlignedPair] = aligned_pairs[left_index: segment_end_index + 1]
+            if has_source_only and has_target_only:
+                refined_list += self._merge_segment(segment)
             else:
-                refined_list += aligned_pairs[left_index:right_index + 1]
+                refined_list += segment
 
-            left_index = right_index 
-            right_index += 1
-
+            left_index = segment_end_index + 1
+                        
         return refined_list
 
     def _is_orphan(self, aligned_pair: AlignedPair) -> bool:
