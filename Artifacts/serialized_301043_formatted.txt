@@ -1,0 +1,114 @@
+====================================================================================================
+PAIR 0  |  section_label=0  |  kind=ONE_TO_ONE  |  anchor=structural_sequence  |  confidence=0.0
+====================================================================================================
+--- SOURCE (Irish) x1 ---
+[source 0] <p> section_number=None
+<p>Eochaid Bēlbuidi mac Feidlimid Rechtmair brāthair Cuind. Luidside i
+                    crīch nUlad ar comairci do theiched Chuind a brāthar, ūair fa
+                    dobēsach dīchoisc Eochaid, &amp;ampersir romillead rīgi
+                    &amp;ampersir smacht a brāthar. Is andsin immorro cartais<note n="2" type="auth">carrthais MS.</note> Cond <ex>cūic</ex>er fear grāda
+                    dō co rīgaib Ulad conā beith Eochaid Bēlbuidi aco, no co
+                    mbetis fo sobēs. Ba hīad so in <ex>cūic</ex>er techtairead
+                    luidsead fr<sup resp="OB">i</sup>sin .i. Foiti<ex>n</ex> Forbair mac Fēigi
+                    Ēchtaig, &amp;ampersir Ēnda mac Dega Laigen, &amp;ampersir Ailill mac
+                    Fingein m<ex>ei</ex>c Luchta, &amp;ampersir Tibraidi Tūaithebrach mac
+                    Cleitig, &amp;ampersir Asal mac Forandāin a Formaīl. &amp;ampersir luidsed
+                    fothūaid rompo a Temraig. Is andsin do hindised dōib Eochaid
+                    Bēlbuidi do beith ac seilc a Slēib Breg, &amp;ampersir do marbsad in
+                    tEochaid andsin, ūair nī frīth neach mailli fris acht a
+                    chū, <frn lang="la">ut poeta dixit:</frn>
+<text type="poem">
+<body>
+<lg type="quatrain">
+<l>Eochaid Bēlbuidi robīth</l>
+<l>i cath Chomair, ūada a <sup resp="OB">&amp;fdot</sup>ich,</l>
+<l>ūair nī roibi neach 'na dū,</l>
+<l>frīth hē i mbāegal is a chū.</l>
+</lg>
+</body>
+</text></p>
+
+--- TARGET (English) x1 ---
+[target 0] <p> section_number=None
+<p>Eochaid Bélbuide, son of Feidlimid Rechtmar, was Conn's brother. He went
+                    into Ulster under safeguard, to escape from his brother Conn, for Eochaid was
+                    ill-bred and unruly, and was destroying his brother's rule and authority. Then,
+                    however, Conn sent five of his confidential servants to the kings of Ulster, so
+                    that Eochaid Bélbuide might not stay with them, or so that they might be<note n="1" type="auth">Read <frn lang="ga">no co mbeth</frn> 'until he should be'
+                    (?)</note> well-behaved. These were the five envoys who went for that purpose:
+                    Foitin Forbair son of Féige Échtach, Énda son of Daig
+                    Laigen, Ailill son of Fingein mac Luchta, Tibraide Tuaithebrach son of Cleitech,
+                    and Asal son of Forannán from Formael. They went on northwards from Tara.
+                    Then they were told that Eochaid Bélbuide was hunting on Sliab Breg, and
+                    they slew Eochaid there, for none was found with him save his hound <frn lang="la">ut poeta dixit</frn>— <text type="poem">
+<body>
+<lg type="quatrain">
+<l>Eochaid Bélbuide was slain</l>
+<l>in the battle of Comar, hence the fury caused by it,</l>
+<l>as there was no one in his place,</l>
+<l>he and his hound were taken unprotected.</l>
+</lg>
+</body>
+</text></p>
+
+
+====================================================================================================
+PAIR 1  |  section_label=1  |  kind=ONE_TO_ONE  |  anchor=structural_sequence  |  confidence=0.0
+====================================================================================================
+--- SOURCE (Irish) x1 ---
+[source 0] <p> section_number=None
+<p>Rob olc di<ex>diu</ex> la rīgaib Ulad in gnīm sin &amp;ampersir
+                    adubradar nach gēbdais coma ina sarugud acht a marbad, ūair
+                    nīr gobad rompo. Ar āi dorondad sīd eturru &amp;ampersir Cond. Ba
+                    hīad rīga Ulad in tan sin .i. Cairpri Gnāthchorad mac
+                    Māil m<ex>ei</ex>c Rochraidi &amp;ampersir Bresal mac Briūin.
+                    Adbathadur iar sin drem dīb. Adbert Breasal no Tibraidi mac Māil
+                    nā gēbad sīd, ūair nīr lam beith i nUltaib
+                    deisidēn ar ecla Chuind &amp;ampersir la hecla rīg Ulad tre
+                    &amp;fdotoirēicin Chuind forro side.</p>
+
+--- TARGET (English) x1 ---
+[target 0] <p> section_number=None
+<p>This deed was displeasing to the kings of Ulster, and they said that for the
+                    outrage done to them they would accept no terms (from Conn) but his death, for
+                    that before their time such only had been accepted. Howbeit peace was made
+                    between them and Conn. The kings of Ulster at that time were Cairbre
+                    Gnáthchorad son of Mál son of Rochraide, and Bresal son of
+                    Brión. Thereafter some of them died. Bresal, or Tibraide, son of
+                    Mál said that he would not accept peace, because he durst not stay
+                    henceforth in Ulster for fear of Conn and for fear of the kings of Ulster
+                    through Conn's oppression of them.</p>
+
+
+====================================================================================================
+PAIR 2  |  section_label=2  |  kind=ONE_TO_ONE  |  anchor=structural_sequence  |  confidence=0.0
+====================================================================================================
+--- SOURCE (Irish) x1 ---
+[source 0] <p> section_number=None
+<p>Is ed doroindi Tibraidi dul i nAlbain co rīg Alban .i. co Failbe Findloga
+                    &amp;ampersir bāi trī bliadhna aici side. Is andsin tuc rīg Alban
+                    comairli dō .i. tīachtain i nĒrind &amp;ampersir sīd do
+                    dēnam re Cond. Donī<sup resp="OB">th</sup> uili amlaid sin.
+                    Rāidid Ulaid fris beith sīdach<note n="3" type="auth">sidaich MS.</note>
+                    re Cond. Adbert som<note n="4" type="auth">Something seems omitted here.</note>
+                    do dēnam &amp;ampersir nīr lam tīachtain ar comairci no a
+                    āenur co Cond, conid hī comairli doroindi tīachtain i rechtaib
+                    ban copc<sup resp="OB">h</sup>aill<ex>ech</ex> d' indsaigid<note n="5" type="auth">dinsaidig MS.</note> Chuind. Is and bāi Cond in tan sin i
+                    tūaithemair<note n="6" type="auth">tuaith themair MS.</note> ic urgnum
+                    Feisi na Temrach &amp;ampersir baidsi tūaith Themrach, &amp;ampersir ba
+                    fūathad do Chond in tan sin. Is and doroindi Tibraidi andsidi Cond do
+                    marbad, ūair ba ūathad dō &amp;ampersir ba līnmar do
+                    Thibraidi, conad amlaid sin īarum do marbad Cond.</p>
+
+--- TARGET (English) x1 ---
+[target 0] <p> section_number=None
+<p>What Tibraide did was to go to Scotland, to the king of Scotland, Failbe
+                    Findloga, and he was three years with him. Then the king of Scotland advised him
+                    to come to Ireland and make peace with Conn. It was all done thus. The Ulstermen
+                    bid him be at peace with Conn. He said <gap reason="text omitted"></gap> to make <sup resp="OB">peace?</sup>, but he did not venture to come to Conn under
+                    safeguard or by himself, so he determined to come to Conn, (himself and his men)
+                    disguised as veiled women. At that time Conn was on an eminence<note lang="en" n="8" type="auth">For <frn lang="ga">túaithemair</frn> see CZ. VII.
+                    523, note 3.</note> preparing the Feast of Tara and … the district of
+                    Tara, and Conn was alone at that time. Then Tibraide slew Conn, for he was alone
+                    and Tibraide had many followers. So that is how Conn was slain.</p>
+
