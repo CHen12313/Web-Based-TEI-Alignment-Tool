@@ -1,16 +1,17 @@
-# experiments — alignment algorithms
+# Aligner — alignment algorithms
 
 Exploratory scripts for aligning the parallel Irish/English CELT TEI files
 (`celt_samples/G<code>.xml` / `T<code>.xml`) at the section and paragraph
 level. Nothing here is the production aligner — these are algorithm
-prototypes `python3 experiments/<file>.py` can be run and printed directly,
-and `LLM_Based_aligner.py` is the current entry point that chains them
+prototypes `python3 Aligner/<file>.py` can be run and printed directly,
+and `LLM_based_aligner.py` is the current entry point that chains them
 together with an LLM semantic pass.
 
 ## Contents
 
 - [Modules](#modules)
-  - [`aligner.py` — `Element`, `AlignedPair`, section-level alignment](#alignerpy--element-alignedpair-section-level-alignment)
+  - [`data_classes.py` — `Element`, `AlignedPair`, and the shared enums](#data_classespy--element-alignedpair-and-the-shared-enums)
+  - [`aligner.py` — section-level alignment](#alignerpy--section-level-alignment)
   - [`distance_based_aligning.py` — `align_on_distance`](#distance_based_aligningpy--align_on_distance)
 - [Shared data structures](#shared-data-structures)
   - [`AlignmentKind`](#alignmentkind)
@@ -22,11 +23,16 @@ together with an LLM semantic pass.
 
 ## Modules
 
-### `aligner.py` — `Element`, `AlignedPair`, section-level alignment
+### `data_classes.py` — `Element`, `AlignedPair`, and the shared enums
 
 Defines the core data model every other alignment module in this folder
-depends on (`Element`, `AlignedPair`, `AnchorMethod`, `AlignmentKind`), plus
-the section-level (`<div>`) alignment entry point, `align_elements`.
+depends on (`Element`, `AlignedPair`, `AnchorMethod`, `AlignmentKind`,
+`DocumentSide`).
+
+### `aligner.py` — section-level alignment
+
+Imports the data model from `data_classes.py` and defines the section-level
+(`<div>`) alignment entry point, `align_elements`.
 
 **Design choices / how it works:**
 - `align_elements` first calls `align_sections` to pair up `<div>`s, then
@@ -250,10 +256,10 @@ what it actually returns):
 }
 ```
 
-**Example.** `LLM_Based_aligner.py:prepare_prompt` is
+**Example.** `LLM_based_aligner.py:prepare_prompt` is
 `[pair.serialize() for pair in aligned_pairs]` — this is the literal list it
 hands to the LLM. Below is pair index 1 from a real `align_on_distance` run on
-sample `301043` (`python3 experiments/LLM_Based_aligner.py`), with both
+sample `301043` (`python3 Aligner/LLM_based_aligner.py`), with both
 `tag_string`s truncated (`...`) for length — the untruncated run for all pairs
 is on disk at the repo root, `serialized_301043.txt` (raw `repr()`, one line)
 and `serialized_301043_formatted.txt` (human-readable, one block per pair):
@@ -322,10 +328,11 @@ yet implemented) feed the serialized pairs into an LLM via
 section-level machinery (`align_sections`, `align_on_section_numbers`,
 `align_on_position`) and its own paragraph-level attempt
 (`align_individual_section`) are exercised directly from `aligner.py`'s own
-`__main__` block and reused as a dependency (`Element`, `AlignedPair`,
-`AnchorMethod`, `division_pattern`) by `AlignmentRefiner.py`,
-`distance_based_aligning.py`, `locate_section_split_mismatch.py`, and
-`test_serialize.py`, but `align_elements` itself isn't currently called from
+`__main__` block. `Element`, `AlignedPair`, and `AnchorMethod` live in
+`data_classes.py` and are reused as a dependency by `AlignmentRefiner.py`,
+`distance_based_aligning.py`, and `test_serialize.py`; `aligner.py`'s own
+`division_pattern` is reused the same way by `locate_section_split_mismatch.py`.
+`align_elements` itself isn't currently called from
 the `LLM_Based_aligner.py` entry point.
 
 ## Known limitations

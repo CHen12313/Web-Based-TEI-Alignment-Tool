@@ -4,7 +4,7 @@ import warnings
 
 from bs4 import XMLParsedAsHTMLWarning
 
-from aligner import AlignedPair, AnchorMethod, Element
+from data_classes import AlignedPair, AnchorMethod, Element
 from utils import load_file_pair
 
 if __name__ == "__main__":

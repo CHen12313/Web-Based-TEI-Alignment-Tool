@@ -9,7 +9,7 @@ from anthropic import AsyncAnthropic
 from bs4 import XMLParsedAsHTMLWarning
 from dotenv import load_dotenv
 
-from aligner import AlignedPair, Element
+from data_classes import AlignedPair, Element
 from distance_based_aligning import align_on_distance
 from prompt_templates import ALIGN_PROMPT_TEMPLATE, ALIGN_RESPONSE_SCHEMA
 
@@ -37,7 +37,7 @@ async def verify_segment(start_index:int, end_index:int, pairs_list: List[Aligne
     text = next(block.text for block in response.content if block.type == "text")
     return json.loads(text)
 
-async def verify_aligned_pairs(aligned_pairs: List[AlignedPair], client: AsyncAnthropic | None, 
+async def verify_aligned_pairs(aligned_pairs: List[AlignedPair], client: AsyncAnthropic | None = None, 
                                prompt_template: str = ALIGN_PROMPT_TEMPLATE, segment_size: int = 3) -> List[dict]:
     if not client:
         api_key = os.environ["ANTHROPIC_API_KEY"]
@@ -56,7 +56,9 @@ def prepare_prompt(aligned_pairs: List[AlignedPair], prompt_template: str = ALIG
     formatted_prompt = prompt_template.format(string_pairs=string_pairs)
     return formatted_prompt
 
-
+class LLM_suggested_fix_applier:
+    def __init__(self, a):
+        pass
 
 if __name__ == "__main__":
     warnings.filterwarnings("ignore", category=XMLParsedAsHTMLWarning)

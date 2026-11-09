@@ -18,7 +18,7 @@ from collections import Counter
 import re
 from bisect import bisect_left, bisect_right
 
-from aligner import Element, AlignedPair, AnchorMethod
+from data_classes import Element, AlignedPair, AnchorMethod
 from utils import load_file_pair
 from AlignmentRefiner import AlignmentRefiner, BoundaryShiftMerger
 

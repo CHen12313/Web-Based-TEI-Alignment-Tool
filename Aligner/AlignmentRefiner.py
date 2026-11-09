@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from aligner import AnchorMethod, Element, AlignedPair
+from data_classes import AnchorMethod, Element, AlignedPair
 from bs4 import BeautifulSoup, Tag
 from typing import List
 
