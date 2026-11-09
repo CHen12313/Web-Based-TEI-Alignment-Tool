@@ -1,0 +1,97 @@
+====================================================================================================
+TARGET [0] <p> section_number=None
+====================================================================================================
+--- get_tag_string() ---
+<p>Eochaid Bélbuide, son of Feidlimid Rechtmar, was Conn's brother. He went
+                    into Ulster under safeguard, to escape from his brother Conn, for Eochaid was
+                    ill-bred and unruly, and was destroying his brother's rule and authority. Then,
+                    however, Conn sent five of his confidential servants to the kings of Ulster, so
+                    that Eochaid Bélbuide might not stay with them, or so that they might be<note n="1" type="auth">Read <frn lang="ga">no co mbeth</frn> 'until he should be'
+                    (?)</note> well-behaved. These were the five envoys who went for that purpose:
+                    Foitin Forbair son of Féige Échtach, Énda son of Daig
+                    Laigen, Ailill son of Fingein mac Luchta, Tibraide Tuaithebrach son of Cleitech,
+                    and Asal son of Forannán from Formael. They went on northwards from Tara.
+                    Then they were told that Eochaid Bélbuide was hunting on Sliab Breg, and
+                    they slew Eochaid there, for none was found with him save his hound <frn lang="la">ut poeta dixit</frn>— <text type="poem">
+<body>
+<lg type="quatrain">
+<l>Eochaid Bélbuide was slain</l>
+<l>in the battle of Comar, hence the fury caused by it,</l>
+<l>as there was no one in his place,</l>
+<l>he and his hound were taken unprotected.</l>
+</lg>
+</body>
+</text></p>
+
+--- get_clean_text() ---
+Eochaid Bélbuide, son of Feidlimid Rechtmar, was Conn's brother. He went
+                    into Ulster under safeguard, to escape from his brother Conn, for Eochaid was
+                    ill-bred and unruly, and was destroying his brother's rule and authority. Then,
+                    however, Conn sent five of his confidential servants to the kings of Ulster, so
+                    that Eochaid Bélbuide might not stay with them, or so that they might be well-behaved. These were the five envoys who went for that purpose:
+                    Foitin Forbair son of Féige Échtach, Énda son of Daig
+                    Laigen, Ailill son of Fingein mac Luchta, Tibraide Tuaithebrach son of Cleitech,
+                    and Asal son of Forannán from Formael. They went on northwards from Tara.
+                    Then they were told that Eochaid Bélbuide was hunting on Sliab Breg, and
+                    they slew Eochaid there, for none was found with him save his hound ut poeta dixit— 
+
+
+Eochaid Bélbuide was slain
+in the battle of Comar, hence the fury caused by it,
+as there was no one in his place,
+he and his hound were taken unprotected.
+
+
+
+
+
+====================================================================================================
+TARGET [1] <p> section_number=None
+====================================================================================================
+--- get_tag_string() ---
+<p>This deed was displeasing to the kings of Ulster, and they said that for the
+                    outrage done to them they would accept no terms (from Conn) but his death, for
+                    that before their time such only had been accepted. Howbeit peace was made
+                    between them and Conn. The kings of Ulster at that time were Cairbre
+                    Gnáthchorad son of Mál son of Rochraide, and Bresal son of
+                    Brión. Thereafter some of them died. Bresal, or Tibraide, son of
+                    Mál said that he would not accept peace, because he durst not stay
+                    henceforth in Ulster for fear of Conn and for fear of the kings of Ulster
+                    through Conn's oppression of them.</p>
+
+--- get_clean_text() ---
+This deed was displeasing to the kings of Ulster, and they said that for the
+                    outrage done to them they would accept no terms (from Conn) but his death, for
+                    that before their time such only had been accepted. Howbeit peace was made
+                    between them and Conn. The kings of Ulster at that time were Cairbre
+                    Gnáthchorad son of Mál son of Rochraide, and Bresal son of
+                    Brión. Thereafter some of them died. Bresal, or Tibraide, son of
+                    Mál said that he would not accept peace, because he durst not stay
+                    henceforth in Ulster for fear of Conn and for fear of the kings of Ulster
+                    through Conn's oppression of them.
+
+
+====================================================================================================
+TARGET [2] <p> section_number=None
+====================================================================================================
+--- get_tag_string() ---
+<p>What Tibraide did was to go to Scotland, to the king of Scotland, Failbe
+                    Findloga, and he was three years with him. Then the king of Scotland advised him
+                    to come to Ireland and make peace with Conn. It was all done thus. The Ulstermen
+                    bid him be at peace with Conn. He said <gap reason="text omitted"></gap> to make <sup resp="OB">peace?</sup>, but he did not venture to come to Conn under
+                    safeguard or by himself, so he determined to come to Conn, (himself and his men)
+                    disguised as veiled women. At that time Conn was on an eminence<note lang="en" n="8" type="auth">For <frn lang="ga">túaithemair</frn> see CZ. VII.
+                    523, note 3.</note> preparing the Feast of Tara and … the district of
+                    Tara, and Conn was alone at that time. Then Tibraide slew Conn, for he was alone
+                    and Tibraide had many followers. So that is how Conn was slain.</p>
+
+--- get_clean_text() ---
+What Tibraide did was to go to Scotland, to the king of Scotland, Failbe
+                    Findloga, and he was three years with him. Then the king of Scotland advised him
+                    to come to Ireland and make peace with Conn. It was all done thus. The Ulstermen
+                    bid him be at peace with Conn. He said  to make peace?, but he did not venture to come to Conn under
+                    safeguard or by himself, so he determined to come to Conn, (himself and his men)
+                    disguised as veiled women. At that time Conn was on an eminence preparing the Feast of Tara and … the district of
+                    Tara, and Conn was alone at that time. Then Tibraide slew Conn, for he was alone
+                    and Tibraide had many followers. So that is how Conn was slain.
+
