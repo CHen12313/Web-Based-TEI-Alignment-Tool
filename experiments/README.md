@@ -216,7 +216,10 @@ AlignedPair(
 `alignment_kind` (see [`AlignmentKind`](#alignmentkind)) and `__repr__`/`__str__`
 (human-readable `source[...] -> target[...]`, used for debug printing — see
 every module's `__main__` block) are both derived purely from
-`source_elements`/`target_elements`, never stored separately.
+`source_elements`/`target_elements`. Neither has a backing field on the
+instance — `alignment_kind` is a `@property` recomputed from the two lists on
+every access, so it can never go stale relative to them, even though
+`serialize()` (below) does include it in its output.
 `confidence_score` is accepted by every constructor call site but not actually
 computed by any producer yet; every current caller either omits it (default
 `0.0`) or passes `None` explicitly (`align_on_section_numbers`).
@@ -224,7 +227,9 @@ computed by any producer yet; every current caller either omits it (default
 **`serialize()`** turns a pair into the LLM-facing dict `LLM_Based_aligner.py`
 sends in its prompt (not the frontend — see the docstring note under
 [`aligner.py`](#alignerpy--element-alignedpair-section-level-alignment) above).
-Schema:
+Schema (the method's own docstring predates the `alignment_kind` line being
+added to its `return` and hasn't been updated to list it — the schema below is
+what it actually returns):
 
 ```python
 {
@@ -238,6 +243,8 @@ Schema:
     "confidence_score": float | None,
     # an AnchorMethod value, e.g. "structural_sequence"
     "anchor_method": str,
+    # derived from len(source_elements)/len(target_elements) at call time — see AlignmentKind
+    "alignment_kind": str,
     # nested pairs one level down; empty at the lowest (paragraph) level
     "child_pairs": list[AlignedPair.serialize()],
 }
@@ -274,14 +281,19 @@ and `serialized_301043_formatted.txt` (human-readable, one block per pair):
                                   # order_index as section_label, since this file pair's <div0> has no n
     "confidence_score": 0.0,     # align_on_distance never sets this; the AlignedPair default
     "anchor_method": AnchorMethod.STRUCTURAL_SEQUENCE,  # str(...) == "structural_sequence" once JSON-encoded
+    "alignment_kind": AlignmentKind.ONE_TO_ONE,  # both sides have exactly 1 element; see AlignmentKind
     "child_pairs": [],           # always empty here — align_on_distance doesn't recurse
 }
 ```
 
-Both sides have exactly one element and neither is empty, so
-`alignment_kind` for this pair is `AlignmentKind.ONE_TO_ONE` (not stored in
-the serialized dict — it's derived, see [`AlignmentKind`](#alignmentkind) —
-which is why `serialize()`'s own schema comment above doesn't list it either).
+`alignment_kind` is included here so a consumer (the LLM, or anything reading
+the serialized JSON) doesn't have to re-derive one-to-one/one-to-many/orphan
+from the two elements lists itself — the property already computes it from
+`len(source_elements)`/`len(target_elements)` on the Python side, so including
+the already-computed value in the output is cheap and removes one more thing
+the prompt has to get right downstream. It's still never written back onto
+the instance (see [`AlignedPair`](#alignedpair) above) — only the serialized
+*dict* carries it, by calling the property at `serialize()` time.
 `section_label` being a plain running index rather than a real `div@n` is
 specific to this call site: `align_on_distance` is called on this file pair's
 direct `<p>` children with no section/`div` grouping in between, so there is
