@@ -21,13 +21,13 @@ MODEL = "claude-haiku-5-5"
 
 async def verify_segment(start_index:int, end_index:int, pairs_list: List[AlignedPair], prompt_template: str, client: AsyncAnthropic) -> dict:
     end_index = min(end_index, len(pairs_list))
-    formatted_prompt: str = formatted_prompt(pairs_list[start_index:end_index], prompt_template)
+    formatted_prompt: str = prepare_prompt(pairs_list[start_index:end_index], prompt_template)
     response = await client.messages.create(
         model=MODEL,
         max_tokens=1024,
         output_config={
             "effort": "medium",
-            "format": {"type": "json_schema", "schema": None},
+            "format": {"type": "json_schema", "schema": ALIGN_RESPONSE_SCHEMA},
         },
         messages=[{
             "role": "user",
@@ -38,9 +38,9 @@ async def verify_segment(start_index:int, end_index:int, pairs_list: List[Aligne
     return json.loads(text)
 
 async def verify_aligned_pairs(aligned_pairs: List[AlignedPair], client: AsyncAnthropic | None, 
-                               prompt_template: str = ALIGN_PROMPT_TEMPLATE, segment_size: int = 3) -> dict:
+                               prompt_template: str = ALIGN_PROMPT_TEMPLATE, segment_size: int = 3) -> List[dict]:
     if not client:
-        api_key = os.environ["anthropic_api_key"]
+        api_key = os.environ["ANTHROPIC_API_KEY"]
         client = AsyncAnthropic(api_key=api_key)
 
     verified_dicts = await asyncio.gather(
