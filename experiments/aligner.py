@@ -85,7 +85,8 @@ class Element:
         """
         return {
             "name" : self.name,
-            "tag_string" : self.get_tag_string(), #this is for the LLM, which needs the text of the tag
+            "tag_string" : self.get_tag_string(), #this is for the LLM, which needs the text of the tag 
+            #I need to find out which of raw string tag (with markup preserved) or the cleaned "pure" string works better
             "section_number" : self.section_number
         }
 
