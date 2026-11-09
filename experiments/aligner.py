@@ -144,6 +144,7 @@ class AlignedPair: #I worked out the attributes with claude, I asked it to do th
             "section_label" : self.section_label,
             "confidence_score" : self.confidence_score,
             "anchor_method" : self.anchor_method,
+            "alignment_kind" : self.alignment_kind,
             "child_pairs" : [pair.serialize() for pair in self.child_pairs]
         }
     @property
