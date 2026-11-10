@@ -32,7 +32,7 @@ IGNORE_LIST: set[str] = { #<-AI wrote this set (list)
 
 NON_COUNTED_ANCESTORS: set[str] = {"note", "rdg"}  # footnote text and variant readings are not part of the element's own content
 
-def align_on_distance(original_elements: List[Element], translation_elements: List[Element], signature_tags: List[str] | None = None) -> list[AlignedPair]:
+def align_on_distance(section_label: str, original_elements: List[Element], translation_elements: List[Element], signature_tags: List[str] | None = None) -> list[AlignedPair]:
     #the sequence matcher matches by the name of the tags, which is not good, as they are all the same. We need to use the number of certain kinds of tags 
     # as names.
     signature_tags = ["lg", "l"] if signature_tags is None else signature_tags #default for the sake of testing and experimenting on 301043
@@ -56,13 +56,13 @@ def align_on_distance(original_elements: List[Element], translation_elements: Li
         translation_slice: List[Element] = translation_elements[translation_start:translation_end]
 
         if operation == "equal":
-            aligned_pairs += align_equal_pairs(original_slice, translation_slice)
+            aligned_pairs += align_equal_pairs(original_slice, translation_slice, section_label)
         elif operation == "delete":
-            aligned_pairs += align_delete_pairs(original_slice)
+            aligned_pairs += align_delete_pairs(original_slice, section_label)
         elif operation == "insert":
-            aligned_pairs += align_insert_pairs(translation_slice)
+            aligned_pairs += align_insert_pairs(translation_slice, section_label)
         elif operation == "replace":
-            aligned_pairs += align_replace_pairs(original_slice, translation_slice)
+            aligned_pairs += align_replace_pairs(original_slice, translation_slice, section_label)
 
     refiner_modules: List[AlignmentRefiner] = [
         BoundaryShiftMerger(max_matched_between=2)
@@ -73,34 +73,30 @@ def align_on_distance(original_elements: List[Element], translation_elements: Li
 
     return aligned_pairs
 
-def align_equal_pairs(original_slice: List[Element], translation_slice: List[Element]) -> List[AlignedPair]:
+def align_equal_pairs(original_slice: List[Element], translation_slice: List[Element], section_label: str) -> List[AlignedPair]:
     out_list: List[AlignedPair] = []
     for original, translation in zip(original_slice, translation_slice):
-        out_list.append(AlignedPair([original], [translation], original.order_index, anchor_method=AnchorMethod.STRUCTURAL_SEQUENCE)) 
-        #for now, we use the order index of the <p>s, later we need to pass in the section numbers 
-        # the aligner is designed to be used to align sections, so we will be able to just extract it from the <div> elements or enumerate index
+        out_list.append(AlignedPair([original], [translation], section_label, anchor_method=AnchorMethod.STRUCTURAL_SEQUENCE))
 
     return out_list
 
-def align_delete_pairs(original_slice: List[Element]) -> List[AlignedPair]:
+def align_delete_pairs(original_slice: List[Element], section_label: str) -> List[AlignedPair]:
     out_list: List[AlignedPair] = []
     for original in original_slice:
-        out_list.append(AlignedPair([original], [], original.order_index, anchor_method=AnchorMethod.STRUCTURAL_SEQUENCE))
+        out_list.append(AlignedPair([original], [], section_label, anchor_method=AnchorMethod.STRUCTURAL_SEQUENCE))
 
     return out_list
 
-def align_insert_pairs(translation_slice: List[Element]) -> List[AlignedPair]:
+def align_insert_pairs(translation_slice: List[Element], section_label: str) -> List[AlignedPair]:
     out_list: List[AlignedPair] = []
     for translation in translation_slice:
-        out_list.append(AlignedPair([], [translation], translation.order_index, anchor_method=AnchorMethod.STRUCTURAL_SEQUENCE))
+        out_list.append(AlignedPair([], [translation], section_label, anchor_method=AnchorMethod.STRUCTURAL_SEQUENCE))
 
     return out_list
 
-def align_replace_pairs(original_slice: List[Element], translation_slice: List[Element]) -> List[AlignedPair]:
+def align_replace_pairs(original_slice: List[Element], translation_slice: List[Element], section_label: str) -> List[AlignedPair]:
     out_list: List[AlignedPair] = []
-    out_list.append(AlignedPair(original_slice, translation_slice, 
-                                original_slice[0].order_index if original_slice else translation_slice[0].order_index, 
-                                anchor_method=AnchorMethod.STRUCTURAL_SEQUENCE))
+    out_list.append(AlignedPair(original_slice, translation_slice, section_label, anchor_method=AnchorMethod.STRUCTURAL_SEQUENCE))
 
     return out_list
 
