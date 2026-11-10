@@ -221,3 +221,6 @@ __marimo__/
 # Personal study notes (not part of the deliverable)
 Cheat_Sheets/
 .vscode/settings.json
+
+# Generated debug dumps
+File_Outputs/
