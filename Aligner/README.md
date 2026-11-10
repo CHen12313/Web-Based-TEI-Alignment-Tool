@@ -13,6 +13,7 @@ together with an LLM semantic pass.
   - [`data_classes.py` — `Element`, `AlignedPair`, and the shared enums](#data_classespy--element-alignedpair-and-the-shared-enums)
   - [`aligner.py` — section-level alignment](#alignerpy--section-level-alignment)
   - [`distance_based_aligning.py` — `align_on_distance`](#distance_based_aligningpy--align_on_distance)
+  - [`LLM_based_aligner.py` — LLM verification pass](#llm_based_alignerpy--llm-verification-pass)
 - [Shared data structures](#shared-data-structures)
   - [`AlignmentKind`](#alignmentkind)
   - [`AnchorMethod`](#anchormethod)
@@ -130,7 +131,70 @@ as a sequence-diff problem.
 - The `if __name__ == "__main__"` block is a standalone smoke test against
   sample `301020B`, picking specific section numbers (`["5", "6", "7", "10",
   "12", "13", "19"]`) known from manual inspection to be worth checking, not a
-  representative sample chosen programmatically.
+  representative sample chosen programmatically. **Stale**: it still calls
+  `align_on_distance(original_paragraphs, translation_paragraphs,
+  signature_tags=...)` with the old two-`List[Element]` signature, but the
+  function's first parameter is now `section_label` (see below) — running
+  this file directly raises `TypeError: align_on_distance() missing 1
+  required positional argument: 'translation_elements'` rather than
+  producing output. Only `LLM_Based_aligner.py`'s call site was updated when
+  `section_label` was added.
+
+### `LLM_based_aligner.py` — LLM verification pass
+
+The wired entry point: loads a file pair, runs `align_on_distance`, then
+sends the resulting pairs to an LLM for a semantic check, and persists both
+the prompt and the verification results to disk. Importing it requires the
+repo root on `sys.path` (`sys.path.append(str(Path(__file__).resolve().parent.parent))`)
+so the top-level `Utils` package resolves alongside `Aligner`'s own modules.
+
+**Design choices / how it works:**
+- `prepare_prompt` builds the prompt body by calling `pair.serialize(i,
+  for_llm=True)` for each pair at its index `i` in the list passed in (not
+  the pair's own position in the full document — see
+  [`AlignedPair.serialize()`](#alignedpair) below), JSON-encoding each one
+  (`json.dumps(..., ensure_ascii=False)`, compact unless `indent=True`), and
+  joining them with a `====...====` separator line before substituting the
+  result into `ALIGN_PROMPT_TEMPLATE`'s `{string_pairs}` placeholder.
+- `verify_segment` sends one slice of `segment_size` pairs to the model
+  (`MODEL = "claude-haiku-5-5"`, `output_config` constrained to
+  `ALIGN_RESPONSE_SCHEMA`) and retries on failure, up to `max_retry` times
+  (default `2`, so 3 attempts total): a `json.JSONDecodeError` (the model
+  returned text that didn't parse, despite the schema constraint) retries
+  immediately, since the cause is presumed to be the model, not the network,
+  so there's nothing to wait out; an `anthropic.APIError` backs off first,
+  for `base_delay * (2 ** (attempt - 1) + uniform(0, 0.5))` seconds — doubling
+  per attempt with random jitter so concurrent segments don't all retry in
+  lockstep. Either error returns `None` once `max_retry` is exhausted rather
+  than raising, so one bad segment doesn't abort the whole batch; both
+  outcomes are logged.
+- `verify_aligned_pairs` splits `aligned_pairs` into consecutive
+  `segment_size`-sized slices (default `3`) and fires every segment's
+  `verify_segment` concurrently via `asyncio.gather`. It currently just
+  returns the list as-is, including any `None`s from exhausted retries —
+  there is no logic yet to re-split, retry, or flag which original pairs
+  fell inside a failed segment (see
+  [Known limitations](#known-limitations)).
+- `SuggestedFixApplier` (renamed from the scaffolded `LLM_suggested_fix_applier`)
+  builds `element_pair_index_lookup`, a `dict[str, int]` mapping every
+  element's serialized `id` (e.g. `"S4"`, `"T2"`) to the index of the
+  `AlignedPair` it currently belongs to, by calling `element.serialize(side)`
+  (default `for_llm=True`, since only the `id` field is read) for every
+  source and target element of every pair. This is the lookup the LLM's
+  `merge`/`split` commands (identified by element id — see
+  `prompt_templates.py`'s `ALIGN_PROMPT_TEMPLATE`) will need to resolve back
+  to pair positions. `apply_fix` is still an unimplemented stub (`pass`) —
+  the commands the LLM returns aren't actually applied to `aligned_pairs`
+  yet.
+- `main` (now `async`, run via `asyncio.run(main())`) wires the whole pass
+  together: `setup_logging()` (`Utils.setup_loggin`, a root `StreamHandler`
+  to stdout, idempotent) → load sample `301043`'s `<div0>` paragraphs →
+  `align_on_distance(1, ...)` → `save_to_file` the formatted prompt to
+  `formatted_prompt_template_<date>_<time>.txt` (`Utils.util`, `include_time=True`
+  so repeated runs don't overwrite each other) → `verify_aligned_pairs` →
+  `save_dict_to_json` the verified segments to `verified_pairs_301043.json`
+  under the key `"verified_pairs"`. Every stage logs its own start/progress
+  through `logger = logging.getLogger(__name__)`.
 
 ## Shared data structures
 
@@ -190,17 +254,36 @@ content. The `takewhile` stops climbing parents at `self.tag` itself, since
 `self.tag` can legitimately be nested *inside* a `NON_PRINTED_TAGS` ancestor
 (e.g. a `<p>` that is itself inside a `<note>`) — without that stop, every
 text run in the element would wrongly test positive for having a
-`NON_PRINTED_TAGS` ancestor.
+`NON_PRINTED_TAGS` ancestor. Whitespace runs (the pretty-printed XML's
+newlines and indentation between text nodes) are collapsed to a single space
+before returning, so the LLM prompt doesn't carry source-file indentation.
 
-`serialize()` produces the LLM-facing dict:
+`serialize(side, for_llm=True)` produces the LLM-facing dict. `side` (a
+`DocumentSide`, `SOURCE`/`TARGET`) and `self.order_index` combine into the
+`id` the LLM uses to refer to the element (`"S3"`, `"T0"`) — always present
+regardless of `for_llm`. The
+`for_llm` flag swaps which other fields are included, and what `tag_string`
+holds, so the default prompt payload stays small:
 
 ```python
+# for_llm=True (default) — what LLM_based_aligner.py actually sends
 {
-    "name": "p",
-    "tag_string": "<p>...</p>",   # str(self.tag) — full markup, used only for the LLM prompt
-    "section_number": "12",       # or None
+    "id": "S3",                 # str(side) + str(order_index)
+    "tag_string": "...",        # get_clean_text() — markup stripped, whitespace collapsed
+}
+
+# for_llm=False — full detail, e.g. for debugging/non-LLM consumers
+{
+    "id": "S3",
+    "tag_string": "<p>...</p>", # get_tag_string() — str(self.tag), whitespace collapsed but markup intact
+    "name": "p",                 # input_element.name
+    "section_number": "12",      # or None
 }
 ```
+
+This is a reversal from an earlier version of this method, where
+`tag_string` held the raw markup *for* the LLM and the clean text otherwise
+— `for_llm=True` now means "clean text, minimal fields," not "raw markup."
 
 ### `AlignedPair`
 
@@ -230,110 +313,141 @@ every access, so it can never go stale relative to them, even though
 computed by any producer yet; every current caller either omits it (default
 `0.0`) or passes `None` explicitly (`align_on_section_numbers`).
 
-**`serialize()`** turns a pair into the LLM-facing dict `LLM_Based_aligner.py`
-sends in its prompt (not the frontend — see the docstring note under
-[`aligner.py`](#alignerpy--element-alignedpair-section-level-alignment) above).
-Schema (the method's own docstring predates the `alignment_kind` line being
-added to its `return` and hasn't been updated to list it — the schema below is
-what it actually returns):
+**`serialize(id, for_llm=True)`** turns a pair into the LLM-facing dict
+`LLM_based_aligner.py:prepare_prompt` sends in its prompt (not the frontend —
+see the docstring note under
+[`aligner.py`](#alignerpy--section-level-alignment) above). `id` is required
+(no default) and becomes `pair_number` in the output — it's whatever the
+caller wants to label the pair with, not read from the instance; `prepare_prompt`
+passes each pair's index in the list it was given (via `enumerate`), which is
+only the same as the pair's position in the full document when the whole
+document is serialized in one call. Like `Element.serialize()`, `for_llm`
+toggles how much detail comes back:
 
 ```python
+# for_llm=True (default) — what LLM_based_aligner.py actually sends
 {
-    # source (Irish) elements, in document order; [] for a target-only orphan
+    "pair_number": int,                             # the `id` argument, not an instance attribute
+    "source_elements": list[Element.serialize()],   # [] for a target-only orphan
+    "target_elements": list[Element.serialize()],   # [] for a source-only orphan
+    "section_label": str | None,                    # div1@n of the section, or None
+}
+
+# for_llm=False — adds the bookkeeping fields the LLM doesn't need
+{
+    "pair_number": int,
     "source_elements": list[Element.serialize()],
-    # target (English) elements, in document order; [] for a source-only orphan
     "target_elements": list[Element.serialize()],
-    # div1@n of the section, or None if the file has no numbers
     "section_label": str | None,
-    # 0.0 (guess) to 1.0 (certain); None if not computed by the producer
-    "confidence_score": float | None,
-    # an AnchorMethod value, e.g. "structural_sequence"
-    "anchor_method": str,
-    # derived from len(source_elements)/len(target_elements) at call time — see AlignmentKind
-    "alignment_kind": str,
-    # nested pairs one level down; empty at the lowest (paragraph) level
-    "child_pairs": list[AlignedPair.serialize()],
+    "confidence_score": float | None,   # 0.0 (guess) to 1.0 (certain); None if not computed
+    "anchor_method": str,                # an AnchorMethod value, e.g. "structural_sequence"
+    "alignment_kind": str,               # derived from the two element counts — see AlignmentKind
+    "child_pairs": list[AlignedPair.serialize()],  # nested pairs one level down
 }
 ```
 
-**Example.** `LLM_based_aligner.py:prepare_prompt` is
-`[pair.serialize() for pair in aligned_pairs]` — this is the literal list it
-hands to the LLM. Below is pair index 1 from a real `align_on_distance` run on
-sample `301043` (`python3 Aligner/LLM_based_aligner.py`), with both
-`tag_string`s truncated (`...`) for length — the untruncated run for all pairs
-is on disk at the repo root, `serialized_301043.txt` (raw `repr()`, one line)
-and `serialized_301043_formatted.txt` (human-readable, one block per pair):
+**Example.** Pair index 1 from a real `align_on_distance(1, ...)` run on
+sample `301043` (`original_div0`/`translation_div0`'s direct `<p>` children,
+`signature_tags=["lg", "l", "q"]`), serialized both ways:
 
 ```python
+# pair.serialize(1) — for_llm=True
 {
+    "pair_number": 1,
     "source_elements": [
         {
+            "id": "S1",
+            "tag_string": "Rob olc didiu la rīgaib Ulad in gnīm sin &ampersir adubradar nach "
+                           "gēbdais coma ina sarugud acht a marbad, ūair nīr gobad rompo. ...",
+        },
+    ],
+    "target_elements": [
+        {
+            "id": "T1",
+            "tag_string": "This deed was displeasing to the kings of Ulster, and they said that "
+                           "for the outrage done to them they would accept no terms (from Conn) ...",
+        },
+    ],
+    "section_label": 1,   # not a div@n here — align_on_distance's caller passed the literal
+                           # int 1 for this whole call, since this file pair's <div0> has no n
+}
+
+# pair.serialize(1, for_llm=False)
+{
+    "pair_number": 1,
+    "source_elements": [
+        {
+            "id": "S1",
+            "tag_string": '<p>Rob olc di<ex>diu</ex> la rīgaib Ulad in gnīm sin &amp;ampersir '
+                          'adubradar nach gēbdais coma ...</p>',
             "name": "p",
-            "tag_string": '<p>Rob olc di<ex>diu</ex> la rīgaib Ulad in gnīm sin &ampersir adubradar '
-                          'nach gēbdais coma ina sarugud acht a marbad, ūair nīr gobad rompo. ...</p>',
             "section_number": None,
         },
     ],
     "target_elements": [
         {
+            "id": "T1",
+            "tag_string": '<p>This deed was displeasing to the kings of Ulster, and they said '
+                          'that for the outrage done to them ...</p>',
             "name": "p",
-            "tag_string": '<p>This deed was displeasing to the kings of Ulster, and they said that '
-                          'for the outrage done to them they would accept no terms (from Conn) '
-                          'but his death, ...</p>',
             "section_number": None,
         },
     ],
-    "section_label": 1,          # not a div@n here — align_on_distance passes the paragraph's
-                                  # order_index as section_label, since this file pair's <div0> has no n
+    "section_label": 1,
     "confidence_score": 0.0,     # align_on_distance never sets this; the AlignedPair default
-    "anchor_method": AnchorMethod.STRUCTURAL_SEQUENCE,  # str(...) == "structural_sequence" once JSON-encoded
-    "alignment_kind": AlignmentKind.ONE_TO_ONE,  # both sides have exactly 1 element; see AlignmentKind
-    "child_pairs": [],           # always empty here — align_on_distance doesn't recurse
+    "anchor_method": "structural_sequence",
+    "alignment_kind": "one_to_one",  # both sides have exactly 1 element; see AlignmentKind
+    "child_pairs": [],            # always empty here — align_on_distance doesn't recurse
 }
 ```
 
-`alignment_kind` is included here so a consumer (the LLM, or anything reading
-the serialized JSON) doesn't have to re-derive one-to-one/one-to-many/orphan
-from the two elements lists itself — the property already computes it from
-`len(source_elements)`/`len(target_elements)` on the Python side, so including
-the already-computed value in the output is cheap and removes one more thing
-the prompt has to get right downstream. It's still never written back onto
-the instance (see [`AlignedPair`](#alignedpair) above) — only the serialized
-*dict* carries it, by calling the property at `serialize()` time.
-`section_label` being a plain running index rather than a real `div@n` is
-specific to this call site: `align_on_distance` is called on this file pair's
-direct `<p>` children with no section/`div` grouping in between, so there is
-no section number to carry — contrast `align_on_section_numbers`
-(`aligner.py`), which passes the real `div1@n` string.
+`alignment_kind` is included in the `for_llm=False` shape so a consumer
+doesn't have to re-derive one-to-one/one-to-many/orphan from the two element
+lists itself — the property already computes it from
+`len(source_elements)`/`len(target_elements)` on the Python side. It's still
+never written back onto the instance (see [`AlignedPair`](#alignedpair)
+above) — only the serialized *dict* carries it, by calling the property at
+`serialize()` time. `section_label` being a plain `int` rather than a real
+`div@n` string is specific to this call site: `LLM_based_aligner.py:main`
+calls `align_on_distance(1, ...)` on this file pair's direct `<p>` children
+with no section/`div` grouping in between, so there is no real section
+number to carry — contrast `align_on_section_numbers` (`aligner.py`), which
+passes the real `div1@n` string as `section_label`.
 
 ## How the two modules fit together
 
 Nothing in this folder currently wires `aligner.py`'s `align_elements` and
 `distance_based_aligning.py`'s `align_on_distance` into a single call chain —
 they're two alternative paragraph-level strategies, not pipeline stages. The
-one wired entry point, `LLM_Based_aligner.py`, skips `align_elements`
+one wired entry point, `LLM_based_aligner.py:main`, skips `align_elements`
 entirely and goes straight from a hand-picked `<div0>`'s direct `<p>` children
-to `align_on_distance`:
+to `align_on_distance`, then on to the LLM verification pass:
 
 ```python
 original_paragraphs = [Element(tag, i) for i, tag in enumerate(original_div0.find_all("p", recursive=False))]
 translation_paragraphs = [Element(tag, i) for i, tag in enumerate(translation_div0.find_all("p", recursive=False))]
-aligned_pairs = align_on_distance(original_paragraphs, translation_paragraphs, signature_tags=["lg", "l", "q"])
+aligned_pairs = align_on_distance(1, original_paragraphs, translation_paragraphs, signature_tags=["lg", "l", "q"])
+
+verified = await verify_aligned_pairs(aligned_pairs)  # sends pairs to the LLM in segments, see below
 ```
 
 i.e. today's actual flow is: load a file pair (`utils.py:load_file_pair`) →
-list each side's top-level `<p>`s as `Element`s → `align_on_distance` → (not
-yet implemented) feed the serialized pairs into an LLM via
-`ALIGN_PROMPT_TEMPLATE` for semantic confirmation/correction. `aligner.py`'s
-section-level machinery (`align_sections`, `align_on_section_numbers`,
-`align_on_position`) and its own paragraph-level attempt
-(`align_individual_section`) are exercised directly from `aligner.py`'s own
-`__main__` block. `Element`, `AlignedPair`, and `AnchorMethod` live in
-`data_classes.py` and are reused as a dependency by `AlignmentRefiner.py`,
-`distance_based_aligning.py`, and `test_serialize.py`; `aligner.py`'s own
-`division_pattern` is reused the same way by `locate_section_split_mismatch.py`.
-`align_elements` itself isn't currently called from
-the `LLM_Based_aligner.py` entry point.
+list each side's top-level `<p>`s as `Element`s → `align_on_distance` →
+`verify_aligned_pairs` sends the serialized pairs to the LLM via
+`ALIGN_PROMPT_TEMPLATE` for semantic confirmation/correction, in
+`segment_size`-sized batches — but the `merge`/`split` commands it returns
+aren't applied back onto `aligned_pairs` yet (`SuggestedFixApplier.apply_fix`
+is a stub); see
+[`LLM_based_aligner.py`](#llm_based_alignerpy--llm-verification-pass) above
+for the full breakdown. `aligner.py`'s section-level machinery
+(`align_sections`, `align_on_section_numbers`, `align_on_position`) and its
+own paragraph-level attempt (`align_individual_section`) are exercised
+directly from `aligner.py`'s own `__main__` block. `Element`, `AlignedPair`,
+and `AnchorMethod` live in `data_classes.py` and are reused as a dependency
+by `AlignmentRefiner.py`, `distance_based_aligning.py`, and
+`test_serialize.py`; `aligner.py`'s own `division_pattern` is reused the same
+way by `locate_section_split_mismatch.py`. `align_elements` itself isn't
+currently called from the `LLM_based_aligner.py` entry point.
 
 ## Known limitations
 
@@ -357,3 +471,23 @@ the `LLM_Based_aligner.py` entry point.
 - `confidence_score` is threaded through every `AlignedPair` but has no
   producer; every pair in this folder's output currently carries either the
   default `0.0` or an explicit `None`, not a real computed value.
+- `distance_based_aligning.py`'s own `__main__` block wasn't updated when
+  `align_on_distance` gained its leading `section_label` parameter — running
+  `python3 Aligner/distance_based_aligning.py` directly now raises a
+  `TypeError` instead of printing a result. Only `LLM_based_aligner.py:main`
+  calls it with the new signature.
+- `AlignedPair.serialize()`'s `for_llm=False` branch recurses into
+  `child_pairs` with `pair.serialize()` — no `id` argument — even though
+  `id` is now a required parameter with no default; this would raise a
+  `TypeError` if any pair in this folder's output actually had non-empty
+  `child_pairs`, which none currently do (`align_on_distance` never
+  recurses), so the bug is latent rather than observed.
+- `verify_aligned_pairs` (`LLM_based_aligner.py`) returns whatever
+  `asyncio.gather` collects, including `None` for any segment that
+  exhausted its retries — there is no logic yet to tell the caller which
+  original pairs fell inside a failed segment, or to retry a failed segment
+  at a smaller size.
+- `SuggestedFixApplier.apply_fix` (`LLM_based_aligner.py`) is an
+  unimplemented stub (`pass`) — the `merge`/`split` commands the LLM returns
+  are never actually applied to `aligned_pairs`; only the id-to-pair-index
+  lookup it needs to do so is built so far.
