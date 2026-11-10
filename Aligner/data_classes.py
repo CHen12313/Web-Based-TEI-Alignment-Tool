@@ -1,3 +1,5 @@
+import re
+
 from itertools import takewhile
 
 from bs4 import Tag
@@ -59,10 +61,12 @@ class Element:
 
 
     def get_tag_string(self) -> str:
-        """Stringify the tag attribute, for debug only"""
-        return str(self.tag)
+        """Stringify the tag attribute, for debug only. Whitespace runs (including the
+        pretty-printed newlines/indentation from the source XML) are collapsed to a single
+        space so the string stays on one line."""
+        return re.sub(r"\s+", " ", str(self.tag)).strip()
 
-    def serialize(self, side: DocumentSide) -> dict:
+    def serialize(self, side: DocumentSide, for_llm: bool = True) -> dict:
         """Serialize the element into a dict, so the LLM can process it better as a string. Not meant for sending to the frontend.
 
         Output schema:
@@ -80,7 +84,7 @@ class Element:
         return {
             "name" : self.name,
             "id" : str(side) + str(self.order_index), #S1, or T1, the LLM needs it to identify elements and issue fix commands
-            "tag_string" : self.get_tag_string(), #this is for the LLM, which needs the text of the tag
+            "tag_string" : self.get_tag_string() if for_llm else self.get_clean_text(), #this is for the LLM, which needs the text of the tag
             #I need to find out which of raw string tag (with markup preserved) or the cleaned "pure" string works better
             "section_number" : self.section_number
         }
@@ -113,7 +117,7 @@ class AlignedPair: #I worked out the attributes with claude, I asked it to do th
         # empty until the aligner steps in, and stays empty at the lowest level
         self.child_pairs: list[AlignedPair] = []
 
-    def serialize(self) -> dict:
+    def serialize(self, for_llm: bool = True) -> dict:
         """Serialize the pair into a dict, so the LLM can process it better as a string. Not meant for sending to the frontend.
 
         Output schema:
@@ -135,8 +139,8 @@ class AlignedPair: #I worked out the attributes with claude, I asked it to do th
         ```
         """
         return {
-            "source_elements" : [element.serialize(DocumentSide.SOURCE) for element in self.source_elements],
-            "target_elements" : [element.serialize(DocumentSide.TARGET) for element in self.target_elements],
+            "source_elements" : [element.serialize(DocumentSide.SOURCE, for_llm) for element in self.source_elements],
+            "target_elements" : [element.serialize(DocumentSide.TARGET, for_llm) for element in self.target_elements],
             "section_label" : self.section_label,
             "confidence_score" : self.confidence_score,
             "anchor_method" : self.anchor_method,
