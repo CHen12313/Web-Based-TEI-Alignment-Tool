@@ -3,6 +3,7 @@ import logging
 from pathlib import Path
 import json
 import re
+import textwrap
 from Utils.storage import make_storage
 from botocore.exceptions import ClientError
 
@@ -13,12 +14,30 @@ storage_obj = make_storage()
 async def load_file_content(file_directory) ->str:
     return await storage_obj.read_text(file_directory)
 
-async def save_to_file(text: str, file_name, output_directory: str = ".", include_suffix: bool = False, include_time: bool = False) -> str:
+def unescape_newlines(text: str) -> str:
+    """Turn literal '\\n' escape sequences (as produced by json.dumps on text that contains
+    real newlines) into actual line breaks, so a saved debug dump reads as wrapped lines
+    instead of a wall of "\\n" characters."""
+    return text.replace("\\n", "\n")
+
+def wrap_long_lines(text: str, width: int = 120) -> str:
+    """Re-wrap any line longer than `width` characters onto several lines, breaking only on
+    whitespace. A long JSON string value (e.g. a paragraph's full tag_string) is otherwise a
+    single line that reads as a wall of text requiring horizontal scrolling."""
+    wrapped_lines = []
+    for line in text.splitlines():
+        if len(line) > width:
+            wrapped_lines.extend(textwrap.wrap(line, width=width, break_long_words=False, break_on_hyphens=False))
+        else:
+            wrapped_lines.append(line)
+    return "\n".join(wrapped_lines)
+
+async def save_to_file(text: str, file_name, output_directory: str = ".", include_suffix: bool = False, include_time: bool = False, readable: bool = False) -> str:
     output_dir = output_directory
 
     file_key = f"{output_dir}/{file_name}{get_suffix(include_time) if include_suffix else ""}.txt"
 
-    await storage_obj.save_text(file_key, text)
+    await storage_obj.save_text(file_key, wrap_long_lines(unescape_newlines(text)) if readable else text)
     #logger.info(f"File saved to: {file_key}")
     return file_key
 
