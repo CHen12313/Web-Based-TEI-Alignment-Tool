@@ -59,17 +59,17 @@ async def verify_segment(start_index:int, end_index:int, pairs_list: List[Aligne
             return text 
         
         except json.JSONDecodeError as e:
-            logger.info(f"🔴 JSON Decode Error while attempting to parse response for segment: {start_index} - {end_index}.")
+            logger.warning(f"🔴 JSON Decode Error while attempting to parse response for segment: {start_index} - {end_index}.")
             #could be LLM goofing with the schema, so an immediate retry to have it produce a hopefully good response
             if attempt == max_retry:
-                logger.info(f"❌ Segment {start_index}-{end_index} failed after {max_retry} attempts: {e}")
+                logger.error(f"❌ Segment {start_index}-{end_index} failed after {max_retry} attempts: {e}")
                 return None
 
         except APIError as e:
-            logger.info(f"🔴 API Error while attempting to verify segment: {start_index} - {end_index}.")
+            logger.warning(f"🔴 API Error while attempting to verify segment: {start_index} - {end_index}.")
             delay = base_delay * (2 ** (attempt - 1) + uniform(0, 0.5))
             if attempt == max_retry:
-                logger.info(f"❌ Segment {start_index}-{end_index} failed after {max_retry} attempts: {e}")
+                logger.error(f"❌ Segment {start_index}-{end_index} failed after {max_retry} attempts: {e}")
                 return None
             #back off for some time and try again later, the more it tails, the longer to wait, wait time grows in power of 2 of attempts
             await asyncio.sleep(delay) 
