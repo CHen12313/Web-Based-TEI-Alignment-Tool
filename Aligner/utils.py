@@ -7,7 +7,7 @@ def load_tei(file_path: str) -> BeautifulSoup:
     raw_text = Path(file_path).read_text(encoding="iso-8859-1")
     return BeautifulSoup(raw_text, "html.parser")
 
-def load_file_pair(file_code: str, file_storage_dir: str = SAMPLES_FOLDER) -> BeautifulSoup:
+def load_file_pair(file_code: str, file_storage_dir: str = SAMPLES_FOLDER) -> tuple[BeautifulSoup, BeautifulSoup]:
     original_file_path: Path = file_storage_dir / Path(f"G{file_code}.xml") 
     translation_file_path: Path = file_storage_dir / Path(f"T{file_code}.xml")
 
