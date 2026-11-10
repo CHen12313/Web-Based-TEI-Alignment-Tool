@@ -57,7 +57,7 @@ class Element:
             #the self.tag itself can be inside of an NON_PRINTED_TAGS, so we need to avoid checking the parent above the self.tag or else it could fail every test
             ]
         out_string = "".join(kept_pieces)
-        return out_string
+        return re.sub(r"\s+", " ", out_string).strip()
 
 
     def get_tag_string(self) -> str:
@@ -81,14 +81,17 @@ class Element:
         }
         ```
         """
-        return {
-            "name" : self.name,
+        out_dict = {
             "id" : str(side) + str(self.order_index), #S1, or T1, the LLM needs it to identify elements and issue fix commands
-            "tag_string" : self.get_tag_string() if for_llm else self.get_clean_text(), #this is for the LLM, which needs the text of the tag
-            #I need to find out which of raw string tag (with markup preserved) or the cleaned "pure" string works better
-            "section_number" : self.section_number
+            "tag_string" : self.get_clean_text() if for_llm else self.get_tag_string(), #this is for the LLM, which needs the text of the tag
         }
 
+        if not for_llm:
+            out_dict["name"] = self.name
+            out_dict["section_number"] = self.section_number
+
+        return out_dict
+    
 class AlignedPair: #I worked out the attributes with claude, I asked it to do the comments so I don't forget
     def __init__(self, source_elements: List[Element], target_elements: List[Element],
                  section_label: str | None = None, confidence_score: float = 0.0,
@@ -117,7 +120,7 @@ class AlignedPair: #I worked out the attributes with claude, I asked it to do th
         # empty until the aligner steps in, and stays empty at the lowest level
         self.child_pairs: list[AlignedPair] = []
 
-    def serialize(self, for_llm: bool = True) -> dict:
+    def serialize(self, id: int, for_llm: bool = True) -> dict:
         """Serialize the pair into a dict, so the LLM can process it better as a string. Not meant for sending to the frontend.
 
         Output schema:
@@ -138,15 +141,21 @@ class AlignedPair: #I worked out the attributes with claude, I asked it to do th
         }
         ```
         """
-        return {
+        out_dict = {
+            "pair_number" : id,
             "source_elements" : [element.serialize(DocumentSide.SOURCE, for_llm) for element in self.source_elements],
             "target_elements" : [element.serialize(DocumentSide.TARGET, for_llm) for element in self.target_elements],
             "section_label" : self.section_label,
-            "confidence_score" : self.confidence_score,
-            "anchor_method" : self.anchor_method,
-            "alignment_kind" : self.alignment_kind,
-            "child_pairs" : [pair.serialize() for pair in self.child_pairs]
         }
+
+        if not for_llm:
+            out_dict["confidence_score"] = self.confidence_score
+            out_dict["anchor_method"] = self.anchor_method
+            out_dict["alignment_kind"] = self.alignment_kind
+            out_dict["child_pairs"] = [pair.serialize() for pair in self.child_pairs]
+
+        return out_dict
+    
     @property
     def alignment_kind(self) -> str:
         source_count: int = len(self.source_elements)
