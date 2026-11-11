@@ -1,15 +1,28 @@
-ALIGN_PROMPT_TEMPLATE: str = """You are checking a paragraph alignment between a medieval Irish source text and its English translation (TEI XML from the CELT corpus).
+ALIGN_PROMPT_TEMPLATE: str = """You are checking a paragraph alignment between a medieval Irish source text and its English translation (from the CELT corpus).
 
-An automatic aligner has grouped the paragraphs into pairs. Each pair links zero or more source paragraphs to zero or more target paragraphs. The pairs are listed in document order, and every paragraph belongs to exactly one pair. A pair with an empty side means the aligner found no counterpart for it.
+An automatic aligner has grouped the paragraphs into pairs. Each pair links zero or more source paragraphs to zero or more target paragraphs. The pairs are listed in document order, every paragraph belongs to exactly one pair, and each pair has a "pair_number". A pair with an empty side means the aligner found no counterpart for it.
 
 Every paragraph has an "id": "S" plus a number for source (Irish) paragraphs, "T" plus a number for target (English) paragraphs. The numbers follow document order on each side.
 
-Your task: read each pair and decide whether its source and target paragraphs tell the same part of the text. Where they do not, output commands that correct the grouping. Never quote or rewrite paragraph text. Refer to paragraphs only by their id.
+## Goal
+The correct grouping is the finest one: every pair should be as small as possible while its source and target paragraphs still contain the same part of the text.
+- If a pair can be divided into smaller pairs that each correspond, it should be split.
+- If a paragraph's content belongs with a neighbouring pair, it should be merged into that pair.
+Never quote or rewrite paragraph text. Refer to paragraphs only by their id.
 
-## What to ignore
-- Markup differences (<lb>, <pb>, <ex>, <sup>, <frn> and similar). Only the meaning of the running text matters.
-- Text inside <note> and <rdg>. These are editorial footnotes and variant readings, not part of the paragraph.
-- Translation quality, free renderings, and small omissions or additions. A pair whose paragraphs correspond overall is correct.
+## How to check
+1. Go through the pairs in order and record one entry per pair in "pair_checks". Write the note first, then the verdict:
+   - "correct": both sides contain the same part of the text, and the pair cannot be divided into smaller corresponding pairs.
+   - "needs_fix": the grouping is wrong.
+   - "unsure": the text does not let you decide.
+2. For every pair with an empty side, check whether its paragraph's content appears in the pair before or after it. If it does, that is a merge.
+3. For every pair with more than one paragraph on a side, check whether it divides into smaller corresponding pairs. If it does, that is a split.
+4. Compare how much of the text each side carries. If one side contains whole events, speeches or verses that the other side lacks, the missing content is probably in a neighbouring pair.
+5. Finally, write the "commands" that fix every "needs_fix" pair.
+
+## Not a reason to change the grouping
+- Translation quality and free renderings.
+- Differences of a few words or a single sentence. Paragraph boundaries in the two texts can be off by one sentence; leave such pairs as they are.
 
 ## Operations
 merge
@@ -23,7 +36,7 @@ split
   last_target_id_before_split is the last target paragraph that stays in the first pair.
   Every paragraph after them moves to the second pair. Set one of them to null to move all of that side to the second pair.
   Both ids must be in the same pair, and the second pair must not end up empty.
-  Use it when the aligner grouped paragraphs that actually correspond one by one, or when a paragraph has no real counterpart and should stand alone.
+  Use it when a pair groups paragraphs that actually correspond one by one, or when a paragraph has no real counterpart and should stand alone.
 
 ## Examples
 Pairs: [S1 | T1], [S2 | T2], [no source | T3], and T3 continues the translation of S2:
@@ -34,10 +47,12 @@ Pairs: [S4, S5 | T4, T5], and S4 matches T4 while S5 matches T5:
 
 ## Rules
 - Use only ids that appear in the pairs below. Paragraphs before and after this list are not shown, so a pair at the start or end may look incomplete. Do not fix that by guessing ids that are not listed.
-- Fill only the fields of the operation you chose and set the other operation's fields to null.
+- Give exactly one "pair_checks" entry per pair, using its pair_number.
+- Every "needs_fix" pair must be fixed by a command, and every command must fix a "needs_fix" pair. Use "unsure" instead of guessing, and do not issue commands for "unsure" pairs.
+- In each command, fill only the fields of the operation you chose and set the other operation's fields to null.
 - Commands are applied one after another in the order you list them, each to the result of the previous ones.
-- Write "reason" first: one short sentence on what you observed.
-- If every pair is correct, return an empty "commands" list. Only issue a command when the text clearly shows the grouping is wrong; an unnecessary command does more harm than a missed one.
+- Write each command's "reason" first: one short sentence on what you observed.
+- If every pair is correct, return an empty "commands" list.
 
 ## Pairs
 {string_pairs}
@@ -53,6 +68,19 @@ _ELEMENT_ID_OR_NULL: dict = {
 ALIGN_RESPONSE_SCHEMA: dict = {
     "type": "object",
     "properties": {
+        "pair_checks": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "pair_number": {"type": "integer"},
+                    "note": {"type": "string"},
+                    "verdict": {"type": "string", "enum": ["correct", "needs_fix", "unsure"]},
+                },
+                "required": ["pair_number", "note", "verdict"],
+                "additionalProperties": False,
+            },
+        },
         "commands": {
             "type": "array",
             "items": {
@@ -75,8 +103,8 @@ ALIGN_RESPONSE_SCHEMA: dict = {
                 ],
                 "additionalProperties": False,
             },
-        }
+        },
     },
-    "required": ["commands"],
+    "required": ["pair_checks", "commands"],
     "additionalProperties": False,
 }
