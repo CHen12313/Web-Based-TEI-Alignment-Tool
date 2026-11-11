@@ -37,6 +37,7 @@ async def verify_segment(start_index:int, end_index:int, pairs_list: List[Aligne
     logger.info(f"🟢 Prompt prepared for segment: {start_index} - {end_index}")
 
     logger.info(f"Issuing API call for segment: {start_index} - {end_index}...")
+
     for attempt in range(max_retry + 1):
         if attempt != 0: logger.info(f"⚠️ Retry [{attempt}/{max_retry}] for segment: {start_index} - {end_index}...") 
         try:
@@ -61,17 +62,19 @@ async def verify_segment(start_index:int, end_index:int, pairs_list: List[Aligne
         except json.JSONDecodeError as e:
             logger.warning(f"🔴 JSON Decode Error while attempting to parse response for segment: {start_index} - {end_index}.")
             #could be LLM goofing with the schema, so an immediate retry to have it produce a hopefully good response
+            await save_to_file(e, file_name="JSONDecodeError_log_LLM_verifier", output_directory="Error_Logs/verifier", include_suffix=True, include_time=True, readable=False)
             if attempt == max_retry:
                 logger.error(f"❌ Segment {start_index}-{end_index} failed after {max_retry} attempts: {e}")
                 return None
 
         except APIError as e:
             logger.warning(f"🔴 API Error while attempting to verify segment: {start_index} - {end_index}.")
+            await save_to_file(e, file_name="APIError_log_LLM_verifier", output_directory="Error_Logs/verifier", include_suffix=True, include_time=True, readable=False)
             delay = base_delay * (2 ** (attempt - 1) + uniform(0, 0.5))
             if attempt == max_retry:
                 logger.error(f"❌ Segment {start_index}-{end_index} failed after {max_retry} attempts: {e}")
                 return None
-            #back off for some time and try again later, the more it tails, the longer to wait, wait time grows in power of 2 of attempts
+            #back off for some time and try again later, the more it fails, the longer to wait, wait time grows in power of 2 of attempts
             await asyncio.sleep(delay) 
 
 async def verify_aligned_pairs(aligned_pairs: List[AlignedPair], client: AsyncAnthropic | None = None, 
@@ -97,30 +100,11 @@ def prepare_prompt(aligned_pairs: List[AlignedPair], prompt_template: str = ALIG
     formatted_prompt = prompt_template.format(string_pairs=string_pairs)
     return formatted_prompt
 
-class SuggestedFixApplier:
-    def __init__(self, list_of_pairs: List[AlignedPair]):
-        self.list_of_pairs = list_of_pairs
-        self.element_pair_index_lookup: dict[str, int] = {}
-
-        for index, pair in enumerate(list_of_pairs):
-            for element in pair.source_elements:
-                element_id = element.serialize(DocumentSide.SOURCE).get("id")
-                self.element_pair_index_lookup[element_id] = index
-            
-            for element in pair.target_elements:
-                element_id = element.serialize(DocumentSide.TARGET).get("id")
-                self.element_pair_index_lookup[element_id] = index
-            
-    def apply_fix(self, command: str):
-        pass
-
-
-
 async def main():
     setup_logging()
     warnings.filterwarnings("ignore", category=XMLParsedAsHTMLWarning)
 
-    original_tree, translation_tree = load_file_pair(file_code="301043")
+    original_tree, translation_tree = load_file_pair(file_code="301042")
     original_div0 = original_tree.find("body").find("div0")
     translation_div0 = translation_tree.find("body").find("div0")
 
@@ -135,7 +119,7 @@ async def main():
 
     verified = await verify_aligned_pairs(aligned_pairs)
 
-    await save_dict_to_json({"verified_pairs": verified}, file_name="verified_pairs_301043", json_dir=".", include_time=True)
+    await save_dict_to_json({"verified_pairs": verified}, file_name="verified_pairs_301043", json_dir=".", include_suffix=True, include_time=True)
 
 if __name__ == "__main__":
     asyncio.run(main())
