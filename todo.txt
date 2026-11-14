@@ -1,0 +1,2 @@
+levenshtein distance
+incremental development, prioritize 
