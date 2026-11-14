@@ -4,7 +4,7 @@ from itertools import takewhile
 
 from bs4 import Tag
 
-from typing import List
+from typing import List, Tuple
 from enum import StrEnum
 
 NON_PRINTED_TAGS: set[str] = {
@@ -183,3 +183,16 @@ class AlignedPair: #I worked out the attributes with claude, I asked it to do th
         target_string: str = ", ".join(str(element) for element in self.target_elements)
 
         return f"AlignedPair({self.alignment_kind}: source[{source_string}] -> target[{target_string}], anchor={self.anchor_method})"
+
+class OPCode(StrEnum):
+    SPLIT = "split"
+    MERGE = "merge"
+
+class FixCommand:
+    def __init__(self, opcode: OPCode, 
+                 first_element_id: str | None = None, 
+                 last_element_id: str | None = None, 
+                 last_source_id_before_split: str | None = None,
+                 last_target_id_before_split: str | None = None):
+        pass
+

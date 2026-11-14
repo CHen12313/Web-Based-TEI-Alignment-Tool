@@ -19,4 +19,9 @@ class SuggestedFixApplier:
     def apply_fix(self, command: str):
         pass
 
+    def _do_split(first_element_id: str, last_element_id: str):
+        pass
+
+    def _do_merge(last_source_id_before_split: str, last_target_id_before_split: str):
+        pass
 
