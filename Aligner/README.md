@@ -4,7 +4,7 @@ Exploratory scripts for aligning the parallel Irish/English CELT TEI files
 (`celt_samples/G<code>.xml` / `T<code>.xml`) at the section and paragraph
 level. Nothing here is the production aligner — these are algorithm
 prototypes `python3 Aligner/<file>.py` can be run and printed directly,
-and `LLM_based_aligner.py` is the current entry point that chains them
+and `LLM_based_verifier.py` is the current entry point that chains them
 together with an LLM semantic pass.
 
 ## Contents
@@ -13,7 +13,8 @@ together with an LLM semantic pass.
   - [`data_classes.py` — `Element`, `AlignedPair`, and the shared enums](#data_classespy--element-alignedpair-and-the-shared-enums)
   - [`aligner.py` — section-level alignment](#alignerpy--section-level-alignment)
   - [`distance_based_aligning.py` — `align_on_distance`](#distance_based_aligningpy--align_on_distance)
-  - [`LLM_based_aligner.py` — LLM verification pass](#llm_based_alignerpy--llm-verification-pass)
+  - [`LLM_based_verifier.py` — LLM verification pass](#llm_based_verifierpy--llm-verification-pass)
+  - [`suggested_fix_applier.py` — `SuggestedFixApplier`](#suggested_fix_applierpy--suggestedfixapplier)
 - [Shared data structures](#shared-data-structures)
   - [`AlignmentKind`](#alignmentkind)
   - [`AnchorMethod`](#anchormethod)
@@ -73,7 +74,7 @@ Imports the data model from `data_classes.py` and defines the section-level
   `# TODO` branches (paragraph not starting on its first `<lb>`; a line number
   before every translation paragraph's start; one-to-many/many-to-one splits)
   are left unhandled on purpose — this function is superseded in practice by
-  `align_on_distance` (see below) and `LLM_Based_aligner.py`'s LLM pass, so
+  `align_on_distance` (see below) and `LLM_based_verifier.py`'s LLM pass, so
   finishing it hasn't been a priority.
 - `find_containing_translation_paragraph` uses `bisect_right` over the
   ascending `translation_start_lines` to do the containment lookup in
@@ -81,7 +82,7 @@ Imports the data model from `data_classes.py` and defines the section-level
   paragraph.
 - `Element.serialize()` / `AlignedPair.serialize()` exist specifically to turn
   these objects into the LLM-friendly dict shape consumed by
-  `LLM_Based_aligner.py:prepare_prompt` — see
+  `LLM_based_verifier.py:prepare_prompt` — see
   [Shared data structures](#shared-data-structures) below for the exact shape.
   They are explicitly **not** meant for the frontend, per their docstrings;
   the frontend contract (if any) lives elsewhere.
@@ -89,7 +90,7 @@ Imports the data model from `data_classes.py` and defines the section-level
 ### `distance_based_aligning.py` — `align_on_distance`
 
 The paragraph-level alignment actually wired into the pipeline today (called
-from `LLM_Based_aligner.py`, not from `aligner.py:align_elements`). Where
+from `LLM_based_verifier.py`, not from `aligner.py:align_elements`). Where
 `align_individual_section` anchors on explicit line numbers, `align_on_distance`
 has no such anchor available at the `<p>` level and instead treats alignment
 as a sequence-diff problem.
@@ -104,7 +105,7 @@ as a sequence-diff problem.
   variants aren't part of the paragraph's real content, so they shouldn't
   contribute to its structural signature. `signature_tags` defaults to
   `["lg", "l"]`, tuned for testing against sample `301043`; callers (e.g.
-  `LLM_Based_aligner.py`) currently pass `["lg", "l", "q"]`.
+  `LLM_based_verifier.py`) currently pass `["lg", "l", "q"]`.
 - These signature strings are then fed to `difflib.SequenceMatcher` (with
   `autojunk=False` — the default heuristic that discounts "popular" elements
   would be actively harmful here, since a common signature like `"p|lg:0-l:0"`
@@ -137,64 +138,111 @@ as a sequence-diff problem.
   function's first parameter is now `section_label` (see below) — running
   this file directly raises `TypeError: align_on_distance() missing 1
   required positional argument: 'translation_elements'` rather than
-  producing output. Only `LLM_Based_aligner.py`'s call site was updated when
+  producing output. Only `LLM_based_verifier.py`'s call site was updated when
   `section_label` was added.
 
-### `LLM_based_aligner.py` — LLM verification pass
+### `LLM_based_verifier.py` — LLM verification pass
 
-The wired entry point: loads a file pair, runs `align_on_distance`, then
-sends the resulting pairs to an LLM for a semantic check, and persists both
-the prompt and the verification results to disk. Importing it requires the
-repo root on `sys.path` (`sys.path.append(str(Path(__file__).resolve().parent.parent))`)
-so the top-level `Utils` package resolves alongside `Aligner`'s own modules.
+The wired entry point (renamed from `LLM_based_aligner.py` once its job
+settled on checking an existing alignment rather than producing one): loads
+a file pair, runs `align_on_distance`, then sends the resulting pairs to an
+LLM for a semantic check, and persists both the prompt and the verification
+results to disk. Importing it requires the repo root on `sys.path`
+(`sys.path.append(str(Path(__file__).resolve().parent.parent))`) so the
+top-level `Utils` package resolves alongside `Aligner`'s own modules.
+`SuggestedFixApplier` used to live in this file but has been pulled out into
+its own module — see
+[`suggested_fix_applier.py`](#suggested_fix_applierpy--suggestedfixapplier)
+below.
 
 **Design choices / how it works:**
-- `prepare_prompt` builds the prompt body by calling `pair.serialize(i,
-  for_llm=True)` for each pair at its index `i` in the list passed in (not
-  the pair's own position in the full document — see
+- `prepare_prompt` builds the prompt body by calling `pair.serialize(start_index
+  + i, for_llm=True)` for each pair at its index `i` in the slice passed in,
+  offset by `start_index` so `pair_number` still reflects the pair's real
+  position in the full document even when only one segment's slice is being
+  rendered (needed now that `verify_segment` prepares one segment's prompt at
+  a time rather than the whole list at once — see
   [`AlignedPair.serialize()`](#alignedpair) below), JSON-encoding each one
   (`json.dumps(..., ensure_ascii=False)`, compact unless `indent=True`), and
   joining them with a `====...====` separator line before substituting the
-  result into `ALIGN_PROMPT_TEMPLATE`'s `{string_pairs}` placeholder.
+  result into `ALIGN_PROMPT_TEMPLATE`'s `{string_pairs}` placeholder. It is
+  now `async` so it can also `save_to_file` the formatted prompt it just
+  built, as `formatted_prompt_template_segment_<start>-<end>_<date>_<time>.txt`
+  under `Formatted_Prompts/` — one file per segment, so every segment's exact
+  prompt is inspectable after a run even though `verify_segment` fires them
+  concurrently.
 - `verify_segment` sends one slice of `segment_size` pairs to the model
-  (`MODEL = "claude-haiku-5-5"`, `output_config` constrained to
-  `ALIGN_RESPONSE_SCHEMA`) and retries on failure, up to `max_retry` times
-  (default `2`, so 3 attempts total): a `json.JSONDecodeError` (the model
-  returned text that didn't parse, despite the schema constraint) retries
-  immediately, since the cause is presumed to be the model, not the network,
-  so there's nothing to wait out; an `anthropic.APIError` backs off first,
-  for `base_delay * (2 ** (attempt - 1) + uniform(0, 0.5))` seconds — doubling
-  per attempt with random jitter so concurrent segments don't all retry in
-  lockstep. Either error returns `None` once `max_retry` is exhausted rather
-  than raising, so one bad segment doesn't abort the whole batch; both
-  outcomes are logged.
+  (`MODEL = "claude-haiku-5-5"`, `max_tokens` set by the caller via
+  `max_token` rather than a hardcoded constant, since a bigger segment needs
+  more room for the model's `pair_checks`/`commands` output; `output_config`
+  constrained to `ALIGN_RESPONSE_SCHEMA`) and retries on failure, up to
+  `max_retry` times (default `2`, so 3 attempts total), distinguishing four
+  failure modes:
+  - `StopIteration` — raised by the `next(... if block.type == "text")` lookup
+    when the model's response has no text block at all. In practice this
+    means the model was cut off (most commonly `stop_reason == "max_tokens"`)
+    before it produced any output block to parse. If
+    `increase_max_token_retry` is set, `max_token` is bumped by
+    `TOKEN_PER_PAIR` (`1024`) and the attempt is retried with more headroom;
+    otherwise it just retries as-is. This case is logged but **not** currently
+    dumped to `Error_Logs/` — the `save_to_file` call for it is present in the
+    source but commented out.
+  - `json.JSONDecodeError` — the model returned text that didn't parse,
+    despite the schema constraint — retries immediately, since the cause is
+    presumed to be the model, not the network, so there's nothing to wait
+    out. The exception is dumped via `save_to_file` to `Error_Logs/verifier/`
+    before giving up once `max_retry` is exhausted.
+  - `anthropic.APIStatusError` (a request that reached the API and got back
+    an error status) — dumped to `Error_Logs/verifier/`, then checked against
+    `FATAL_STATUS_CODES` (`400, 401, 403, 404, 413` — bad request, auth,
+    permissions, not-found, payload-too-large): these are configuration
+    problems retrying can't fix, so they return `None` immediately. Any other
+    status backs off first, for `base_delay * (2 ** (attempt - 1) +
+    uniform(0, 0.5))` seconds — doubling per attempt with random jitter so
+    concurrent segments don't all retry in lockstep — then retries.
+  - `anthropic.APIError` (the general case, e.g. a connection failure, with
+    no status code to judge fatal-vs-transient by) — dumped to
+    `Error_Logs/verifier/` and returns `None` immediately, with no retry.
+
+  Every path that gives up returns `None` rather than raising, so one bad
+  segment doesn't abort the whole batch; every outcome is logged.
 - `verify_aligned_pairs` splits `aligned_pairs` into consecutive
   `segment_size`-sized slices (default `3`) and fires every segment's
-  `verify_segment` concurrently via `asyncio.gather`. It currently just
-  returns the list as-is, including any `None`s from exhausted retries —
-  there is no logic yet to re-split, retry, or flag which original pairs
-  fell inside a failed segment (see
-  [Known limitations](#known-limitations)).
-- `SuggestedFixApplier` (renamed from the scaffolded `LLM_suggested_fix_applier`)
-  builds `element_pair_index_lookup`, a `dict[str, int]` mapping every
-  element's serialized `id` (e.g. `"S4"`, `"T2"`) to the index of the
+  `verify_segment` concurrently via `asyncio.gather`, sizing each call's
+  token budget as `max_token=segment_size*TOKEN_PER_PAIR`. It logs how many
+  segments actually succeeded (`is not None`) against the total segment
+  count, but still returns the full list as-is, `None`s included — there is
+  no logic yet to re-split, retry, or flag which original pairs fell inside a
+  failed segment (see [Known limitations](#known-limitations)).
+- `main` (`async`, run via `asyncio.run(main())`) wires the whole pass
+  together: `setup_logging()` (`Utils.setup_loggin`, a root `StreamHandler`
+  to stdout, idempotent) → load sample `301042`'s `<div0>` paragraphs →
+  `align_on_distance(1, ...)` → `verify_aligned_pairs(..., segment_size=8)` →
+  `save_dict_to_json` the verified segments to `LLM_Responses/verified_pairs_301043.json`
+  under the key `"verified_pairs"`. Every stage logs its own start/progress
+  through `logger = logging.getLogger(__name__)`.
+
+### `suggested_fix_applier.py` — `SuggestedFixApplier`
+
+Extracted out of `LLM_based_verifier.py` into its own module (it has no
+dependency on the LLM call machinery, only on `AlignedPair`/`Element`, so
+keeping it there was coupling two unrelated concerns in one file). Nothing
+currently imports this module — `LLM_based_verifier.py:main` runs the LLM
+pass but doesn't yet call `SuggestedFixApplier` to act on the results.
+
+**Design choices / how it works:**
+- `__init__` builds `element_pair_index_lookup`, a `dict[str, int]` mapping
+  every element's serialized `id` (e.g. `"S4"`, `"T2"`) to the index of the
   `AlignedPair` it currently belongs to, by calling `element.serialize(side)`
   (default `for_llm=True`, since only the `id` field is read) for every
   source and target element of every pair. This is the lookup the LLM's
   `merge`/`split` commands (identified by element id — see
   `prompt_templates.py`'s `ALIGN_PROMPT_TEMPLATE`) will need to resolve back
-  to pair positions. `apply_fix` is still an unimplemented stub (`pass`) —
-  the commands the LLM returns aren't actually applied to `aligned_pairs`
-  yet.
-- `main` (now `async`, run via `asyncio.run(main())`) wires the whole pass
-  together: `setup_logging()` (`Utils.setup_loggin`, a root `StreamHandler`
-  to stdout, idempotent) → load sample `301043`'s `<div0>` paragraphs →
-  `align_on_distance(1, ...)` → `save_to_file` the formatted prompt to
-  `formatted_prompt_template_<date>_<time>.txt` (`Utils.util`, `include_time=True`
-  so repeated runs don't overwrite each other) → `verify_aligned_pairs` →
-  `save_dict_to_json` the verified segments to `verified_pairs_301043.json`
-  under the key `"verified_pairs"`. Every stage logs its own start/progress
-  through `logger = logging.getLogger(__name__)`.
+  to pair positions.
+- `apply_fix` is still an unimplemented stub (`pass`) — the commands the LLM
+  returns aren't actually applied to `list_of_pairs` yet; only the
+  id-to-pair-index lookup it will need to do so is built so far (see
+  [Known limitations](#known-limitations)).
 
 ## Shared data structures
 
@@ -266,7 +314,7 @@ regardless of `for_llm`. The
 holds, so the default prompt payload stays small:
 
 ```python
-# for_llm=True (default) — what LLM_based_aligner.py actually sends
+# for_llm=True (default) — what LLM_based_verifier.py actually sends
 {
     "id": "S3",                 # str(side) + str(order_index)
     "tag_string": "...",        # get_clean_text() — markup stripped, whitespace collapsed
@@ -314,7 +362,7 @@ computed by any producer yet; every current caller either omits it (default
 `0.0`) or passes `None` explicitly (`align_on_section_numbers`).
 
 **`serialize(id, for_llm=True)`** turns a pair into the LLM-facing dict
-`LLM_based_aligner.py:prepare_prompt` sends in its prompt (not the frontend —
+`LLM_based_verifier.py:prepare_prompt` sends in its prompt (not the frontend —
 see the docstring note under
 [`aligner.py`](#alignerpy--section-level-alignment) above). `id` is required
 (no default) and becomes `pair_number` in the output — it's whatever the
@@ -325,7 +373,7 @@ document is serialized in one call. Like `Element.serialize()`, `for_llm`
 toggles how much detail comes back:
 
 ```python
-# for_llm=True (default) — what LLM_based_aligner.py actually sends
+# for_llm=True (default) — what LLM_based_verifier.py actually sends
 {
     "pair_number": int,                             # the `id` argument, not an instance attribute
     "source_elements": list[Element.serialize()],   # [] for a target-only orphan
@@ -408,7 +456,7 @@ lists itself — the property already computes it from
 never written back onto the instance (see [`AlignedPair`](#alignedpair)
 above) — only the serialized *dict* carries it, by calling the property at
 `serialize()` time. `section_label` being a plain `int` rather than a real
-`div@n` string is specific to this call site: `LLM_based_aligner.py:main`
+`div@n` string is specific to this call site: `LLM_based_verifier.py:main`
 calls `align_on_distance(1, ...)` on this file pair's direct `<p>` children
 with no section/`div` grouping in between, so there is no real section
 number to carry — contrast `align_on_section_numbers` (`aligner.py`), which
@@ -419,7 +467,7 @@ passes the real `div1@n` string as `section_label`.
 Nothing in this folder currently wires `aligner.py`'s `align_elements` and
 `distance_based_aligning.py`'s `align_on_distance` into a single call chain —
 they're two alternative paragraph-level strategies, not pipeline stages. The
-one wired entry point, `LLM_based_aligner.py:main`, skips `align_elements`
+one wired entry point, `LLM_based_verifier.py:main`, skips `align_elements`
 entirely and goes straight from a hand-picked `<div0>`'s direct `<p>` children
 to `align_on_distance`, then on to the LLM verification pass:
 
@@ -436,9 +484,10 @@ list each side's top-level `<p>`s as `Element`s → `align_on_distance` →
 `verify_aligned_pairs` sends the serialized pairs to the LLM via
 `ALIGN_PROMPT_TEMPLATE` for semantic confirmation/correction, in
 `segment_size`-sized batches — but the `merge`/`split` commands it returns
-aren't applied back onto `aligned_pairs` yet (`SuggestedFixApplier.apply_fix`
+aren't applied back onto `aligned_pairs` yet (`SuggestedFixApplier.apply_fix`,
+in [`suggested_fix_applier.py`](#suggested_fix_applierpy--suggestedfixapplier),
 is a stub); see
-[`LLM_based_aligner.py`](#llm_based_alignerpy--llm-verification-pass) above
+[`LLM_based_verifier.py`](#llm_based_verifierpy--llm-verification-pass) above
 for the full breakdown. `aligner.py`'s section-level machinery
 (`align_sections`, `align_on_section_numbers`, `align_on_position`) and its
 own paragraph-level attempt (`align_individual_section`) are exercised
@@ -447,7 +496,7 @@ and `AnchorMethod` live in `data_classes.py` and are reused as a dependency
 by `AlignmentRefiner.py`, `distance_based_aligning.py`, and
 `test_serialize.py`; `aligner.py`'s own `division_pattern` is reused the same
 way by `locate_section_split_mismatch.py`. `align_elements` itself isn't
-currently called from the `LLM_based_aligner.py` entry point.
+currently called from the `LLM_based_verifier.py` entry point.
 
 ## Known limitations
 
@@ -474,7 +523,7 @@ currently called from the `LLM_based_aligner.py` entry point.
 - `distance_based_aligning.py`'s own `__main__` block wasn't updated when
   `align_on_distance` gained its leading `section_label` parameter — running
   `python3 Aligner/distance_based_aligning.py` directly now raises a
-  `TypeError` instead of printing a result. Only `LLM_based_aligner.py:main`
+  `TypeError` instead of printing a result. Only `LLM_based_verifier.py:main`
   calls it with the new signature.
 - `AlignedPair.serialize()`'s `for_llm=False` branch recurses into
   `child_pairs` with `pair.serialize()` — no `id` argument — even though
@@ -482,12 +531,21 @@ currently called from the `LLM_based_aligner.py` entry point.
   `TypeError` if any pair in this folder's output actually had non-empty
   `child_pairs`, which none currently do (`align_on_distance` never
   recurses), so the bug is latent rather than observed.
-- `verify_aligned_pairs` (`LLM_based_aligner.py`) returns whatever
+- `verify_aligned_pairs` (`LLM_based_verifier.py`) returns whatever
   `asyncio.gather` collects, including `None` for any segment that
   exhausted its retries — there is no logic yet to tell the caller which
   original pairs fell inside a failed segment, or to retry a failed segment
   at a smaller size.
-- `SuggestedFixApplier.apply_fix` (`LLM_based_aligner.py`) is an
+- `SuggestedFixApplier.apply_fix` (`suggested_fix_applier.py`) is an
   unimplemented stub (`pass`) — the `merge`/`split` commands the LLM returns
   are never actually applied to `aligned_pairs`; only the id-to-pair-index
   lookup it needs to do so is built so far.
+- `verify_segment`'s `StopIteration` branch (`LLM_based_verifier.py`, hit when
+  the model's response has no text block) has its `save_to_file` error-dump
+  call present but commented out, so unlike the other three failure modes it
+  handles, nothing lands in `Error_Logs/verifier/` for this case.
+- `FixCommand` (`data_classes.py`) is a new, unused stub — `__init__(self,
+  opcode: str, operands: Tuple[str, str])` takes the shape the LLM's
+  `merge`/`split` commands need but its body is just `pass`, so no fields are
+  actually set on the instance yet; nothing in this folder constructs or
+  consumes it.
