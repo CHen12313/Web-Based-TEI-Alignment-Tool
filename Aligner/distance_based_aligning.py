@@ -124,4 +124,4 @@ if __name__ == "__main__":
     original_paragraphs = [Element(tag, index) for index, tag in enumerate(p for section in original_sections for p in section.find_all("p", recursive=False))]
     translation_paragraphs = [Element(tag, index) for index, tag in enumerate(p for section in translation_sections for p in section.find_all("p", recursive=False))]
 
-    print(align_on_distance(original_paragraphs, translation_paragraphs, signature_tags=["lg", "l", "q"]))
+    print(align_on_distance("1", original_paragraphs, translation_paragraphs, signature_tags=["lg", "l", "q"]))

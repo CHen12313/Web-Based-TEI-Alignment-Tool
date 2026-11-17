@@ -12,6 +12,11 @@ from bisect import bisect_left, bisect_right
 
 from data_classes import NON_PRINTED_TAGS, AnchorMethod, Element, AlignedPair
 
+from distance_based_aligning import align_on_distance
+
+from utils import load_file_pair
+
+
 division_pattern: re.Pattern[str] = re.compile(r"^div\d?$") #this is to look for <div1>s and <div0>s
 
 def align_elements(original_tags: List[Tag], translation_tags: List[Tag]) -> Tuple[List[AlignedPair], List[AlignedPair]]:
@@ -22,6 +27,8 @@ def align_elements(original_tags: List[Tag], translation_tags: List[Tag]) -> Tup
     for sec in aligned_sections:
         if not sec.source_elements or not sec.target_elements:
             continue
+
+        section_label = sec.section_label
 
         original_child_division_tags: List[Tag] = [
             child_division_tag 
@@ -35,7 +42,7 @@ def align_elements(original_tags: List[Tag], translation_tags: List[Tag]) -> Tup
 
         if original_child_division_tags and translation_child_division_tags: 
             #we have to do recursion because there could be nested <div>s, without it, we only get the direct children of each section div
-            sec.child_pairs = align_elements(original_child_division_tags, translation_child_division_tags)
+            sec.child_pairs = align_on_distance(section_label, original_child_division_tags, translation_child_division_tags)
 
         elif not original_child_division_tags and not translation_child_division_tags:
             original_paragraph_tags: List[Tag] = [
@@ -54,9 +61,10 @@ def align_elements(original_tags: List[Tag], translation_tags: List[Tag]) -> Tup
                 Element(paragraph_tag, paragraph_index) for paragraph_index, paragraph_tag in enumerate(translation_paragraph_tags)
             ]
 
-            aligned_elements_per_section.append(align_individual_section(original_paragraph_elements, translation_paragraph_elements))
+            aligned_elements_per_section.append(align_on_distance(section_label, original_paragraph_elements, translation_paragraph_elements, ["lg", "l", "q"]))
 
     return aligned_elements_per_section, aligned_sections
+
 
 def align_sections(original_tags: ResultSet[Tag], translation_tags: ResultSet[Tag]) -> List[AlignedPair]:
     all_sections_numbered = True
@@ -81,6 +89,7 @@ def align_sections(original_tags: ResultSet[Tag], translation_tags: ResultSet[Ta
         return align_on_position(original_tags, translation_tags)
 
     return align_as_one_block(original_tags, translation_tags)
+
 
 def align_on_section_numbers(original_tags: ResultSet[Tag], translation_tags: ResultSet[Tag]) -> list[AlignedPair]:
     output_list: List[AlignedPair] = []
@@ -118,6 +127,7 @@ def align_on_section_numbers(original_tags: ResultSet[Tag], translation_tags: Re
 
     return output_list
 
+
 def align_on_position(original_tags: ResultSet[Tag], translation_tags: ResultSet[Tag]) -> List[AlignedPair]:
     if len(original_tags) != len(translation_tags):
         raise ValueError("original_tags and translation_tags must have the same length")
@@ -128,9 +138,10 @@ def align_on_position(original_tags: ResultSet[Tag], translation_tags: ResultSet
         original_div_element = Element(original_div, i)
         translation_div_element = Element(translation_tags[i], i)
 
-        output_list.append(AlignedPair([original_div_element], [translation_div_element])) 
+        output_list.append(AlignedPair([original_div_element], [translation_div_element], str(i))) 
 
     return output_list
+
 
 def align_as_one_block(original_tags: ResultSet[Tag], translation_tags: ResultSet[Tag]) -> list[AlignedPair]:
     pass
@@ -208,3 +219,17 @@ def find_containing_translation_paragraph(irish_start_line: int, translation_sta
 
     starts_exactly: bool = translation_start_lines[containing_position] == irish_start_line
     return translation_paragraph_elements[containing_position], starts_exactly
+
+
+if __name__ == "__main__":
+    warnings.filterwarnings("ignore", category=XMLParsedAsHTMLWarning)
+    original_tree, translation_tree = load_file_pair("301020B")
+    original_body = original_tree.find("body")
+    translation_body = translation_tree.find("body")
+    
+    original_sections = original_body.find("div0").find_all("div1", recursive=False)
+    translation_sections = translation_body.find("div0").find_all("div1", recursive=False)
+
+    print(f"{len(original_sections)} | {len(translation_sections)}")
+
+    print(align_elements(original_sections, translation_sections))
