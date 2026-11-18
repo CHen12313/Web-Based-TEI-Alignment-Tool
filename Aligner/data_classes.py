@@ -200,7 +200,7 @@ class FixCommand:
     last_source_id_before_split: str | None = None
     last_target_id_before_split: str | None = None
 
-    def get_string(self, include_opcode: True):
+    def get_string(self, include_opcode: bool = False):
         if self.opcode == OPCode.MERGE:
             return f"{self.opcode if include_opcode else ''}({self.first_element_id}, {self.last_element_id})"
         elif self.opcode == OPCode.SPLIT:

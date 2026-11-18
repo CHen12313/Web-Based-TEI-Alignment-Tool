@@ -6,6 +6,7 @@ import warnings
 import logging
 from random import uniform
 
+from dataclasses import asdict
 from pathlib import Path
 from typing import List
 
@@ -16,8 +17,8 @@ from dotenv import load_dotenv
 #had to do it for the imports to resolve
 sys.path.append(str(Path(__file__).resolve().parent.parent))
 
-from data_classes import AlignedPair, Element, DocumentSide
-from Aligner.Section_Aligner_Modules.distance_based_aligner import align_on_distance
+from data_classes import AlignedPair, Element, DocumentSide, FixCommand, OPCode
+from Section_Aligner_Modules.distance_based_aligner import DistanceBasedAligner
 from prompt_templates import ALIGN_PROMPT_TEMPLATE, ALIGN_RESPONSE_SCHEMA
 
 from utils import load_file_pair
@@ -43,7 +44,7 @@ async def verify_segment(start_index:int,
     end_index = min(end_index, len(pairs_list))
     logger.info(f"Preparing prompt for segment: {start_index} - {end_index}...")
     formatted_prompt: str = await prepare_prompt(pairs_list[start_index:end_index], prompt_template, start_index=start_index)
-    logger.info(f"🟢 Prompt prepared for segment: {start_index} - {end_index}")
+    logger.info(f"Prompt prepared for segment: {start_index} - {end_index}")
 
     logger.info(f"Issuing API call for segment: {start_index} - {end_index}...")
 
@@ -126,7 +127,9 @@ async def prepare_prompt(aligned_pairs: List[AlignedPair],
 async def verify_aligned_pairs(aligned_pairs: List[AlignedPair], 
                                client: AsyncAnthropic | None = None, 
                                prompt_template: str = ALIGN_PROMPT_TEMPLATE, 
-                               segment_size: int = 3) -> List[dict]:
+                               segment_size: int = 3) -> List[FixCommand]:
+    """Verifies the pairs with the LLM in segments, and returns the fix commands it suggests.
+    Commands are ordered by segment, then by the order the LLM listed them in."""
     if not client:
         api_key = os.environ["ANTHROPIC_API_KEY"]
         client = AsyncAnthropic(api_key=api_key)
@@ -142,8 +145,24 @@ async def verify_aligned_pairs(aligned_pairs: List[AlignedPair],
     logger.info(f"✅ Verification complete. Succeeded Segments: {succeeded_segments} | Total Segments: {-(-len(aligned_pairs) // segment_size)}")
     #this is to round UP to the nearest integer, floor division rounds towards negative inf, so flip it to negative for the division, then flip it back
 
-    return verified_segments  
-    #currently, we don't do anything if there are segments missing, later add handling logic for incomplete verification
+    logger.info("Extracting LLM issued commands...")
+    suggested_fix_commands: List[FixCommand] = []
+    for segment_index, segment in enumerate(verified_segments):
+        if segment is None:
+            start_index = segment_index * segment_size
+            logger.warning(f"⚠️ Segment {start_index} - {start_index + segment_size} failed verification, no commands collected from it")
+            continue
+
+        for command in segment["commands"]:
+            suggested_fix_commands.append(FixCommand(
+                opcode=OPCode(command["operation"]),
+                first_element_id=command["first_element_id"],
+                last_element_id=command["last_element_id"],
+                last_source_id_before_split=command["last_source_id_before_split"],
+                last_target_id_before_split=command["last_target_id_before_split"]
+            ))
+    logger.info(f"✅ Got {len(suggested_fix_commands)} commands")
+    return suggested_fix_commands
 
 async def main():
     setup_logging()
@@ -157,12 +176,12 @@ async def main():
     translation_paragraphs = [Element(tag, index) for index, tag in enumerate(translation_div0.find_all("p", recursive=False))]
 
     logger.info("Aligning file pair on distance...")
-    aligned_pairs = align_on_distance(1, original_paragraphs, translation_paragraphs, signature_tags=["lg", "l", "q"])
+    aligned_pairs = DistanceBasedAligner(signature_tags=["lg", "l", "q"]).align(original_paragraphs, translation_paragraphs, "1")
     logger.info("✅ Aligned file pair")
 
-    verified = await verify_aligned_pairs(aligned_pairs, segment_size=8)
+    suggested_fix_commands = await verify_aligned_pairs(aligned_pairs, segment_size=8)
 
-    await save_dict_to_json({"verified_pairs": verified}, file_name="verified_pairs_301043", json_dir="LLM_Responses", include_suffix=True, include_time=True)
+    await save_dict_to_json({"suggested_fix_commands": [asdict(command) for command in suggested_fix_commands]},file_name="verified_pairs_301043", json_dir="LLM_Responses", include_suffix=True, include_time=True)
 
 if __name__ == "__main__":
     asyncio.run(main())

@@ -10,25 +10,50 @@ class SuggestedFixApplier:
     def __init__(self, list_of_pairs: List[AlignedPair]):
         self.list_of_pairs = list_of_pairs
         self.element_pair_index_lookup: dict[str, int] = {}
+        self.applied_command_count = 0
+        self.rejected_command_count = 0
+        self.errored_command_count = 0
         self._build_or_update_lookup()
             
     def apply_fix(self, command: FixCommand) -> CommandOutcome:
         try:
             if command.opcode == OPCode.SPLIT:
-                return self._do_split(command.last_source_id_before_split, command.last_target_id_before_split)
+                output = self._do_split(command.last_source_id_before_split, command.last_target_id_before_split)
+                self.applied_command_count += 1
+                return output
                 
             elif command.opcode == OPCode.MERGE:
-                return self._do_merge(command.first_element_id, command.last_element_id)
+                output = self._do_merge(command.first_element_id, command.last_element_id)
+                self.applied_command_count += 1
+                return output
 
             else: 
                 logger.warning(f"⚠️ Unrecognized opcode: {command.opcode}")
+                self.rejected_command_count += 1
                 return CommandOutcome.REJECTED
         except KeyError as e:
-            logger.exception(f"❌ invalid operand: {command.get_string(False)}")
+            logger.exception(f"❌ Invalid operand: {command.get_string(False)}")
+            self.errored_command_count += 1
+            return CommandOutcome.ERROR
+        except ValueError as e:
+            logger.exception(f"❌ Value Error in command: {command.get_string()}")
+            self.errored_command_count += 1
+            return CommandOutcome.ERROR
         except Exception as e:
             logger.exception(f"❌ Unexpected exception: {e}")
+            self.errored_command_count += 1
+            return CommandOutcome.ERROR
 
-    def _do_split(self, last_source_id_before_split: str, last_target_id_before_split: str) -> CommandOutcome:
+    #TODO: a single null operand is not handled yet. The prompt allows one of the two ids to be null, meaning "nothing of that side stays in the first pair".
+    #  - the lookups below do self.element_pair_index_lookup[None], which raises KeyError. Find the pair through the non-null operand instead
+    #  - for the null side, call _split_elements with last_index = -1, so that the whole side goes to the second pair
+    #  - reject if the second pair would end up empty on both sides (the prompt says it must not)
+    #  - `pair_index` below also reads the lookup with last_source_id_before_split, which can be None
+    def _do_split(self, last_source_id_before_split: str | None, last_target_id_before_split: str | None) -> CommandOutcome:
+        if last_target_id_before_split is None and last_source_id_before_split is None:
+            raise ValueError
+            
+
         last_source_pair = self.list_of_pairs[self.element_pair_index_lookup[last_source_id_before_split]]
         last_target_pair = self.list_of_pairs[self.element_pair_index_lookup[last_target_id_before_split]]
 
@@ -38,13 +63,14 @@ class SuggestedFixApplier:
         left_source_segment, right_source_segment = self._split_elements(last_source_pair.source_elements, last_source_element_index)
         left_target_segment, right_target_segment = self._split_elements(last_target_pair.target_elements, last_target_element_index)
 
-        if last_source_pair == last_target_pair:
+        if last_source_pair is last_target_pair:
             left_new_pair = AlignedPair(left_source_segment, left_target_segment, last_source_pair.section_label)
             right_new_pair = AlignedPair(right_source_segment, right_target_segment, last_source_pair.section_label)
             pair_index = self.element_pair_index_lookup[last_source_id_before_split]
             self.list_of_pairs[pair_index : pair_index + 1] = [left_new_pair, right_new_pair]
             self._build_or_update_lookup()
             return CommandOutcome.APPLIED
+        
         else:
             #if the 2 operands are in different AlignedPair objects, we cannot do it deterministically while keeping the ordering. 
             #example: pair1 = ([s1, s2 | s3, s4][t1, t2, t3, t4]) pair2 = ([s5, s6, s7, s8][t5, t6 | t7, t8]), | means split
@@ -63,7 +89,7 @@ class SuggestedFixApplier:
         list_to_loop: List[Element] = pair.source_elements if element_id[0] == "S" else pair.target_elements
 
         for i, element in enumerate(list_to_loop):
-            if str(element.order_index) == element_id[1]:
+            if str(element.order_index) == element_id[1:]:
                 return i
 
         return -1
