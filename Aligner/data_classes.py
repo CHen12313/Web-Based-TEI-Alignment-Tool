@@ -7,6 +7,8 @@ from bs4 import Tag
 from typing import List, Tuple
 from enum import StrEnum
 
+from dataclasses import dataclass #this is more decorative, I need custom constructors for all the class so far
+
 NON_PRINTED_TAGS: set[str] = {
     "note",  # editorial footnotes, printed at the bottom of the page and not part of the running text
     "rdg",   # variant readings inside <app>, only the <lem> reading is printed in the text
@@ -31,6 +33,7 @@ class DocumentSide(StrEnum):
     SOURCE = "S"
     TARGET = "T"
 
+@dataclass
 class Element:
     """This class it meant to store information of each <p> elements. It CAN be used on other elements, but for the the experiment,
     we will be finding issues where the paragraphs are split different across files. And the advantage is that the boundaries are given,
@@ -91,7 +94,8 @@ class Element:
             out_dict["section_number"] = self.section_number
 
         return out_dict
-    
+
+@dataclass
 class AlignedPair: #I worked out the attributes with claude, I asked it to do the comments so I don't forget
     def __init__(self, source_elements: List[Element], target_elements: List[Element],
                  section_label: str | None = None, confidence_score: float = 0.0,
@@ -188,11 +192,25 @@ class OPCode(StrEnum):
     SPLIT = "split"
     MERGE = "merge"
 
+@dataclass
 class FixCommand:
-    def __init__(self, opcode: OPCode, 
-                 first_element_id: str | None = None, 
-                 last_element_id: str | None = None, 
-                 last_source_id_before_split: str | None = None,
-                 last_target_id_before_split: str | None = None):
-        pass
+    opcode: OPCode
+    first_element_id: str | None = None
+    last_element_id: str | None = None
+    last_source_id_before_split: str | None = None
+    last_target_id_before_split: str | None = None
 
+    def get_string(self, include_opcode: True):
+        if self.opcode == OPCode.MERGE:
+            return f"{self.opcode if include_opcode else ''}({self.first_element_id}, {self.last_element_id})"
+        elif self.opcode == OPCode.SPLIT:
+            return f"{self.opcode if include_opcode else ''}({self.last_source_id_before_split}, {self.last_target_id_before_split})"
+        else:
+            return f"{self.opcode if include_opcode else ''}(first_element_id: {self.first_element_id}, last_element_id: {self.last_element_id}, \
+                last_source_id_before_split: {self.last_source_id_before_split}, last_target_id_before_split: {self.last_target_id_before_split})"
+
+
+class CommandOutcome(StrEnum):
+    APPLIED = "applied"
+    REJECTED = "rejected"
+    ERROR = "error"
