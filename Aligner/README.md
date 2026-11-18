@@ -1,26 +1,34 @@
 # Aligner — alignment algorithms
 
-Exploratory scripts for aligning the parallel Irish/English CELT TEI files
+Aligns the parallel Irish/English CELT TEI files
 (`celt_samples/G<code>.xml` / `T<code>.xml`) at the section and paragraph
-level. Nothing here is the production aligner — these are algorithm
-prototypes `python3 Aligner/<file>.py` can be run and printed directly,
-and `LLM_based_verifier.py` is the current entry point that chains them
-together with an LLM semantic pass.
+level, has an LLM check the paragraph pairs, and applies the fixes it
+suggests. This is still prototype code, not the production aligner.
+`main.py:align_files` is the entry point that chains all the stages (see
+[Pipeline](#pipeline)); most modules can also be run on their own as smoke
+tests. Run them from inside `Aligner/`, because the modules import each other
+without a package prefix.
 
 ## Contents
 
 - [Modules](#modules)
   - [`data_classes.py` — `Element`, `AlignedPair`, and the shared enums](#data_classespy--element-alignedpair-and-the-shared-enums)
-  - [`aligner.py` — section-level alignment](#alignerpy--section-level-alignment)
-  - [`distance_based_aligning.py` — `align_on_distance`](#distance_based_aligningpy--align_on_distance)
-  - [`LLM_based_verifier.py` — LLM verification pass](#llm_based_verifierpy--llm-verification-pass)
+  - [`aligner_module_abc.py` — `AlignerModule`](#aligner_module_abcpy--alignermodule)
+  - [`main.py` — pipeline entry point](#mainpy--pipeline-entry-point)
+  - [`File_Aligner_Modules/` — section aligners](#file_aligner_modules--section-aligners)
+  - [`distance_based_aligner.py` — `DistanceBasedAligner`](#distance_based_alignerpy--distancebasedaligner)
+  - [`line_break_aligner.py` — `LineBreakAligner`](#line_break_alignerpy--linebreakaligner)
+  - [`Alignment_Refiner_Modules/` — refiners](#alignment_refiner_modules--refiners)
+  - [`llm_based_verifier.py` — LLM verification pass](#llm_based_verifierpy--llm-verification-pass)
   - [`suggested_fix_applier.py` — `SuggestedFixApplier`](#suggested_fix_applierpy--suggestedfixapplier)
 - [Shared data structures](#shared-data-structures)
   - [`AlignmentKind`](#alignmentkind)
   - [`AnchorMethod`](#anchormethod)
   - [`Element`](#element)
   - [`AlignedPair`](#alignedpair)
-- [How the two modules fit together](#how-the-two-modules-fit-together)
+  - [`FixCommand`](#fixcommand)
+  - [`OPCode` and `CommandOutcome`](#opcode-and-commandoutcome)
+- [Pipeline](#pipeline)
 - [Known limitations](#known-limitations)
 
 ## Modules
@@ -29,83 +37,151 @@ together with an LLM semantic pass.
 
 Defines the core data model every other alignment module in this folder
 depends on (`Element`, `AlignedPair`, `AnchorMethod`, `AlignmentKind`,
-`DocumentSide`).
+`DocumentSide`), plus the types the fix step uses (`FixCommand`, `OPCode`,
+`CommandOutcome`). See [Shared data structures](#shared-data-structures).
 
-### `aligner.py` — section-level alignment
+### `aligner_module_abc.py` — `AlignerModule`
 
-Imports the data model from `data_classes.py` and defines the section-level
-(`<div>`) alignment entry point, `align_elements`.
+The base class of every class that pairs the source elements with the target
+elements, whether it pairs a file's sections or a section's `<p>`s. It has one
+abstract method, `align(source_elements, target_elements, section_label=None)
+-> List[AlignedPair]`.
 
 **Design choices / how it works:**
-- `align_elements` first calls `align_sections` to pair up `<div>`s, then
-  recurses into each matched section's children. A section with children that
-  are themselves `<div>`s (matched by `division_pattern = r"^div\d?$"`, e.g.
-  `<div1>`, `<div0>`) recurses via `align_elements` again; a section whose
-  children are `<p>`s instead goes to `align_individual_section`. A section
-  missing a counterpart on either side (`not sec.source_elements or not
-  sec.target_elements`) is skipped entirely rather than recursed into — there
-  is nothing on the other side to align its children against.
-- `align_sections` picks its strategy by how much structure it can trust, in
-  order: if every `<div>` on both sides has a unique `n` attribute, match by
-  section number (`align_on_section_numbers`) — the strongest available
-  anchor. Otherwise, if both sides have the same number of sections, fall back
-  to positional pairing (`align_on_position`) — correct section count is weak
-  evidence they correspond 1:1, but it is still evidence. Otherwise
-  (`align_as_one_block`, currently a stub, `pass`) there is no reliable way to
-  split the sections at all, so the fallback is left unimplemented rather than
-  guessing.
-- `align_on_section_numbers` is written to explicitly emit orphans — a `<div
-  n="x">` present on only one side becomes an `AlignedPair` with the other
-  side's element list empty — rather than silently dropping it, since a
-  missing section is itself a finding (a candidate omission/insertion) the
-  rest of the tool needs to see, not something the aligner should hide. Orphans
-  still carry `AnchorMethod.SECTION_NUMBER`, not a separate "none" method: they
-  were still discovered *by* section-number matching (the absence of a match
-  on one side), so the field answers "which method decided this," not "did a
-  match happen."
-- `align_individual_section` is a second, finer-grained alignment attempt at
-  the `<p>` level, anchored on the editorial `<lb n="...">` line numbers in the
-  Irish text and the `<mls unit="Irish text line" n="...">` markers the
-  translation carries to say which Irish line each English paragraph starts
-  on. It only commits to pairing a `<p>` when its first `<lb>` genuinely marks
-  the *start* of that paragraph (`is_paragraph_start`) — a paragraph whose
-  first `<lb>` is partway through already has running text before it, so using
-  that line number as the paragraph's start would be wrong. The several
-  `# TODO` branches (paragraph not starting on its first `<lb>`; a line number
-  before every translation paragraph's start; one-to-many/many-to-one splits)
-  are left unhandled on purpose — this function is superseded in practice by
-  `align_on_distance` (see below) and `LLM_based_verifier.py`'s LLM pass, so
-  finishing it hasn't been a priority.
-- `find_containing_translation_paragraph` uses `bisect_right` over the
-  ascending `translation_start_lines` to do the containment lookup in
-  `O(log n)` instead of a linear scan, since it's called once per source
-  paragraph.
+- The input is `List[Element]` on both sides, not `List[Tag]`. The distance
+  aligner already took `Element`s, and `Element` carries the `order_index` that
+  the LLM ids (`S1`, `T2`) are built from, so the caller numbers the elements
+  once instead of each aligner re-numbering them.
+- Settings (e.g. `signature_tags`) go in the subclass `__init__`, not in `align`,
+  so `align` has one signature that every subclass shares and `main.py` can
+  swap one aligner for another.
+- An element with no counterpart must come back as an orphan (an `AlignedPair`
+  with the other side empty) instead of being dropped, because a missing element
+  is itself a finding.
+- Naming: a file is `<what tells it apart>_aligner.py` and its class is
+  `<WhatTellsItApart>Aligner`. Aligners that pair a file's sections live in
+  `File_Aligner_Modules/`, aligners that pair a section's elements live in
+  `Section_Aligner_Modules/`.
+
+### `main.py` — pipeline entry point
+
+Defines `align_files`, the entry point that runs the whole chain (this file was
+`aligner.py` before the aligners were split into classes, and `align_files` was
+called `align_elements`). It is `async` because it awaits the LLM pass; the
+`__main__` block runs it with `asyncio.run` on sample `301020B`. The order of
+the stages and the contracts between them are in [Pipeline](#pipeline).
+
+**Design choices / how it works:**
+- `align_files(original_tags, translation_tags)` returns
+  `(aligned_elements, aligned_sections)`: the flat list of paragraph-level
+  pairs after the LLM's fixes were applied, and the section-level pairs (whose
+  `child_pairs` hold the nested `<div>` alignment).
+- The paragraph-level pairs are collected into **one flat list**, not one list
+  per section. The LLM pass works on fixed-size windows of that list, so a
+  section's last window is not left half empty, and a window may straddle a
+  section boundary on purpose: the alignment is meant to follow the meaning of
+  the text, so a section boundary that drifted is something a fix is allowed to
+  cross. The price is that the list no longer shows which section a pair is
+  from; every pair carries its `section_label` instead.
+- `align_individual_section(section, counters, aligned_elements)` is
+  **recursive**, because `<div>`s can be nested and without recursion only the
+  direct children of each section would be paired. For one pair it looks one
+  level down on both sides (`division_pattern = r"^div\d?$"`, so `<div0>` to
+  `<div9>`):
+  - both sides have child `<div>`s: wrap them in `Element`s, align them with
+    `DistanceBasedAligner()`, store the result in `section.child_pairs`, and
+    call itself on every child pair;
+  - neither side has child `<div>`s: this is the base case. The direct `<p>`s
+    are aligned with `DistanceBasedAligner(signature_tags=["lg", "l", "q"])`
+    and the pairs are appended to `aligned_elements`;
+  - only one side has child `<div>`s: nothing is done and nothing is logged
+    (see [Known limitations](#known-limitations)).
+
+  A pair missing a counterpart on either side (`not section.source_elements or
+  not section.target_elements`) returns at once, since there is nothing on the
+  other side to align its children against.
+- `counters` is a two-item list, `[source, target]`, that numbers the elements.
+  `Element.order_index` becomes the `S<n>`/`T<n>` id the LLM and
+  `SuggestedFixApplier` use to refer to an element, and the applier's lookup
+  holds one entry per id, so the ids have to be **unique across the whole flat
+  list**, not just inside one section. The counters are bumped before the
+  recursive call, so the paragraphs of the first child never reuse the ids of
+  the child `<div>`s. It is a mutable list rather than a tuple or two ints
+  because the increments made inside a recursive call must be visible to the
+  caller. The paragraph ids still increase in document order; the `<div>`
+  elements use up ids too, which only leaves gaps. The whole numbering phase is
+  synchronous and finishes before the first `await`, so the ids never depend
+  on task scheduling.
+- After the LLM pass, the commands are applied one at a time, in the order the
+  verifier returned them, with a single `SuggestedFixApplier` over
+  `aligned_elements`. The applier changes the list in place. A `REJECTED`
+  command is logged as a warning and the run goes on.
+- `align_sections` wraps both sides' `<div>` tags into `Element`s, then picks
+  its aligner by how much structure it can trust, in order: if every `<div>` on
+  both sides has a unique `n` attribute, `SectionNumberAligner` — the strongest
+  available anchor. Otherwise, if both sides have the same number of sections,
+  `PositionAligner` — correct section count is weak evidence they correspond
+  1:1, but it is still evidence. Otherwise `OneBlockAligner`, which is not
+  implemented and raises `NotImplementedError`.
 - `Element.serialize()` / `AlignedPair.serialize()` exist specifically to turn
   these objects into the LLM-friendly dict shape consumed by
-  `LLM_based_verifier.py:prepare_prompt` — see
+  `llm_based_verifier.py:prepare_prompt` — see
   [Shared data structures](#shared-data-structures) below for the exact shape.
   They are explicitly **not** meant for the frontend, per their docstrings;
   the frontend contract (if any) lives elsewhere.
 
-### `distance_based_aligning.py` — `align_on_distance`
+### `File_Aligner_Modules/` — section aligners
 
-The paragraph-level alignment actually wired into the pipeline today (called
-from `LLM_based_verifier.py`, not from `aligner.py:align_elements`). Where
-`align_individual_section` anchors on explicit line numbers, `align_on_distance`
-has no such anchor available at the `<p>` level and instead treats alignment
-as a sequence-diff problem.
+`AlignerModule` subclasses that pair the sections (`<div>`s) of a file pair.
+`main.py:align_sections` chooses between them.
+
+**Design choices / how it works:**
+- `section_number_aligner.py` — `SectionNumberAligner` pairs the sections that
+  have the same `n` attribute. It builds one `{div@n: Element}` lookup per side
+  (from `Element.section_number`) and walks the source side in order, then adds
+  the target sections whose number is not on the source side. A `<div n="x">`
+  present on only one side becomes an `AlignedPair` with the other side's
+  element list empty — rather than silently dropping it, since a missing
+  section is itself a finding (a candidate omission/insertion) the rest of the
+  tool needs to see, not something the aligner should hide. Orphans still carry
+  `AnchorMethod.SECTION_NUMBER`, not a separate "none" method: they were still
+  discovered *by* section-number matching (the absence of a match on one side),
+  so the field answers "which method decided this," not "did a match happen."
+  It requires the numbers to be unique on each side (a lookup would overwrite a
+  duplicate), which `align_sections` checks before choosing it.
+- `position_aligner.py` — `PositionAligner` pairs the section at index `i` on
+  one side with the section at index `i` on the other, and labels each pair
+  with `str(i)` because the files it is used for have no `n` to carry. It
+  raises `ValueError` when the two sides have a different number of sections.
+  The pairs keep the default `AnchorMethod.POSITION`.
+- `one_block_aligner.py` — `OneBlockAligner` is for sections that can't be
+  matched by number or by position. It is not implemented: there is no reliable
+  way to split the sections, so it raises `NotImplementedError` instead of
+  guessing.
+- Neither `SectionNumberAligner` nor `PositionAligner` reads the `section_label`
+  argument, since every pair is labelled by its own `div@n` or its index; the
+  argument is only there for the shared `align` signature.
+
+### `distance_based_aligner.py` — `DistanceBasedAligner`
+
+Lives in `Section_Aligner_Modules/`. The paragraph-level alignment actually
+wired into the pipeline today (called from `main.py:align_individual_section`
+and from `llm_based_verifier.py:main`). Where `LineBreakAligner` anchors on explicit
+line numbers, `DistanceBasedAligner` has no such anchor available at the `<p>`
+level and instead treats alignment as a sequence-diff problem.
 
 **Design choices / how it works:**
 - Matching two `<p>` elements by tag name alone doesn't distinguish anything —
-  they're all `"p"`. `make_counted_tag_name` instead builds a signature string
+  they're all `"p"`. `_make_counted_tag_name` instead builds a signature string
   per paragraph from how many of a chosen set of descendant tags it contains
   (e.g. `"p|lg:0-l:4-q:0"` for a paragraph with 4 `<l>` lines and no `<lg>`/`<q>`),
   counting only descendants whose nearest relevant ancestor isn't `<note>` or
   `<rdg>` (`NON_COUNTED_ANCESTORS`) — footnote text and un-chosen `<app>`
   variants aren't part of the paragraph's real content, so they shouldn't
-  contribute to its structural signature. `signature_tags` defaults to
-  `["lg", "l"]`, tuned for testing against sample `301043`; callers (e.g.
-  `LLM_based_verifier.py`) currently pass `["lg", "l", "q"]`.
+  contribute to its structural signature. `signature_tags` is a constructor
+  argument and defaults to `["lg", "l"]`, tuned for testing against sample
+  `301043`; callers (e.g. `llm_based_verifier.py`) currently pass
+  `["lg", "l", "q"]`.
 - These signature strings are then fed to `difflib.SequenceMatcher` (with
   `autojunk=False` — the default heuristic that discounts "popular" elements
   would be actively harmful here, since a common signature like `"p|lg:0-l:0"`
@@ -114,46 +190,97 @@ as a sequence-diff problem.
   `AlignedPair`s: `"equal"` → one-to-one pairs in order, `"delete"`/`"insert"`
   → orphans (source-only / target-only), `"replace"` → **one** many-to-many
   pair spanning the whole replaced range on both sides, rather than guessing
-  which individual elements correspond within it.
+  which individual elements correspond within it. Each op has its own private
+  method (`_align_equal_pairs`, `_align_delete_pairs`, `_align_insert_pairs`,
+  `_align_replace_pairs`).
 - `IGNORE_LIST` (`lb`, `ex`, `sup`, `pb`, `frn`) is defined but not currently
   referenced by any function in this file — it documents tags that are known
   to exist on only one language's side (editorial line breaks, abbreviation
   expansions, editor-supplied words, page breaks, foreign-word markers) and so
   would be noise if counted into a structural signature; nothing here consumes
   it yet.
-- After the diff pass, `BoundaryShiftMerger` (from `AlignmentRefiner.py`,
-  `max_matched_between=2`) runs as a post-processing step to merge adjacent
-  orphan pairs that are more likely one shifted paragraph boundary than two
-  independent omissions — see `AlignmentRefiner.py`'s own docstring for the
-  merge heuristic. `align_on_distance` is written to run a list of refiner
-  modules in sequence (`refiner_modules: List[AlignmentRefiner]`), so adding a
-  second refinement pass later is a one-line addition to that list, not a
-  change to this function's structure.
+- After the diff pass, the aligner runs its `refiner_modules` in sequence; the
+  default is `[BoundaryShiftMerger(max_matched_between=2)]`, which merges
+  adjacent orphan pairs that are more likely one shifted paragraph boundary
+  than two independent omissions (see
+  [`Alignment_Refiner_Modules/`](#alignment_refiner_modules--refiners)). The
+  list is a constructor argument (`refiner_modules: List[AlignmentRefiner]`),
+  so adding a second refinement pass later is a one-line addition to that list,
+  not a change to `align`.
 - The `if __name__ == "__main__"` block is a standalone smoke test against
   sample `301020B`, picking specific section numbers (`["5", "6", "7", "10",
   "12", "13", "19"]`) known from manual inspection to be worth checking, not a
-  representative sample chosen programmatically. **Stale**: it still calls
-  `align_on_distance(original_paragraphs, translation_paragraphs,
-  signature_tags=...)` with the old two-`List[Element]` signature, but the
-  function's first parameter is now `section_label` (see below) — running
-  this file directly raises `TypeError: align_on_distance() missing 1
-  required positional argument: 'translation_elements'` rather than
-  producing output. Only `LLM_based_verifier.py`'s call site was updated when
-  `section_label` was added.
+  representative sample chosen programmatically. Because the file is in a
+  subfolder and imports its siblings flat, `Aligner/` has to be on the path:
+  `cd Aligner && PYTHONPATH=. python3 Section_Aligner_Modules/distance_based_aligner.py`.
 
-### `LLM_based_verifier.py` — LLM verification pass
+### `line_break_aligner.py` — `LineBreakAligner`
 
-The wired entry point (renamed from `LLM_based_aligner.py` once its job
-settled on checking an existing alignment rather than producing one): loads
-a file pair, runs `align_on_distance`, then sends the resulting pairs to an
-LLM for a semantic check, and persists both the prompt and the verification
-results to disk. Importing it requires the repo root on `sys.path`
+Lives in `Section_Aligner_Modules/`. Not called by `align_files` yet. Pairs a
+section's `<p>`s using the editorial line numbers, and only works on pair
+`301042` so far, because the other pairs have no
+`<mls unit="Irish text line">` markers in the translation.
+
+**How it works:**
+
+- The anchor is the `<lb n="...">` in the original and the
+  `<mls unit="Irish text line" n="...">` marker the translation carries to say
+  which Irish line each English `<p>` starts on. A lookup table maps each
+  translation `<p>`'s start line to that `<p>`.
+- For the mapping, the first `<lb>` of an original `<p>` is looked up in that
+  table, and the translation `<p>` whose range of lines contains it is the
+  match. `_find_containing_translation_paragraph` uses `bisect_right` over the
+  ascending start lines, so the lookup is `O(log n)` per original `<p>`
+  instead of a linear scan.
+- It only commits to a pair when the first `<lb>` genuinely marks the *start*
+  of the original `<p>` (`_is_paragraph_start`). A `<p>` whose first `<lb>` is
+  partway through already has running text before it, so using that line
+  number as the `<p>`'s start would be wrong. Text inside non-printed tags
+  such as `<note>` does not count as running text.
+- One original `<p>` to several translation `<p>`s (one to many): the start
+  of the translation `<p>`s is checked, and if the corresponding line inside
+  the original is in the middle of a `<p>`, the original `<p>` was split into
+  several translation `<p>`s.
+- Several original `<p>`s merged into one translation `<p>` (many to one): the
+  opposite case. The start of the original `<p>` falls in the middle of a
+  translation `<p>`.
+- Neither split case is implemented. The three `# TODO` branches (a `<p>` not
+  starting on its first `<lb>`; a line number before every translation `<p>`'s
+  start; the merge case) are left unhandled on purpose, see
+  [Known limitations](#known-limitations).
+
+### `Alignment_Refiner_Modules/` — refiners
+
+`alignment_refiner_abc.py` defines `AlignmentRefiner`, the base class with one
+abstract method, `refine(aligned_pairs) -> List[AlignedPair]`, which takes a
+list of pairs and returns a refined list. Each refiner is its own file in
+`Alignment_Refiner_Modules/`.
+
+**Design choices / how it works:**
+- `boundary_shift_merger.py` — `BoundaryShiftMerger` merges orphans caused by a
+  moved paragraph boundary into one many-to-many pair. Orphans from both sides
+  close together are far more likely one moved boundary than two separate
+  omissions, so runs with orphans from both sides and at most
+  `max_matched_between` matched pairs between them are merged. The merged pair
+  is a guess, to be validated later (by the LLM pass). It returns a new list,
+  see its own docstring for an example.
+
+### `llm_based_verifier.py` — LLM verification pass
+
+The LLM stage (renamed from `LLM_based_aligner.py` once its job settled on
+checking an existing alignment rather than producing one). It sends the
+paragraph pairs to an LLM for a semantic check and returns the fixes the LLM
+suggests as `FixCommand`s, ready for
+[`SuggestedFixApplier`](#suggested_fix_applierpy--suggestedfixapplier). The
+pipeline calls `verify_aligned_pairs` from `main.py:align_files`; this file's
+own `main` is a standalone test run on one sample. Importing the module
+requires the repo root on `sys.path`
 (`sys.path.append(str(Path(__file__).resolve().parent.parent))`) so the
-top-level `Utils` package resolves alongside `Aligner`'s own modules.
-`SuggestedFixApplier` used to live in this file but has been pulled out into
-its own module — see
-[`suggested_fix_applier.py`](#suggested_fix_applierpy--suggestedfixapplier)
-below.
+top-level `Utils` package resolves alongside `Aligner`'s own modules, and
+`main.py` relies on that side effect to import `Utils.setup_loggin` (see
+[Known limitations](#known-limitations)). It also calls `load_dotenv()` on
+import, and `verify_aligned_pairs` reads `ANTHROPIC_API_KEY` from the
+environment when it is not given a client.
 
 **Design choices / how it works:**
 - `prepare_prompt` builds the prompt body by calling `pair.serialize(start_index
@@ -207,42 +334,84 @@ below.
   Every path that gives up returns `None` rather than raising, so one bad
   segment doesn't abort the whole batch; every outcome is logged.
 - `verify_aligned_pairs` splits `aligned_pairs` into consecutive
-  `segment_size`-sized slices (default `3`) and fires every segment's
-  `verify_segment` concurrently via `asyncio.gather`, sizing each call's
-  token budget as `max_token=segment_size*TOKEN_PER_PAIR`. It logs how many
-  segments actually succeeded (`is not None`) against the total segment
-  count, but still returns the full list as-is, `None`s included — there is
-  no logic yet to re-split, retry, or flag which original pairs fell inside a
-  failed segment (see [Known limitations](#known-limitations)).
-- `main` (`async`, run via `asyncio.run(main())`) wires the whole pass
-  together: `setup_logging()` (`Utils.setup_loggin`, a root `StreamHandler`
-  to stdout, idempotent) → load sample `301042`'s `<div0>` paragraphs →
-  `align_on_distance(1, ...)` → `verify_aligned_pairs(..., segment_size=8)` →
-  `save_dict_to_json` the verified segments to `LLM_Responses/verified_pairs_301043.json`
-  under the key `"verified_pairs"`. Every stage logs its own start/progress
-  through `logger = logging.getLogger(__name__)`.
+  `segment_size`-sized slices (default `3`; `main.py` passes `8`) and fires
+  every segment's `verify_segment` concurrently via `asyncio.gather`, sizing
+  each call's token budget as `max_token=segment_size*TOKEN_PER_PAIR`. It logs
+  how many segments actually succeeded (`is not None`) against the total
+  segment count.
+- `verify_aligned_pairs` then **returns the fix commands, not the raw
+  responses**: for every segment that succeeded, each entry of its
+  `"commands"` list becomes a `FixCommand` (`OPCode(command["operation"])`
+  plus the four id fields, which the response schema guarantees are present,
+  as an id or `null`). The commands are ordered by segment, then by the order
+  the LLM listed them in, because the prompt says the commands of a segment
+  are applied one after another. A segment that failed (`None`) is logged as a
+  warning with its pair range and contributes no commands, so its pairs go
+  unchecked; there is no logic yet to re-split or retry it (see
+  [Known limitations](#known-limitations)). The `"pair_checks"` part of the
+  response (one verdict and note per pair) is dropped here, only the commands
+  are kept.
+- `main` (`async`, run via `asyncio.run(main())`) is a standalone test of this
+  stage: `setup_logging()` (`Utils.setup_loggin`, a root `StreamHandler` to
+  stdout, idempotent) → load sample `301042`'s `<div0>` paragraphs →
+  `DistanceBasedAligner(...).align(...)` → `verify_aligned_pairs(...,
+  segment_size=8)` → `save_dict_to_json` the commands (`dataclasses.asdict`,
+  since a dataclass is not JSON-serializable) to
+  `LLM_Responses/verified_pairs_301043.json` under the key
+  `"suggested_fix_commands"`. It does not apply them. Every stage logs its own
+  start/progress through `logger = logging.getLogger(__name__)`.
 
 ### `suggested_fix_applier.py` — `SuggestedFixApplier`
 
-Extracted out of `LLM_based_verifier.py` into its own module (it has no
+Applies the `FixCommand`s the LLM suggested to the flat list of pairs. It
+was extracted out of `llm_based_verifier.py` into its own module (it has no
 dependency on the LLM call machinery, only on `AlignedPair`/`Element`, so
-keeping it there was coupling two unrelated concerns in one file). Nothing
-currently imports this module — `LLM_based_verifier.py:main` runs the LLM
-pass but doesn't yet call `SuggestedFixApplier` to act on the results.
+keeping it there was coupling two unrelated concerns in one file).
+`main.py:align_files` creates one instance over `aligned_elements` and calls
+`apply_fix` for every command in order.
 
 **Design choices / how it works:**
 - `__init__` builds `element_pair_index_lookup`, a `dict[str, int]` mapping
   every element's serialized `id` (e.g. `"S4"`, `"T2"`) to the index of the
   `AlignedPair` it currently belongs to, by calling `element.serialize(side)`
   (default `for_llm=True`, since only the `id` field is read) for every
-  source and target element of every pair. This is the lookup the LLM's
-  `merge`/`split` commands (identified by element id — see
-  `prompt_templates.py`'s `ALIGN_PROMPT_TEMPLATE`) will need to resolve back
-  to pair positions.
-- `apply_fix` is still an unimplemented stub (`pass`) — the commands the LLM
-  returns aren't actually applied to `list_of_pairs` yet; only the
-  id-to-pair-index lookup it will need to do so is built so far (see
-  [Known limitations](#known-limitations)).
+  source and target element of every pair. The LLM's commands name elements
+  by id only, so this resolves an id back to a pair position without scanning
+  the list. It is rebuilt after every applied command, which is
+  `O(pairs + elements)` per command: patching it would be faster, but the
+  list only changes by splices and the commands are few, so the simpler code
+  was chosen. Ids never disappear, they only move, so the rebuild does not
+  need to clear old entries. The ids have to be unique across the whole list
+  (see [`main.py`](#mainpy--pipeline-entry-point)), or entries would
+  overwrite each other.
+- `apply_fix(command)` dispatches on `command.opcode` and returns a
+  `CommandOutcome`. `KeyError` (an id that is not in the lookup),
+  `ValueError` and any other exception are caught, logged with their
+  traceback and turned into `CommandOutcome.ERROR`, so one bad command from
+  the LLM never stops the rest of the run. An unknown opcode is `REJECTED`.
+- `_do_merge(first_element_id, last_element_id)` replaces every pair from the
+  one containing the first id through the one containing the last id with one
+  pair holding all their source and target elements, in order. The merged
+  pair takes the first non-`None` `section_label` among the pairs it joins.
+- `_do_split(last_source_id_before_split, last_target_id_before_split)` cuts
+  one pair into two: the elements up to and including each operand stay in
+  the first pair, the rest go to the second. It compares the two operands'
+  pairs with `is`, **not** `==`: `AlignedPair` is a `@dataclass` with no
+  declared fields, so `==` is `True` for any two pairs, which made a split
+  across two different pairs look valid and corrupt the list (an element lost,
+  another duplicated, an empty pair added). Operands in different pairs are
+  `REJECTED`, because the split cannot be put back into a list that keeps the
+  document order on both sides; the long comment in that branch has the
+  example.
+- A split with one `null` operand is not handled yet; there is a `TODO` on the
+  method with the plan. A split with both operands `null` raises `ValueError`,
+  which `apply_fix` turns into an `ERROR`.
+- The pairs the applier creates are new `AlignedPair` objects built with only
+  the elements and the section label, so they get the defaults for the other
+  fields (see [Known limitations](#known-limitations)).
+- The class keeps `applied_command_count`, `rejected_command_count` and
+  `errored_command_count` for the summary log in `align_files`; they are not
+  reliable yet (see [Known limitations](#known-limitations)).
 
 ## Shared data structures
 
@@ -269,12 +438,12 @@ class AnchorMethod(StrEnum):
     POSITION = "position"                        # same index on both sides; last resort
 ```
 
-Only `SECTION_NUMBER` (`align_on_section_numbers`), `STRUCTURAL_SEQUENCE`
-(`align_on_distance`, and `align_individual_section`'s pairs via the
-`AlignedPair` default), and `POSITION` (`align_on_position`, and as the
-`AlignedPair.__init__` default) are produced by any function in this folder
-today. `ELEMENT_ID` and `TEXT_LENGTH` are declared for alignment strategies
-described in `aligner.py`'s class docstring and the `Element` docstring
+Only `SECTION_NUMBER` (`SectionNumberAligner`), `STRUCTURAL_SEQUENCE`
+(`DistanceBasedAligner`, `BoundaryShiftMerger`, and `LineBreakAligner`'s
+pairs via the `AlignedPair` default), and `POSITION` (`PositionAligner`, and as
+the `AlignedPair.__init__` default) are produced by any class or function in
+this folder today. `ELEMENT_ID` and `TEXT_LENGTH` are declared for alignment
+strategies described in the `Element` docstring
 (length-based matching for the `<p>`-splitting experiment) but have no
 producing code yet — see [Known limitations](#known-limitations).
 
@@ -287,7 +456,7 @@ with the metadata alignment needs:
 Element(
     name="p",                  # input_element.name
     tag=<Tag>,                 # the wrapped BeautifulSoup element itself
-    order_index=3,              # position among siblings at the call site; None if not passed
+    order_index=3,              # running number per side, unique across the whole flat list (main.py's counters); None if not passed
     start_line_number=None,     # not populated by any current caller
     source_column=512,          # Tag.sourcepos — the element's column in the source file
     section_number="12",        # Tag.get("n"); None if the element has no n attribute
@@ -314,7 +483,7 @@ regardless of `for_llm`. The
 holds, so the default prompt payload stays small:
 
 ```python
-# for_llm=True (default) — what LLM_based_verifier.py actually sends
+# for_llm=True (default) — what llm_based_verifier.py actually sends
 {
     "id": "S3",                 # str(side) + str(order_index)
     "tag_string": "...",        # get_clean_text() — markup stripped, whitespace collapsed
@@ -345,8 +514,8 @@ AlignedPair(
     section_label="12",               # div1@n, for display; None if the file has no numbers
     confidence_score=None,            # 0.0 (guess) .. 1.0 (certain); not populated by any current producer
     anchor_method=AnchorMethod.STRUCTURAL_SEQUENCE,
-    # child_pairs: list[AlignedPair] = [] — populated one level down by align_elements'
-    # recursion; stays empty at the lowest (paragraph) level
+    # child_pairs: list[AlignedPair] = [] — populated one level down by
+    # align_individual_section's recursion; stays empty at the lowest (paragraph) level
 )
 ```
 
@@ -359,21 +528,21 @@ every access, so it can never go stale relative to them, even though
 `serialize()` (below) does include it in its output.
 `confidence_score` is accepted by every constructor call site but not actually
 computed by any producer yet; every current caller either omits it (default
-`0.0`) or passes `None` explicitly (`align_on_section_numbers`).
+`0.0`) or passes `None` explicitly (`SectionNumberAligner`).
 
 **`serialize(id, for_llm=True)`** turns a pair into the LLM-facing dict
-`LLM_based_verifier.py:prepare_prompt` sends in its prompt (not the frontend —
+`llm_based_verifier.py:prepare_prompt` sends in its prompt (not the frontend —
 see the docstring note under
-[`aligner.py`](#alignerpy--section-level-alignment) above). `id` is required
+[`main.py`](#mainpy--pipeline-entry-point) above). `id` is required
 (no default) and becomes `pair_number` in the output — it's whatever the
 caller wants to label the pair with, not read from the instance; `prepare_prompt`
-passes each pair's index in the list it was given (via `enumerate`), which is
-only the same as the pair's position in the full document when the whole
-document is serialized in one call. Like `Element.serialize()`, `for_llm`
+passes `start_index + i` for the pair at index `i` of the slice it was given,
+so `pair_number` is the pair's position in the whole flat list even though
+each prompt only carries one segment. Like `Element.serialize()`, `for_llm`
 toggles how much detail comes back:
 
 ```python
-# for_llm=True (default) — what LLM_based_verifier.py actually sends
+# for_llm=True (default) — what llm_based_verifier.py actually sends
 {
     "pair_number": int,                             # the `id` argument, not an instance attribute
     "source_elements": list[Element.serialize()],   # [] for a target-only orphan
@@ -394,7 +563,7 @@ toggles how much detail comes back:
 }
 ```
 
-**Example.** Pair index 1 from a real `align_on_distance(1, ...)` run on
+**Example.** Pair index 1 from a real `DistanceBasedAligner(...).align(..., 1)` run on
 sample `301043` (`original_div0`/`translation_div0`'s direct `<p>` children,
 `signature_tags=["lg", "l", "q"]`), serialized both ways:
 
@@ -416,8 +585,8 @@ sample `301043` (`original_div0`/`translation_div0`'s direct `<p>` children,
                            "for the outrage done to them they would accept no terms (from Conn) ...",
         },
     ],
-    "section_label": 1,   # not a div@n here — align_on_distance's caller passed the literal
-                           # int 1 for this whole call, since this file pair's <div0> has no n
+    "section_label": 1,   # not a div@n here — the caller passed the literal 1 as the
+                           # section_label for this whole call, since this file pair's <div0> has no n
 }
 
 # pair.serialize(1, for_llm=False)
@@ -442,10 +611,10 @@ sample `301043` (`original_div0`/`translation_div0`'s direct `<p>` children,
         },
     ],
     "section_label": 1,
-    "confidence_score": 0.0,     # align_on_distance never sets this; the AlignedPair default
+    "confidence_score": 0.0,     # DistanceBasedAligner never sets this; the AlignedPair default
     "anchor_method": "structural_sequence",
     "alignment_kind": "one_to_one",  # both sides have exactly 1 element; see AlignmentKind
-    "child_pairs": [],            # always empty here — align_on_distance doesn't recurse
+    "child_pairs": [],            # always empty here — DistanceBasedAligner doesn't recurse
 }
 ```
 
@@ -455,55 +624,109 @@ lists itself — the property already computes it from
 `len(source_elements)`/`len(target_elements)` on the Python side. It's still
 never written back onto the instance (see [`AlignedPair`](#alignedpair)
 above) — only the serialized *dict* carries it, by calling the property at
-`serialize()` time. `section_label` being a plain `int` rather than a real
-`div@n` string is specific to this call site: `LLM_based_verifier.py:main`
-calls `align_on_distance(1, ...)` on this file pair's direct `<p>` children
-with no section/`div` grouping in between, so there is no real section
-number to carry — contrast `align_on_section_numbers` (`aligner.py`), which
-passes the real `div1@n` string as `section_label`.
+`serialize()` time. `section_label` being a made-up value rather than a real
+`div@n` string is specific to this call site: `llm_based_verifier.py:main`
+calls `DistanceBasedAligner(...).align(..., "1")` on this file pair's direct
+`<p>` children with no section/`div` grouping in between, so there is no real
+section number to carry — contrast `SectionNumberAligner`, which labels each
+pair with the real `div1@n` string. (The output above was produced when the
+caller still passed the int `1`; it passes the string `"1"` now.)
 
-## How the two modules fit together
+### `FixCommand`
 
-Nothing in this folder currently wires `aligner.py`'s `align_elements` and
-`distance_based_aligning.py`'s `align_on_distance` into a single call chain —
-they're two alternative paragraph-level strategies, not pipeline stages. The
-one wired entry point, `LLM_based_verifier.py:main`, skips `align_elements`
-entirely and goes straight from a hand-picked `<div0>`'s direct `<p>` children
-to `align_on_distance`, then on to the LLM verification pass:
+A `@dataclass` holding one fix the LLM suggested. It is built by
+`verify_aligned_pairs` from one entry of the response's `"commands"` list and
+consumed by `SuggestedFixApplier.apply_fix`. Which fields are filled depends on
+the opcode, the other ones stay `None`:
 
 ```python
-original_paragraphs = [Element(tag, i) for i, tag in enumerate(original_div0.find_all("p", recursive=False))]
-translation_paragraphs = [Element(tag, i) for i, tag in enumerate(translation_div0.find_all("p", recursive=False))]
-aligned_pairs = align_on_distance(1, original_paragraphs, translation_paragraphs, signature_tags=["lg", "l", "q"])
-
-verified = await verify_aligned_pairs(aligned_pairs)  # sends pairs to the LLM in segments, see below
+FixCommand(
+    opcode=OPCode.MERGE,                # OPCode.MERGE or OPCode.SPLIT
+    first_element_id="S2",              # merge: first element of the range; None for a split
+    last_element_id="T3",               # merge: last element of the range; None for a split
+    last_source_id_before_split=None,   # split: last source element that stays in the first pair
+    last_target_id_before_split=None,   # split: last target element that stays in the first pair
+)
 ```
 
-i.e. today's actual flow is: load a file pair (`utils.py:load_file_pair`) →
-list each side's top-level `<p>`s as `Element`s → `align_on_distance` →
-`verify_aligned_pairs` sends the serialized pairs to the LLM via
-`ALIGN_PROMPT_TEMPLATE` for semantic confirmation/correction, in
-`segment_size`-sized batches — but the `merge`/`split` commands it returns
-aren't applied back onto `aligned_pairs` yet (`SuggestedFixApplier.apply_fix`,
-in [`suggested_fix_applier.py`](#suggested_fix_applierpy--suggestedfixapplier),
-is a stub); see
-[`LLM_based_verifier.py`](#llm_based_verifierpy--llm-verification-pass) above
-for the full breakdown. `aligner.py`'s section-level machinery
-(`align_sections`, `align_on_section_numbers`, `align_on_position`) and its
-own paragraph-level attempt (`align_individual_section`) are exercised
-directly from `aligner.py`'s own `__main__` block. `Element`, `AlignedPair`,
-and `AnchorMethod` live in `data_classes.py` and are reused as a dependency
-by `AlignmentRefiner.py`, `distance_based_aligning.py`, and
-`test_serialize.py`; `aligner.py`'s own `division_pattern` is reused the same
-way by `locate_section_split_mismatch.py`. `align_elements` itself isn't
-currently called from the `LLM_based_verifier.py` entry point.
+For a split, the prompt allows either `last_*_id_before_split` to be `null`,
+meaning nothing of that side stays in the first pair (the applier does not
+handle that yet, see [Known limitations](#known-limitations)). The ids are
+the `S<n>`/`T<n>` strings from `Element.serialize()`; the response schema
+(`ALIGN_RESPONSE_SCHEMA` in `prompt_templates.py`) only accepts the pattern
+`^[ST][0-9]+$` or `null` for them. `get_string(include_opcode=False)` renders
+the operands for log messages.
+
+### `OPCode` and `CommandOutcome`
+
+Two `StrEnum`s of the fix step. `OPCode` is `SPLIT = "split"` or `MERGE =
+"merge"`, the two values of the response schema's `operation` field, so
+`OPCode(command["operation"])` converts the LLM's string directly and raises
+`ValueError` for any other value. `CommandOutcome` is what `apply_fix`
+returns: `APPLIED` (the list changed), `REJECTED` (a well-formed command that
+cannot be applied, e.g. a split across two pairs) or `ERROR` (a bad operand or
+an unexpected exception).
+
+## Pipeline
+
+`main.py:align_files` runs these stages in order. Only the last two touch the
+network or the LLM.
+
+1. **Load**: `utils.py:load_file_pair(code)` reads `G<code>.xml` and
+   `T<code>.xml` (as `iso-8859-1`) into two `BeautifulSoup` trees. The caller
+   picks the section `<div>`s of each (the `__main__` block uses
+   `body/div0/div1`) and passes them to `align_files`.
+2. **Sections**: `align_sections` wraps the `<div>`s in `Element`s numbered
+   from `0` and picks a file-level aligner (`SectionNumberAligner`,
+   `PositionAligner` or `OneBlockAligner`), producing the section pairs. They
+   all implement `AlignerModule.align`, so they swap without changing the
+   caller. These ids restart at `0` and never reach the LLM.
+3. **Elements**: `align_individual_section` goes down each section pair
+   recursively and appends the paragraph-level pairs to one flat list, with the
+   running `S<n>`/`T<n>` numbering described under
+   [`main.py`](#mainpy--pipeline-entry-point).
+4. **Verify**: `verify_aligned_pairs(flat_list, segment_size=8)` sends the list
+   to the LLM in windows of 8 pairs, all windows concurrently, and returns the
+   fix commands.
+5. **Apply**: one `SuggestedFixApplier` over the flat list applies the commands
+   in order.
+
+```python
+aligned_elements, aligned_sections = asyncio.run(align_files(original_sections, translation_sections))
+```
+
+**Contracts between the stages** (hard contracts, not style choices):
+- Element ids (`S<n>`/`T<n>`) are unique across the whole flat list. The prompt
+  tells the LLM to refer to elements only by id, and the applier's lookup is
+  keyed by id.
+- `pair_number` in the prompt is a pair's index in the flat list, not in its
+  segment, so the pair numbers of different segments never overlap.
+- The commands of one segment are applied in the order the LLM listed them,
+  and segments in list order. A command is written by the LLM against the
+  pairs as they were sent; since ids move but never change, a later command
+  still resolves after an earlier one merged or split pairs.
+- The flat list changes only inside the applier, and only after every window
+  has returned, so the verification never sees a half-fixed list.
+
+**Early exits.** Nothing in the chain stops the whole run once it has started
+the LLM stage: a section pair with an empty side is skipped, a failed segment
+is logged and contributes no commands, and a command that is `REJECTED` or
+`ERROR` is logged and skipped. A missing `ANTHROPIC_API_KEY` is the exception:
+`verify_aligned_pairs` raises `KeyError` before any call is made.
+
+**Scope guard.** Only the paragraph-level (leaf) pairs are verified and fixed.
+The section pairs and their `child_pairs` are never sent to the LLM and never
+changed by the applier. `LineBreakAligner` is not called by `align_files`.
+`Element`, `AlignedPair` and `AnchorMethod` live in `data_classes.py` and are
+reused as a dependency by every aligner and refiner module.
 
 ## Known limitations
 
-- `align_as_one_block` (`aligner.py`) is an unimplemented stub (`pass`,
-  returns `None`) — reached only when sections can't be matched by number or
-  by equal count, which no current sample file pair triggers.
-- `align_individual_section`'s three `# TODO` branches (paragraph not
+- `OneBlockAligner` (`File_Aligner_Modules/one_block_aligner.py`) is not
+  implemented and raises `NotImplementedError` — reached only when sections
+  can't be matched by number or by equal count, which no current sample file
+  pair triggers.
+- `LineBreakAligner`'s three `# TODO` branches (paragraph not
   starting on its own first `<lb>`; an Irish line before every translation
   paragraph's start; one-to-many/many-to-one splits) are unhandled; the
   function silently omits those paragraphs from its output rather than
@@ -511,7 +734,7 @@ currently called from the `LLM_based_verifier.py` entry point.
   "an unhandled case was skipped."
 - `AnchorMethod.ELEMENT_ID` and `AnchorMethod.TEXT_LENGTH` are declared but no
   function in this folder produces either yet.
-- `IGNORE_LIST` in `distance_based_aligning.py` is defined but not read by any
+- `IGNORE_LIST` in `distance_based_aligner.py` is defined but not read by any
   function in the file.
 - `Element.__init__`'s `order_index: int = None` and `start_line_number: int =
   None` are typed as plain `int` with a `None` default rather than
@@ -520,32 +743,63 @@ currently called from the `LLM_based_verifier.py` entry point.
 - `confidence_score` is threaded through every `AlignedPair` but has no
   producer; every pair in this folder's output currently carries either the
   default `0.0` or an explicit `None`, not a real computed value.
-- `distance_based_aligning.py`'s own `__main__` block wasn't updated when
-  `align_on_distance` gained its leading `section_label` parameter — running
-  `python3 Aligner/distance_based_aligning.py` directly now raises a
-  `TypeError` instead of printing a result. Only `LLM_based_verifier.py:main`
-  calls it with the new signature.
 - `AlignedPair.serialize()`'s `for_llm=False` branch recurses into
   `child_pairs` with `pair.serialize()` — no `id` argument — even though
-  `id` is now a required parameter with no default; this would raise a
-  `TypeError` if any pair in this folder's output actually had non-empty
-  `child_pairs`, which none currently do (`align_on_distance` never
-  recurses), so the bug is latent rather than observed.
-- `verify_aligned_pairs` (`LLM_based_verifier.py`) returns whatever
-  `asyncio.gather` collects, including `None` for any segment that
-  exhausted its retries — there is no logic yet to tell the caller which
-  original pairs fell inside a failed segment, or to retry a failed segment
-  at a smaller size.
-- `SuggestedFixApplier.apply_fix` (`suggested_fix_applier.py`) is an
-  unimplemented stub (`pass`) — the `merge`/`split` commands the LLM returns
-  are never actually applied to `aligned_pairs`; only the id-to-pair-index
-  lookup it needs to do so is built so far.
-- `verify_segment`'s `StopIteration` branch (`LLM_based_verifier.py`, hit when
+  `id` is a required parameter with no default. This raises a `TypeError`
+  for any pair with non-empty `child_pairs`, and `align_files` now creates
+  such pairs (the section pairs whose children are `<div>`s), so
+  `serialize(..., for_llm=False)` on them fails. I confirmed it with a pair
+  that has one child pair. The LLM path (`for_llm=True`) never reads
+  `child_pairs`, so the pipeline itself is not affected.
+- `AlignedPair` is a `@dataclass` with no declared fields (it has its own
+  `__init__`), so the generated `__eq__` compares two empty tuples and is
+  `True` for **any** two pairs. `==`, `in` and `list.index` on pairs are
+  therefore meaningless; `SuggestedFixApplier` uses `is` for this reason.
+- `verify_aligned_pairs` (`llm_based_verifier.py`) skips a segment that
+  exhausted its retries: the failure is logged with the segment's pair range,
+  but the caller gets no machine-readable list of which pairs were left
+  unchecked, and there is no retry at a smaller segment size.
+- All segments of `verify_aligned_pairs` are sent at the same moment (one
+  `asyncio.gather`, no limit on concurrent requests). With many pairs this can
+  hit the API rate limit; the retry and back-off in `verify_segment` then
+  absorb it, but a cap on concurrent calls (a shared `asyncio.Semaphore`
+  around the `client.messages.create` call) is not in place.
+- `verify_segment`'s `StopIteration` branch (`llm_based_verifier.py`, hit when
   the model's response has no text block) has its `save_to_file` error-dump
   call present but commented out, so unlike the other three failure modes it
   handles, nothing lands in `Error_Logs/verifier/` for this case.
-- `FixCommand` (`data_classes.py`) is a new, unused stub — `__init__(self,
-  opcode: str, operands: Tuple[str, str])` takes the shape the LLM's
-  `merge`/`split` commands need but its body is just `pass`, so no fields are
-  actually set on the instance yet; nothing in this folder constructs or
-  consumes it.
+- `SuggestedFixApplier._do_split` does not handle a single `null` operand: the
+  prompt tells the LLM it may set one of `last_source_id_before_split` /
+  `last_target_id_before_split` to `null`, but the method looks both up in the
+  id lookup, so `None` raises `KeyError` and the command ends as `ERROR`. Both
+  `null` raises `ValueError`, also an `ERROR`. A `TODO` on the method has the
+  plan.
+- The applier's command counters are wrong: `apply_fix` adds one to
+  `applied_command_count` after `_do_split`/`_do_merge` returns, whatever the
+  outcome, so a `REJECTED` split (operands in different pairs) is counted as
+  applied, and `rejected_command_count` only ever counts unknown opcodes. The
+  `Applied / Errored / Rejected` summary that `align_files` logs is therefore
+  not reliable. I confirmed it with a split across two pairs, which returned
+  `rejected` and left `applied_command_count == 1`.
+- Pairs created by the applier (the two halves of a split, the result of a
+  merge) are built from the elements and the section label only, so they get
+  the `AlignedPair` defaults: `anchor_method=AnchorMethod.POSITION` and
+  `confidence_score=0.0`. A fixed pair is therefore labelled as a position
+  match, which says nothing about where it came from.
+- `_do_merge` does not check that `first_element_id` comes before
+  `last_element_id`. If it does not, the slice between them is empty, and I
+  expect the splice to insert an empty merged pair, but I have not run that
+  case.
+- `align_individual_section` skips, without logging, two cases whose elements
+  then never reach the flat list. First, a pair missing a counterpart on one
+  side (an orphan section): its content is not verified, and it appears only
+  in `aligned_sections`. Second, a pair where only one side has child
+  `<div>`s. Also, when both sides do have child `<div>`s, only the child
+  `<div>`s are aligned, so any `<p>` that sits directly under the parent
+  `<div>` next to them is not collected. I have read this from the code and
+  have not checked whether any CELT sample file has such mixed content.
+- `main.py` gets `Utils.setup_loggin` through a side effect: it imports
+  `llm_based_verifier` first, which appends the repo root to `sys.path`. The
+  import breaks if that order changes. The same `sys.path` line is why the
+  verifier can import `Utils` at all; making the project a proper package, or
+  setting the path in one place, would remove the dependency.
