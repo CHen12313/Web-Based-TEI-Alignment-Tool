@@ -1,13 +1,7 @@
-from abc import ABC, abstractmethod
-from data_classes import AnchorMethod, Element, AlignedPair
-from bs4 import BeautifulSoup, Tag
 from typing import List
 
-class AlignmentRefiner(ABC):
-    @abstractmethod
-    def refine(self, aligned_pairs: List[AlignedPair]) -> List[AlignedPair]:
-        """Take a list of aligned pairs and return a refined list."""
-        ...
+from alignment_refiner_abc import AlignmentRefiner
+from data_classes import AnchorMethod, Element, AlignedPair
 
 class BoundaryShiftMerger(AlignmentRefiner):
     """Merges orphans caused by a moved paragraph boundary into one many-to-many pair.

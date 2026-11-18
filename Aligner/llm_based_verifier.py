@@ -17,7 +17,7 @@ from dotenv import load_dotenv
 sys.path.append(str(Path(__file__).resolve().parent.parent))
 
 from data_classes import AlignedPair, Element, DocumentSide
-from distance_based_aligning import align_on_distance
+from Aligner.Section_Aligner_Modules.distance_based_aligner import align_on_distance
 from prompt_templates import ALIGN_PROMPT_TEMPLATE, ALIGN_RESPONSE_SCHEMA
 
 from utils import load_file_pair
